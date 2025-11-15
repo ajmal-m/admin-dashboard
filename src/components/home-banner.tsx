@@ -4,7 +4,7 @@ import GroceryItems from '../assets/Grocery Iteam 1.svg';
 
 const HomeBanner = memo(() => {
     return(
-        <section className="w-full min-h-[408px] bg-[#0B6434] dark:bg-[#0B6434] px-10 flex items-center justify-between max-[964px]:flex-col pt-6 max-[400px]:px-4">
+        <section className="w-full min-h-[408px] bg-[#0B6434] dark:bg-[#0B6434] px-10 flex items-center justify-between max-[964px]:flex-col pt-6 max-[992px]:px-4">
             <div className="flex flex-col max-[964px]:items-center max-[964px]:text-center">
                 <h1
                     className="font-mont text-[36px] font-bold text-white leading-[150.2%] tracking-[4%] uppercase  max-[964px]:w-full max-[400px]:text-[24px] max-[400px]:leading-[150%]"
