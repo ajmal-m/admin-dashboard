@@ -14,7 +14,8 @@ const ProductCard = memo(() => {
             <p className="font-mont text-[#000000] text-[16px] min-[600px]:text-[20px]">1kg</p>
             <p className="font-mont text-[#000000] text-[20px] min-[600px]:text-[24px]">₹ 70.00</p>
             <button
-                className="w-[154px] h-11 bg-[#0B6434] text-[#FFFFFF] rounded-[5px]"
+                className="w-[154px] h-11 bg-[#0B6434] text-[#FFFFFF] rounded-[5px] cursor-pointer"
+                type="button"
             >
                 <span className="font-mont text-[#FFFFFF] text-[16px]">Add to Cart</span>
             </button>
