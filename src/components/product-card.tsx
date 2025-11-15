@@ -12,7 +12,7 @@ const ProductCard = memo(() => {
             <img src={ProductImage} alt="product-image" loading="lazy"/>
             <h3 className="text-[24px] font-mont text-[#000000]">Cabbage</h3>
             <p className="font-mont text-[#000000] text-[16px] min-[600px]:text-[20px]">1kg</p>
-            <p className="font-mont text-[#000000] text-[16px] min-[600px]:text-[24px]">₹ 70.00</p>
+            <p className="font-mont text-[#000000] text-[20px] min-[600px]:text-[24px]">₹ 70.00</p>
             <button
                 className="w-[154px] h-11 bg-[#0B6434] text-[#FFFFFF] rounded-[5px]"
             >
