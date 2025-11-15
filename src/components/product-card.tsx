@@ -12,12 +12,12 @@ const ProductCard = memo(() => {
         >
             <img src={ProductImage} alt="product-image" loading="lazy"/>
             <h3 className="text-[24px] font-mont text-[#000000]">Cabbage</h3>
-            <p className="text-[24px] font-mont text-[#000000]">1kg</p>
-            <p className="text-[24px] font-mont text-[#000000]">₹ 70.00</p>
+            <p className="text-[24px] font-mont text-[#000000] max-[400px]:text-[16px]">1kg</p>
+            <p className="text-[24px] font-mont text-[#000000] max-[400px]:text-[16px]">₹ 70.00</p>
             <button
                 className="w-[154px] h-11 bg-[#0B6434] text-[#FFFFFF] rounded-[5px]"
             >
-                <span className="text-[20px] font-mont text-[#FFFFFF]">Add to Cart</span>
+                <span className="text-[20px] font-mont text-[#FFFFFF] max-[400px]:text-[16px]">Add to Cart</span>
             </button>
         </div>
     )
