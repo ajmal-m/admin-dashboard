@@ -11,7 +11,7 @@ const HomeBanner = memo(() => {
                 >
                     Healthy and Fresh Grocery
                 </h1>
-                <p className="mt-2.5 text-[#F5F5F5] text-[16px] font-mont leading-[150.2%] font-normal max-w-[421px] uppercase">
+                <p className="mt-2.5 text-[#F5F5F5] text-[16px] font-mont leading-[150.2%] font-normal max-w-[421px] uppercase text-base sm:text-lg md:text-xl">
                     We pride ourselves on providing a curated 
                     of the finest, nutrient-rich products that 
                     cater to your health conscious lifestyle.
