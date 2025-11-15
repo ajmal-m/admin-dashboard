@@ -43,7 +43,7 @@ const ProductCard = memo(({ product }:{ product: ProductType}) => {
             <h3 className="text-[24px] font-mont text-[#000000]">{product.name}</h3>
             <p className="font-mont text-[#000000] text-[16px] min-[600px]:text-[17px] items-left">{product.quantityType}</p>
             <div className="w-full flex items-center justify-between">
-                <p className="font-mont text-[#000000] text-[20px] min-[600px]:text-[24px]">₹ {product.price}</p>
+                <p className="font-mont text-[#000000] text-[20px] min-[600px]:text-[24px]">₹{product.price}</p>
                 {
                     selectedQuantity > 0 ? (
                         <button
