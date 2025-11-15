@@ -1,5 +1,16 @@
 import { memo } from "react";
 import ProductCard from "./product-card";
+import ProductImage from '../assets/Image.svg';
+
+const productItem = {
+    id:"7467826487324632",
+    name:"Cabbage",
+    image:ProductImage,
+    categoryId:"764781246812064",
+    quantity:100,
+    quantityType:"Kg",
+    price:24
+}
 
 const Products = memo(() => {
     return(
@@ -8,7 +19,7 @@ const Products = memo(() => {
             <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 min-[548px]:grid-cols-3 min-[716px]:grid-cols-4 min-[912px]:grid-cols-5">
                 {
                     new Array(20).fill(0).map((_,i) => (
-                        <ProductCard key={i}/>
+                        <ProductCard key={i} product={productItem}/>
                     ))
                 }
             </div>
