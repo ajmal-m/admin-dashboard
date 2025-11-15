@@ -33,9 +33,9 @@ const NavLinks = [
 const Navbar = memo(() => {
     return(
        <nav
-        className="h-20 bg-[#FFFFFF] dark:bg-[#FFFFFF] flex items-center justify-between px-10 border-b border-green-700"
+        className="h-20 bg-[#FFFFFF] dark:bg-[#FFFFFF] flex items-center justify-between px-10 border-b border-green-700 max-[400px]:px-1"
        >
-            <img src={Logo} alt="web-app-logo"/>
+            <img src={Logo} alt="web-app-logo" className="max-[400px]:w-10 max-[400px]:h-10"/>
             <ul className="flex items-center gap-[75px] max-[996px]:gap-9 max-[850px]:hidden">
                 {
                     NavLinks.map((link , i) => (
