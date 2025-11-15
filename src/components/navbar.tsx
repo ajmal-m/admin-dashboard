@@ -36,7 +36,7 @@ const Navbar = memo(() => {
         className="h-20 bg-[#FFFFFF] dark:bg-[#FFFFFF] flex items-center justify-between px-10 border-b border-green-700"
        >
             <img src={Logo} alt="web-app-logo"/>
-            <ul className="flex items-center gap-[75px] max-sm:hidden">
+            <ul className="flex items-center gap-[75px] max-[996px]:gap-9 max-[850px]:hidden">
                 {
                     NavLinks.map((link , i) => (
                         <li key={i}
