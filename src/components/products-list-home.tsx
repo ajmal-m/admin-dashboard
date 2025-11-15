@@ -9,7 +9,7 @@ const Products = memo(() => {
                 {
                     new Array(20).fill(0).map((_,i) => (
                         <div className="w-[319px] h-[418px] border border-[#0B6434] rounded flex flex-col items-center justify-center gap-4" key={i}>
-                            <img src={ProductImage} alt="product-image"/>
+                            <img src={ProductImage} alt="product-image" loading="lazy"/>
                             <h3 className="text-[24px] font-mont text-[#000000]">Cabbage</h3>
                             <h3 className="text-[24px] font-mont text-[#000000]">1kg</h3>
                             <h3 className="text-[24px] font-mont text-[#000000]">৳70.00</h3>

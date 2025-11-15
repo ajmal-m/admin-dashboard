@@ -21,7 +21,7 @@ const HomeBanner = memo(() => {
                 </button>
             </div>
             <div>
-                <img src={GroceryItems} alt="grocery-items-image" />
+                <img src={GroceryItems} alt="grocery-items-image" loading="lazy"/>
             </div>
         </section>
     )

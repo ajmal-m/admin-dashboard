@@ -29,7 +29,7 @@ const CategorySwiper = memo(() => {
             new Array(10).fill(0).map((_, index) => (
                 <SwiperSlide key={index}>
                     <div className="flex flex-col items-center">
-                        <img src={CategoryImage} alt="item" />
+                        <img src={CategoryImage} alt="item" loading="lazy" />
                         <p className="text-[24px] font-mont font-medium text-[#2B2B2B] dark:text-[#2B2B2B] uppercase">Vegetables</p>
                     </div>
                 </SwiperSlide>

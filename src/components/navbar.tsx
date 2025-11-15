@@ -35,7 +35,7 @@ const Navbar = memo(() => {
        <nav
         className="h-20 bg-[#FFFFFF] dark:bg-[#FFFFFF] flex items-center justify-between px-10 border-b border-green-700 max-[400px]:px-1"
        >
-            <img src={Logo} alt="web-app-logo" className="max-[400px]:w-12 max-[400px]:h-12"/>
+            <img src={Logo} alt="web-app-logo" className="max-[400px]:w-12 max-[400px]:h-12" loading="lazy"/>
             <ul className="flex items-center gap-[75px] max-[996px]:gap-9 max-[850px]:hidden">
                 {
                     NavLinks.map((link , i) => (
@@ -55,8 +55,8 @@ const Navbar = memo(() => {
                 }
             </ul>
             <div className="flex items-center gap-4">
-                <img src={NotificationIcon} alt="notification-icon"/>
-                <img src={ContactIcon} alt="contact-icon"/>
+                <img src={NotificationIcon} alt="notification-icon" loading="lazy"/>
+                <img src={ContactIcon} alt="contact-icon" loading="lazy"/>
             </div>
        </nav>
     )
