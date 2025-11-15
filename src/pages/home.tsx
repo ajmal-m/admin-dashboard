@@ -1,9 +1,12 @@
-const HomePage = () => {
+import { memo } from "react";
+import Navbar from "../components/navbar";
+
+const HomePage = memo(() => {
     return(
         <>
-        <h1>Home Page</h1>
+            <Navbar/>
         </>
     )
-};
+});
 
 export default HomePage;
