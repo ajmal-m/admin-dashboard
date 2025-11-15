@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import img1 from "../assets/Grocery Iteam 1.svg";
 
 const CategorySwiper = memo(() => {
   return (
