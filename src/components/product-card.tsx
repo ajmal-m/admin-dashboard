@@ -53,9 +53,13 @@ const ProductCard = memo(({ product }:{ product: ProductType}) => {
                             type="button"
                         >
                             <div className="w-full grid grid-cols-3 gap-1">
-                                <span className="cursor-pointer text-end" onClick={() => updateQuantity("-")}>-</span>
+                                <div className="flex justify-end">
+                                    <span className="cursor-pointer text-end" onClick={() => updateQuantity("-")}>-</span>
+                                </div>
                                 <span>{selectedQuantity}</span>
-                                <span className="cursor-pointer text-justify" onClick={() => updateQuantity("+")}>+</span>
+                                <div className="flex justify-start">
+                                    <span className="cursor-pointer text-justify" onClick={() => updateQuantity("+")}>+</span>
+                                </div>
                             </div>
                         </button>
                     ) : (
