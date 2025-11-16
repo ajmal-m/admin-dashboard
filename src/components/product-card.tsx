@@ -40,25 +40,27 @@ const ProductCard = memo(({ product }:{ product: ProductType}) => {
         "
         >
             <img src={ProductImage} alt="product-image" loading="lazy"/>
-            <h3 className="text-[24px] font-mont text-[#000000] max-[400px]:text-[16px]">{product.name}</h3>
-            <p className="font-mont text-[#000000] text-[16px] min-[600px]:text-[17px] items-left">{product.quantityType}</p>
+            <h3 className="text-[24px] font-mont text-[rgb(0,0,0)] max-[400px]:text-[16px]">{product.name}</h3>
             <div className="w-full flex items-center justify-between">
                 <p className="font-mont text-[#000000] text-[20px] min-[600px]:text-[24px]">₹{product.price}</p>
+                <p className="font-mont text-[#000000] text-[12px] min-[600px]:text-[17px] items-left">{product.quantityType}</p>
+            </div>
+            <div className="w-full flex items-center justify-between">
                 {
                     selectedQuantity > 0 ? (
                         <button
-                            className="min-w-22 min-h-11 px-4 py-2 bg-[#0B6434] text-white rounded-[5px] font-mont text-[16px] font-semibold"
+                            className="w-full h-8 flex items-center justify-center bg-[#0B6434] text-white rounded-[5px] font-mont text-[16px] font-semibold"
                             type="button"
                         >
-                            <div className="flex items-center justify-between gap-1">
-                                <span className="cursor-pointer" onClick={() => updateQuantity("-")}>-</span>
+                            <div className="w-full grid grid-cols-3 gap-1">
+                                <span className="cursor-pointer text-end" onClick={() => updateQuantity("-")}>-</span>
                                 <span>{selectedQuantity}</span>
-                                <span className="cursor-pointer" onClick={() => updateQuantity("+")}>+</span>
+                                <span className="cursor-pointer text-justify" onClick={() => updateQuantity("+")}>+</span>
                             </div>
                         </button>
                     ) : (
                         <button
-                            className="min-w-22 min-h-11 px-4 py-2 bg-[white] text-[#0B6434] border border-[#0B6434] rounded-[5px] cursor-pointer font-mont text-[16px] font-semibold"
+                            className="w-full h-8 flex items-center justify-center bg-[white] text-[#0B6434] border border-[#0B6434] rounded-[5px] cursor-pointer font-mont text-[16px] font-semibold"
                             type="button"
                             onClick={() => updateQuantity("+")}
                         >
