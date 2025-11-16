@@ -1,10 +1,13 @@
 import {  memo } from "react";
+import ProductTable from "../../components/admin/product-table";
+import AddCategory from "../../components/admin/add-category";
 
 const AdminProductPage = memo(() => {
     return(
-        <>
-            <h1>Admin Product Page</h1>
-        </>
+        <section className="px-10 mt-4">
+            <AddCategory/>
+            <ProductTable/>
+        </section>
     )
 });
 
