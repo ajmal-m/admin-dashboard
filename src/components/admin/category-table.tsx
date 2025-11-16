@@ -7,7 +7,7 @@ const rows = [
     "Action"
 ]
 
-const ProductTable: React.FC = () => {
+const CategoryTable: React.FC = () => {
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default mt-4">
       <table className="w-full text-sm text-left rtl:text-right text-body">
@@ -43,4 +43,4 @@ const ProductTable: React.FC = () => {
   );
 };
 
-export default ProductTable;
+export default CategoryTable;
