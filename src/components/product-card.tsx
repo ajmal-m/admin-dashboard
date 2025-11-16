@@ -34,7 +34,7 @@ const ProductCard = memo(({ product }:{ product: ProductType}) => {
 
     return(
         <div className="
-            min-w-[170px] max-h-[418px] border border-[#0B6434] 
+            min-w-[120px] max-h-[418px] border border-[#0B6434] 
             rounded flex flex-col items-start justify-center gap-1
             py-3 text-[12px] px-2
         "
