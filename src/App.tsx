@@ -7,6 +7,9 @@ const ProductPage = lazy(() => import('./pages/product'));
 const ContactPage= lazy(() => import('./pages/contact'));
 const ServicePage = lazy(() => import('./pages/service'));
 
+// admin 
+const AdminPage = lazy(() => import('./pages/admin/index'));
+
 
 function App() {
 
@@ -40,6 +43,12 @@ function App() {
        <Route path="/contact" element={
         <Suspense fallback={<>Loading...</>}>
           <ProductPage/>
+        </Suspense>
+      }/>
+
+      <Route path="/admin" element={
+        <Suspense fallback={<>Loading...</>}>
+          <AdminPage/>
         </Suspense>
       }/>
     </Routes>
