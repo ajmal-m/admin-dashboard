@@ -7,8 +7,8 @@ const AddCategory = memo(() => {
         <div className="w-full flex justify-end">
             <PopUp 
                 model={
-                    () => (
-                        <AddCategoryModal/>
+                    (close) => (
+                        <AddCategoryModal close={close}/>
                     )
                 } 
                 trigger={

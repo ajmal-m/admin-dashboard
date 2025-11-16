@@ -7,6 +7,12 @@ type PopUpType = {
     keyProp:string | number;
 }
 
+const modalVariants = {
+    hidden: { opacity: 0, y: -200, scale: 0.98 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.25 } },
+    exit:   { opacity: 0, y:-20, scale: 0.98, transition: { duration: 0.18 } },
+};
+
 const  PopUp = memo( (
 
     {  model, trigger , keyProp } : PopUpType
@@ -22,27 +28,26 @@ const  PopUp = memo( (
         {
             trigger(handleOpen)
         }
-        {
-            isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-                    <AnimatePresence >
+        <AnimatePresence>
+            {
+                isOpen && (
+                    <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 
-                        {isOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        aria-modal="true"
-                                        role="dialog"
-                                        key={keyProp}
-                                    >
-                                        {model(handleClose)}
-                                    </motion.div>
+                            <motion.div
+                                aria-modal="true"
+                                role="dialog"
+                                key={keyProp}
+                                variants={modalVariants}
 
-                        )}
-                    </AnimatePresence>
-                </div>)
-        }
+                                initial="hidden"
+                                animate="visible"
+                                exit="hidden"
+                            >
+                                {model(handleClose)}
+                            </motion.div>
+                    </motion.div>)
+            }
+        </AnimatePresence>
         </>
     );
 });
