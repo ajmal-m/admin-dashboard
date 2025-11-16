@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+import AdminLayout from "./layouts/admin-layout";
 
 const HomePage = lazy(() => import('./pages/home'));
 const AboutPage = lazy(() => import('./pages/about'));
@@ -8,8 +9,9 @@ const ContactPage= lazy(() => import('./pages/contact'));
 const ServicePage = lazy(() => import('./pages/service'));
 
 // admin 
-const AdminPage = lazy(() => import('./pages/admin/index'));
-
+const AdminPage = lazy(() => import('./pages/admin/admin-home'));
+const AdminProducts = lazy(() => import('./pages/admin/admin-products'));
+const AdminCategories = lazy(() => import('./pages/admin/admin-category'));
 
 function App() {
 
@@ -46,11 +48,26 @@ function App() {
         </Suspense>
       }/>
 
-      <Route path="/admin" element={
-        <Suspense fallback={<>Loading...</>}>
-          <AdminPage/>
-        </Suspense>
-      }/>
+
+      <Route path="/admin" element={<AdminLayout/>}>
+        <Route index  element={
+            <Suspense fallback={<>Loading...</>}>
+              <AdminPage/>
+            </Suspense>
+        }/>
+        <Route path="products" element={
+            <Suspense fallback={<>Loading...</>}>
+              <AdminProducts/>
+            </Suspense>
+        }/>
+        <Route path="categories" element={
+            <Suspense fallback={<>Loading...</>}>
+              <AdminCategories/>
+            </Suspense>
+        }
+        />
+      </Route>
+
     </Routes>
     </>
   )
