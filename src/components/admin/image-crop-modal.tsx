@@ -1,4 +1,4 @@
-import  { memo, useEffect, useRef } from "react";
+import  { memo, useCallback, useEffect, useRef, useState } from "react";
 import PopUp from "../pop-up";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,10 @@ const CloseIcon = memo( () => {
 
 const ImageCanvas = memo(( { image } : { image : string }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [isDrawing, setIsDrawing] = useState<boolean>(false);
+
+    const points = useRef({ start:[0,0] , end:[0,0] });
+
     useEffect(() => {
         try {
             const img = new Image();
@@ -54,10 +58,74 @@ const ImageCanvas = memo(( { image } : { image : string }) => {
         } catch (error) {
             console.log(error);
         }
-    },[])
+    },[]);
+
+
+    const mouseDown = useCallback((e : React.MouseEvent<HTMLCanvasElement | MouseEvent>) => {
+        if(isDrawing) return;
+        setIsDrawing(true);
+        const canvas = canvasRef.current;
+        if(!canvas) return;
+        const data = canvas.getBoundingClientRect();
+        const [ left, top ] = [ e.clientX , e.clientY];
+        points.current = { ...points.current , start: [ left-data.left , top-data.top] };
+    },[isDrawing , points]);
+
+    const mouseUp = useCallback(( e : React.MouseEvent<HTMLCanvasElement | MouseEvent> ) => {
+        if(!isDrawing) return;
+        const canvas = canvasRef.current;
+        if(!canvas) return;
+        const data = canvas.getBoundingClientRect();
+        const [ left, top ] = [ e.clientX , e.clientY];
+        points.current = { ...points.current , end: [ left-data.left , top-data.top] };
+        lineDrawing();
+        setIsDrawing(false);
+    },[isDrawing, points]);
+
+
+    const lineDrawing = useCallback(() => {
+        const canvas = canvasRef.current;
+        if(!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if(!ctx) return;
+        const { start : [ x1, y1] , end:[ x2, y2] } = points.current;
+        lineDraw({ ctx , startX : x1 , startY : y1 , endX : x2 , endY : y1 });
+        lineDraw({ ctx , startX : x2  , startY : y1 , endX : x2, endY : y2 });
+        lineDraw({ ctx , startX : x2 , startY : y2, endX : x1, endY : y2 });
+        lineDraw({ ctx , startX : x1 , startY : y2 , endX : x1, endY : y1 });
+
+    },[points]);
+
+
+    const lineDraw = useCallback(
+        ({ ctx, startX, startY, endX, endY } : {
+        ctx: CanvasRenderingContext2D,
+        startX: number;
+        startY: number;
+        endX: number;
+        endY: number;
+    }) => {
+        if(!ctx) return;
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]);
+        ctx.moveTo( startX, startY);
+        ctx.lineTo( endX, endY);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+    },[]);
+
+
     return(
-        <canvas id="image-crop" ref={canvasRef}>
-        </canvas>
+        <>
+           <canvas 
+                id="image-crop" 
+                ref={canvasRef}  
+                onMouseDown={mouseDown}
+                onMouseUp={mouseUp}
+            >
+            </canvas>
+        </>
     )
 });
 
@@ -79,7 +147,8 @@ const ImageCropModal = memo(({ image}: { image : string;}) => {
                         <ImageCanvas  image={image}/>
                     </div>
                     <div className="mt-2">
-                        <Button type="button" className={cn("bg-green-600 hover:bg-green-700 cursor-pointer")} size={'sm'}>Done</Button>
+                        <Button type="button" className={cn("bg-red-600 hover:bg-red-700 cursor-pointer")} size={'sm'}>Clear</Button>
+                        <Button type="button" className={cn("bg-green-600 hover:bg-green-700 cursor-pointer mx-2")} size={'sm'}>Done</Button>
                     </div>
                 </div>
             )}

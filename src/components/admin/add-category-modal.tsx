@@ -50,7 +50,7 @@ const AddCategoryModal = memo(({
 
       {/* Header */}
       <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5">
-        <h3 className="text-lg text-heading">
+        <h3 className="text-lg text-heading font-mont">
           New Category
         </h3>
 
@@ -70,14 +70,14 @@ const AddCategoryModal = memo(({
         <div className="mb-4">
           <label
             htmlFor="name"
-            className="block mb-2.5 text-sm text-heading"
+            className="block mb-2.5 text-sm text-heading font-mont"
           >
             Name
           </label>
           <input
             type="text"
             id="name"
-            className="border border-white text-heading text-sm outline-none rounded-base block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+            className="border border-white text-heading text-sm outline-none rounded-base block w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont"
             placeholder="Enter category name"
             required
           />
@@ -87,7 +87,7 @@ const AddCategoryModal = memo(({
         <div>
           <label
             htmlFor="password"
-            className="block mb-2.5 text-sm text-heading"
+            className="block mb-2.5 text-sm text-heading font-mont" 
           >
             Upload Image
           </label>
@@ -95,7 +95,8 @@ const AddCategoryModal = memo(({
             type="file"
             id="file"
             accept="image/*"
-            className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+            className="bg-neutral-secondary-medium border border-default-medium text-heading 
+            text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body cursor-pointer"
             required
             onChange={updateImage}
           />
@@ -106,7 +107,7 @@ const AddCategoryModal = memo(({
             <div className="mt-1">
               <img src={image} alt="image-preview" className="max-h-[200px] max-w-[300px]" />
               <Button onClick={() => setImage(null)} variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Remove</Button>
-              <ImageCropModal image={image} closeIcon ={<CloseIcon/>}/>
+              <ImageCropModal image={image}/>
             </div>
           )
         }
@@ -115,6 +116,7 @@ const AddCategoryModal = memo(({
           type="submit"
           className="mt-4 text-black font-medium border bg-[white] border-transparent 
           hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full cursor-pointer
+          font-mont
           "
         >
           Add
