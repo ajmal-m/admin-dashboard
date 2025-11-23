@@ -31,7 +31,7 @@ const  PopUp = memo( (
         <AnimatePresence>
             {
                 isOpen && (
-                    <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <motion.div className="fixed inset-0 z-50 flex justify-center p-4">
 
                             <motion.div
                                 aria-modal="true"

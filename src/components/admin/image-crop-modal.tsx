@@ -46,14 +46,14 @@ const ImageCanvas = memo(( { image } : { image : string }) => {
                 
                 if(!ctx) return;
 
-                canvas.width = img.width + 100 ;
-                canvas.height = img.height + 100;
+                canvas.width =  img.width + 50;
+                canvas.height = img.height + 50;
 
                 ctx.fillStyle = "#ede3e3"
 
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.drawImage(img,50,50);
+                ctx.drawImage(img,25,25);
             }
         } catch (error) {
             console.log(error);
@@ -115,6 +115,14 @@ const ImageCanvas = memo(( { image } : { image : string }) => {
         ctx.setLineDash([]);
     },[]);
 
+    const clearLine = useCallback(() => {
+         const canvas = canvasRef.current;
+        if(!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if(!ctx) return;
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+    },[])
+
 
     return(
         <>
@@ -130,6 +138,25 @@ const ImageCanvas = memo(( { image } : { image : string }) => {
 });
 
 
+const ImageModal = memo(({ image , close } : { image: string; close:() => void}) => {
+
+    return(
+        <div className="min-w-100 min-h-100 bg-green-950 flex flex-col items-center p-4 rounded">
+            <button onClick={close} type="button" className="self-end cursor-pointer">
+                <CloseIcon/>
+            </button>
+            <div className="mt-4">
+                <ImageCanvas  image={image} />
+            </div>
+            <div className="mt-2">
+                <Button type="button" className={cn("bg-red-600 hover:bg-red-700 cursor-pointer")} size={'sm'} onClick={() =>clearLine}>Clear</Button>
+                <Button type="button" className={cn("bg-green-600 hover:bg-green-700 cursor-pointer mx-2")} size={'sm'}>Done</Button>
+            </div>
+        </div>
+    )
+});
+
+
 
 const ImageCropModal = memo(({ image}: { image : string;}) => {
     return(
@@ -139,18 +166,7 @@ const ImageCropModal = memo(({ image}: { image : string;}) => {
                 <Button variant={'ghost'} type="button" size={'sm'} className={cn("cursor-pointer mt-1")} onClick={open}>Crop</Button>
             )}
             model={(close) => (
-                <div className="min-w-100 min-h-100 bg-green-950 flex flex-col items-center p-4 rounded">
-                    <button onClick={close} type="button" className="self-end cursor-pointer">
-                        <CloseIcon/>
-                    </button>
-                    <div className="mt-4">
-                        <ImageCanvas  image={image}/>
-                    </div>
-                    <div className="mt-2">
-                        <Button type="button" className={cn("bg-red-600 hover:bg-red-700 cursor-pointer")} size={'sm'}>Clear</Button>
-                        <Button type="button" className={cn("bg-green-600 hover:bg-green-700 cursor-pointer mx-2")} size={'sm'}>Done</Button>
-                    </div>
-                </div>
+                <ImageModal close={close} image={image} />
             )}
             keyProp='image-crop-modal'
         />
