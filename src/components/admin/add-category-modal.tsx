@@ -1,6 +1,31 @@
 import { memo, useCallback, useState } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import ImageCropModal from "./image-crop-modal";
+
+
+const CloseIcon = memo( () => {
+  return(
+    <svg
+      className="w-5 h-5"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M6 18 17.94 6M18 18 6.06 6"
+      />
+    </svg>
+  )
+});
+
 
 
 const AddCategoryModal = memo(({
@@ -34,23 +59,7 @@ const AddCategoryModal = memo(({
           onClick={close}
           className="cursor-pointer"
         >
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18 17.94 6M18 18 6.06 6"
-            />
-          </svg>
+          <CloseIcon/>
           <span className="sr-only">Close modal</span>
         </button>
       </div>
@@ -97,7 +106,7 @@ const AddCategoryModal = memo(({
             <div className="mt-1">
               <img src={image} alt="image-preview" className="max-h-[200px] max-w-[300px]" />
               <Button onClick={() => setImage(null)} variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Remove</Button>
-              <Button variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Crop</Button>
+              <ImageCropModal image={image} closeIcon ={<CloseIcon/>}/>
             </div>
           )
         }
