@@ -107,7 +107,7 @@ const AddCategoryModal = memo(({
             <div className="mt-1">
               <img src={image} alt="image-preview" className="max-h-[200px] max-w-[300px]" />
               <Button onClick={() => setImage(null)} variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Remove</Button>
-              <ImageCropModal image={image}/>
+              <ImageCropModal image={image} setImage={setImage}/>
             </div>
           )
         }

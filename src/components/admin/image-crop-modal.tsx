@@ -26,7 +26,7 @@ const CloseIcon = memo( () => {
 });
 
 
-const ImageCanvas = memo(( { image } : { image : string }) => {
+const ImageCanvas = memo(( { image , setImage , close} : { image : string ; setImage:(url : string) => void ;close:() => void }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
     const imgRef = useRef<HTMLImageElement | null>(null)
@@ -146,7 +146,38 @@ const ImageCanvas = memo(( { image } : { image : string }) => {
         const data = canvas.getBoundingClientRect();
         points.current = { ...points.current , end: [ left-data.left , top-data.top] };
         lineDrawing();
-    },[isDrawing])
+    },[isDrawing]);
+
+
+    const cropImage = useCallback(() => {
+        const sourceCanvas = canvasRef.current;
+        if(!sourceCanvas) return;
+        clearLine();
+        const { start : [x1, y1] , end:[x2, y2]} = points.current;
+        const [ width, height] = [ Math.abs(x2-x1), Math.abs(y1-y2) ];
+        debugger
+        const cropCanvas = document.createElement("canvas");
+        cropCanvas.width= width;
+        cropCanvas.height = height;
+
+        const cropCtx = cropCanvas.getContext("2d");
+        const ctx = sourceCanvas.getContext("2d");
+
+        if(!cropCtx || !ctx) return;
+
+        cropCtx.drawImage(
+            sourceCanvas,
+            x1,y1,width, height,
+            0,0,width, height
+        )
+
+       cropCanvas.toBlob((blob) => {
+            if(!blob) return;
+            const url = URL.createObjectURL(blob);
+            setImage(url);
+            close();
+        });
+    },[])
 
 
     return(
@@ -161,14 +192,14 @@ const ImageCanvas = memo(( { image } : { image : string }) => {
             </canvas>
             <div className="mt-2 flex items-center justify-center">
                 <Button type="button" className={cn("bg-red-600 hover:bg-red-700 cursor-pointer")} size={'sm'} onClick={clearLine}>Clear</Button>
-                <Button type="button" className={cn("bg-green-600 hover:bg-green-700 cursor-pointer mx-2")} size={'sm'}>Done</Button>
+                <Button type="button" className={cn("bg-green-600 hover:bg-green-700 cursor-pointer mx-2")} size={'sm'} onClick={cropImage}>Done</Button>
             </div>
         </>
     )
 });
 
 
-const ImageModal = memo(({ image , close } : { image: string; close:() => void}) => {
+const ImageModal = memo(({ image , close ,setImage} : { image: string; close:() => void , setImage:(url : string) => void}) => {
 
     return(
         <div className="min-w-100 min-h-100 bg-green-950 flex flex-col items-center p-4 rounded">
@@ -176,7 +207,7 @@ const ImageModal = memo(({ image , close } : { image: string; close:() => void})
                 <CloseIcon/>
             </button>
             <div className="mt-4">
-                <ImageCanvas  image={image} />
+                <ImageCanvas  image={image} setImage={setImage} close={close} />
             </div>
         </div>
     )
@@ -184,7 +215,7 @@ const ImageModal = memo(({ image , close } : { image: string; close:() => void})
 
 
 
-const ImageCropModal = memo(({ image}: { image : string;}) => {
+const ImageCropModal = memo(({ image , setImage}: { image : string; setImage:( url : string) => void}) => {
     return(
     <>
         <PopUp
@@ -192,7 +223,7 @@ const ImageCropModal = memo(({ image}: { image : string;}) => {
                 <Button variant={'ghost'} type="button" size={'sm'} className={cn("cursor-pointer mt-1")} onClick={open}>Crop</Button>
             )}
             model={(close) => (
-                <ImageModal close={close} image={image} />
+                <ImageModal close={close} image={image} setImage={setImage}/>
             )}
             keyProp='image-crop-modal'
         />
