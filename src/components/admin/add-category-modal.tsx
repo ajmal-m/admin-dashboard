@@ -1,9 +1,25 @@
-import { memo } from "react";
+import { memo, useCallback, useState } from "react";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 
 const AddCategoryModal = memo(({
     close
 }: { close : () => void}) => {
+
+    const [image, setImage] = useState<string | null>(null);
+
+    const updateImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
+      try {
+        const file = e.target.files?.[0];
+        if(!file) return;
+        const preview = URL.createObjectURL(file);
+        setImage(preview);
+      } catch (error) {
+        console.log(error);
+      }
+    },[])
+
     return(
          <div className="relative bg-green-800 rounded shadow-sm p-4 md:p-6 font-mont text-white">
 
@@ -72,8 +88,19 @@ const AddCategoryModal = memo(({
             accept="image/*"
             className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
             required
+            onChange={updateImage}
           />
         </div>
+
+        {
+          image && (
+            <div className="mt-1">
+              <img src={image} alt="image-preview" className="max-h-[200px] max-w-[300px]" />
+              <Button onClick={() => setImage(null)} variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Remove</Button>
+              <Button variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Crop</Button>
+            </div>
+          )
+        }
 
         <button
           type="submit"
