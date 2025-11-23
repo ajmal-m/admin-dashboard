@@ -155,7 +155,6 @@ const ImageCanvas = memo(( { image , setImage , close} : { image : string ; setI
         clearLine();
         const { start : [x1, y1] , end:[x2, y2]} = points.current;
         const [ width, height] = [ Math.abs(x2-x1), Math.abs(y1-y2) ];
-        debugger
         const cropCanvas = document.createElement("canvas");
         cropCanvas.width= width;
         cropCanvas.height = height;

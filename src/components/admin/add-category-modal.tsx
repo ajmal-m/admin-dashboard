@@ -33,6 +33,7 @@ const AddCategoryModal = memo(({
 }: { close : () => void}) => {
 
     const [image, setImage] = useState<string | null>(null);
+    const [categoryName, setCategoryName] = useState<string>('');
 
     const updateImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
       try {
@@ -43,6 +44,12 @@ const AddCategoryModal = memo(({
       } catch (error) {
         console.log(error);
       }
+    },[]);
+
+
+    const handleSubmit = useCallback((e : React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      console.log(categoryName, image)
     },[])
 
     return(
@@ -65,7 +72,7 @@ const AddCategoryModal = memo(({
       </div>
 
       {/* Body */}
-      <form className="pt-4 md:pt-6">
+      <form className="pt-4 md:pt-6" onSubmit={handleSubmit}>
         {/* Email */}
         <div className="mb-4">
           <label
@@ -80,6 +87,8 @@ const AddCategoryModal = memo(({
             className="border border-white text-heading text-sm outline-none rounded-base block w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont"
             placeholder="Enter category name"
             required
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
           />
         </div>
 
