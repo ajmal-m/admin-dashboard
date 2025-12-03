@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Navbar from "../components/admin/navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 
 const AdminLayout = memo(() => {
     return(

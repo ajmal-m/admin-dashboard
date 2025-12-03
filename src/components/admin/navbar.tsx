@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Logo from '../../assets/Grocery_Logo 1.svg';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const NavLinks = [
     {

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Logo from '../assets/Grocery_Logo 1.svg';
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 
 
@@ -19,7 +19,7 @@ const NavLinks = [
     },
     {
         name:"Product",
-        url:"/product"
+        url:"/products"
     },
      {
         name:"Contact",
