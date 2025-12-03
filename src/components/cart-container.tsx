@@ -1,9 +1,7 @@
 import { memo } from "react";
 import { Badge } from "./ui/badge";
-import useCart from "@/store/cart-store";
 
 const CartContainer= memo(() => {
-    const state = useCart(state => state);
     return(
         <div className="flex items-center gap-4 relative">
             <Badge className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums absolute top-[-9px] right-[-37%] bg-[#0B6434]">8</Badge>
