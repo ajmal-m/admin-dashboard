@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { useGetCategories } from "@/api/category/get-category";
 import { type  Category } from "@/type/category";
 import { Bars } from 'react-loader-spinner';
+import EditCategory from "./edit-category";
 
 const rows = [
     "Category Name",
@@ -71,7 +72,7 @@ const CategoryTable: React.FC = () => {
                 <img className="w-10 h-10" src={category.image} alt={category.name} />
               </td>
               <td className="px-6 py-4">
-                <button className="cursor-pointer">Edit</button>
+                <EditCategory category={category} />
               </td>
             </tr>
           ))}
