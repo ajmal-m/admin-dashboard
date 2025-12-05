@@ -12,7 +12,6 @@ const DeleteCategoryModal = memo(( { close} : { close : () => void} ) => {
             <div className="flex items-center justify-center gap-2 self-end mt-2">
                 <Button onClick={close} className={cn("cursor-pointer")}>Cancel</Button>
                 <Button className={cn("bg-red-800 hover:bg-red-900 cursor-pointer")}>Delete</Button>
-
             </div>
         </div>
     )
