@@ -1,9 +1,9 @@
 import { memo, useCallback, useRef, useState } from "react";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
-import ImageCropModal from "./image-crop-modal";
+import {  cn } from "@/lib/utils";
 import { useCreateCategory } from "@/api/category/create-category";
 import { Oval } from 'react-loader-spinner';
+import { fileFromBlobUrl } from "@/lib/utils";
 
 
 const CloseIcon = memo( () => {
@@ -61,15 +61,19 @@ const AddEditCategoryModal = memo(({
     },[]);
 
 
-    const handleSubmit = useCallback((e : React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = useCallback( async (e : React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const Image = imageRef?.current?.files?.length ? imageRef.current?.files[0] : null;
       const formData = new FormData();
       formData.append("name", categoryName);
-      if(Image){
-        formData.append("image", Image);
+      const file = await fileFromBlobUrl(image || "" , categoryName);
+      if(file){
+        formData.append("image", file);
       }
-      createCategoryMutation.mutate(formData);
+      if(isEdit){
+        // updateCategoryMutation.mutate(formData);
+      }else{
+        createCategoryMutation.mutate(formData);
+      }
     },[categoryName])
 
     return(
@@ -125,7 +129,8 @@ const AddEditCategoryModal = memo(({
               id="file"
               accept="image/*"
               className="bg-neutral-secondary-medium border border-default-medium text-heading 
-              text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body cursor-pointer"
+              text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 
+              shadow-xs placeholder:text-body cursor-pointer"
               onChange={updateImage}
               required
               ref={imageRef}
@@ -137,7 +142,6 @@ const AddEditCategoryModal = memo(({
               <div className="mt-1">
                 <img src={image} alt="image-preview" className="max-h-[200px] max-w-[300px]" />
                 <Button onClick={() => setImage(null)} variant={'ghost'} size={'sm'} className={cn("cursor-pointer mt-1")}>Remove</Button>
-                <ImageCropModal image={image} setImage={setImage}/>
               </div>
             )
           }
