@@ -26,7 +26,7 @@ const Navbar = memo(() => {
            <ul className="flex items-center gap-4">
             {
                 NavLinks.map((link) => (
-                    <li key={link.name}  className="text-[20px] font-medium font-mont">
+                    <li key={link.name}  className="text-[16px] font-medium font-mont">
                         <Link to={link.url}>
                             {link.name}
                         </Link>

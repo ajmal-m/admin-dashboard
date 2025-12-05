@@ -137,7 +137,7 @@ const AddEditCategoryModal = memo(({
               text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 
               shadow-xs placeholder:text-body cursor-pointer"
               onChange={updateImage}
-              required
+              required={!isEdit}
               ref={imageRef}
             />
           </div>
