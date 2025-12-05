@@ -8,7 +8,7 @@ type CategoryData = FormData;
 
 export const updateCategory = async(data : CategoryData) => {
     try {
-        return await axiosInstance.put('/',data);
+        return await axiosInstance.put('/category',data);
     } catch (error) {
         console.log(error);
     }

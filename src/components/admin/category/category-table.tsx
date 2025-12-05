@@ -4,6 +4,7 @@ import { useGetCategories } from "@/api/category/get-category";
 import { type  Category } from "@/type/category";
 import { Bars } from 'react-loader-spinner';
 import EditCategory from "./edit-category";
+import DeleteCategory from "./delete-category";
 
 const rows = [
     "Category Name",
@@ -73,6 +74,7 @@ const CategoryTable: React.FC = () => {
               </td>
               <td className="px-6 py-4">
                 <EditCategory category={category} />
+                <DeleteCategory/>
               </td>
             </tr>
           ))}
