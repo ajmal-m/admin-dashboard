@@ -17,7 +17,7 @@ const AddCategory = memo(() => {
                             onClick={open}
                             className="
                                 px-2 py-1 flex items-center justify-center bg-[#0B6434] text-[white] 
-                                border border-[#0B6434] rounded-[5px] cursor-pointer font-mont text-[16px] font-semibold"
+                                border border-[#0B6434] rounded-[5px] cursor-pointer font-mont text-[14px] font-medium"
                         >
                                 Add Category
                         </button>
