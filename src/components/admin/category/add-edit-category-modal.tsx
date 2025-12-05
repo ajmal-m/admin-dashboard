@@ -1,5 +1,5 @@
 import { memo, useCallback, useRef, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {  cn } from "@/lib/utils";
 import { useCreateCategory } from "@/api/category/create-category";
 import { Oval } from 'react-loader-spinner';

@@ -1,14 +1,15 @@
 import { memo } from "react";
 import PopUp from "../../pop-up";
-import AddCategoryModal from "./add-edit-category-modal";
 
-const AddCategory = memo(() => {
+const AddProduct = memo(() => {
     return(
         <div className="w-full flex justify-end">
             <PopUp 
                 model={
                     (close) => (
-                        <AddCategoryModal close={close}/>
+                        <div className="w-20 h-20 bg-red-500">
+                            <button onClick={close}>Close</button>
+                        </div>
                     )
                 } 
                 trigger={
@@ -19,7 +20,7 @@ const AddCategory = memo(() => {
                                 px-2 py-1 flex items-center justify-center bg-[#0B6434] text-[white] 
                                 border border-[#0B6434] rounded-[5px] cursor-pointer font-mont text-[14px] font-medium"
                         >
-                                Add Category
+                                Add Product
                         </button>
                     )
                 }
@@ -29,4 +30,4 @@ const AddCategory = memo(() => {
     )
 });
 
-export default AddCategory;
+export default AddProduct;
