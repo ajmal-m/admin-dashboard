@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import {  cn } from "@/lib/utils";
 import { useCreateCategory } from "@/api/category/create-category";
 import { Oval } from 'react-loader-spinner';
-import { fileFromBlobUrl } from "@/lib/utils";
+import {  useUpdateCategory } from "@/api/category/update-category";
 
 
 const CloseIcon = memo( () => {
@@ -47,6 +47,7 @@ const AddEditCategoryModal = memo(({
     const [image, setImage] = useState<string | null>( currImage ?? null);
     const [categoryName, setCategoryName] = useState<string>(currName ?? "");
     const createCategoryMutation = useCreateCategory({ close });
+    const updateCategoryMutation = useUpdateCategory({ close});
     const imageRef = useRef<HTMLInputElement | null>(null);
 
     const updateImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
@@ -65,12 +66,12 @@ const AddEditCategoryModal = memo(({
       e.preventDefault();
       const formData = new FormData();
       formData.append("name", categoryName);
-      const file = await fileFromBlobUrl(image || "" , categoryName);
+      const file = imageRef.current?.files?.length ? imageRef.current.files[0] : null;
       if(file){
         formData.append("image", file);
       }
       if(isEdit){
-        // updateCategoryMutation.mutate(formData);
+        updateCategoryMutation.mutate(formData);
       }else{
         createCategoryMutation.mutate(formData);
       }
