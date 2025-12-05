@@ -162,7 +162,11 @@ const AddEditCategoryModal = memo(({
             {
               (createCategoryMutation.isPending || updateCategoryMutation.isPending) ? (
               <div className="flex gap-2 items-center">
-                <span>Uploading..</span>
+                <span>
+                  {
+                    createCategoryMutation.isPending ? "Uploading.." : "Updating.."
+                  }
+                </span>
                 <Oval
                   visible={true}
                   height="20"

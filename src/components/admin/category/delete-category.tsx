@@ -14,11 +14,11 @@ const DeleteCategoryModal = memo(( { close , id } : { close : () => void; id: st
     },[])
     return(
         <div className="w-100 min-h-10 p-4 bg-[#016630] dark:bg-[#016630] rounded flex items-center justify-center flex-col">
-            <p className="text-[16px] text-white font-medium font-mont">Are you sure you want to delete this item?</p>
+            <p className="text-white font-normal text-[14px] font-mont">Are you sure you want to delete this item?</p>
             <div className="flex items-center justify-center gap-2 self-end mt-2">
-                <Button onClick={close} className={cn("cursor-pointer")}>Cancel</Button>
+                <Button onClick={close} className={cn("cursor-pointer font-mont")}>Cancel</Button>
                 <Button 
-                    className={cn("bg-red-800 hover:bg-red-900 cursor-pointer")}
+                    className={cn("bg-red-800 hover:bg-red-900 cursor-pointer font-mont")}
                     onClick={handleDelete}
                 >
                     {
@@ -32,12 +32,12 @@ const DeleteCategoryModal = memo(( { close , id } : { close : () => void; id: st
 
 
 const DeleteCategory = memo(( 
-    { id }: { id : string}
+    { id , evenRow}: { id : string; evenRow : boolean}
 ) => {
     return(
         <>
             <PopUp
-                trigger={(open) =>  <Button className={cn("cursor-pointer bg-transparent text-black hover:bg-transparent")} onClick={open}>Delete</Button>}
+                trigger={(open) =>  <Button className={cn("cursor-pointer bg-transparent hover:bg-transparent" , !evenRow ? "text-white" : "text-black")} onClick={open}>Delete</Button>}
                 model={(close) => (
                     <DeleteCategoryModal close={close} id={id}/>               
                 )}

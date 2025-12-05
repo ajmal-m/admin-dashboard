@@ -73,8 +73,8 @@ const CategoryTable: React.FC = () => {
                 <img className="w-10 h-10" src={category.image?.secure_url} alt={category.name} loading="lazy" />
               </td>
               <td className="px-6 py-4">
-                <EditCategory category={category} />
-                <DeleteCategory id={category._id}/>
+                <EditCategory category={category} evenRow={index % 2 === 0} />
+                <DeleteCategory id={category._id} evenRow={index % 2 === 0}/>
               </td>
             </tr>
           ))}
