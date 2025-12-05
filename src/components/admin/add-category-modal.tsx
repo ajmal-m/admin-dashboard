@@ -1,7 +1,9 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import ImageCropModal from "./image-crop-modal";
+import { useCreateCategory } from "@/api/category/create-category";
+import { Oval } from 'react-loader-spinner';
 
 
 const CloseIcon = memo( () => {
@@ -34,6 +36,8 @@ const AddCategoryModal = memo(({
 
     const [image, setImage] = useState<string | null>(null);
     const [categoryName, setCategoryName] = useState<string>('');
+    const createCategoryMutation = useCreateCategory({ close });
+    const imageRef = useRef<HTMLInputElement | null>(null);
 
     const updateImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
       try {
@@ -49,8 +53,14 @@ const AddCategoryModal = memo(({
 
     const handleSubmit = useCallback((e : React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log(categoryName, image)
-    },[])
+      const Image = imageRef?.current?.files?.length ? imageRef.current?.files[0] : null;
+      const formData = new FormData();
+      formData.append("name", categoryName);
+      if(Image){
+              formData.append("image", Image);
+      }
+      createCategoryMutation.mutate(formData);
+    },[categoryName])
 
     return(
          <div className="relative bg-green-800 rounded shadow-sm p-4 md:p-6 font-mont text-white">
@@ -108,6 +118,7 @@ const AddCategoryModal = memo(({
             text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body cursor-pointer"
             required
             onChange={updateImage}
+            ref={imageRef}
           />
         </div>
 
@@ -125,10 +136,25 @@ const AddCategoryModal = memo(({
           type="submit"
           className="mt-4 text-black font-medium border bg-[white] border-transparent 
           hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full cursor-pointer
-          font-mont
+          font-mont h-10 flex items-center justify-center
           "
+          disabled={createCategoryMutation.isPending}
         >
-          Add
+          {
+             createCategoryMutation.isPending ? (
+             <div className="flex gap-2 items-center">
+              <span>Uploading..</span>
+              <Oval
+                visible={true}
+                height="20"
+                width="20"
+                color="#4fa94d"
+               strokeWidth='5'
+               animationDuration='0.5'
+                />
+             </div>
+            ) : "Add"
+          }
         </button>
 
       </form>
