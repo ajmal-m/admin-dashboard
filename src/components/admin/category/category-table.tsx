@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { cn } from "@/lib/utils";
 import { useGetCategories } from "@/api/category/get-category";
 import { type  Category } from "@/type/category";
@@ -12,7 +12,7 @@ const rows = [
     "Action",
 ]
 
-const CategoryTable: React.FC = () => {
+const CategoryTable: React.FC = memo( () => {
 
   const getCategoryMutation =  useGetCategories({});
 
@@ -82,6 +82,6 @@ const CategoryTable: React.FC = () => {
       </table>
     </div>
   );
-};
+});
 
 export default CategoryTable;
