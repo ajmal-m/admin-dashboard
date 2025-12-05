@@ -61,6 +61,7 @@ const ImageCanvas = memo(( { image , setImage , close} : { image : string ; setI
         try {
             const img = new Image();
             img.src = image;
+            img.crossOrigin = "anonymous"; 
             img.onload = () => {
                 drawCanvas(img)
             }
@@ -170,7 +171,7 @@ const ImageCanvas = memo(( { image , setImage , close} : { image : string ; setI
             0,0,width, height
         )
 
-       cropCanvas.toBlob((blob) => {
+        cropCanvas.toBlob((blob) => {
             if(!blob) return;
             const url = URL.createObjectURL(blob);
             setImage(url);
