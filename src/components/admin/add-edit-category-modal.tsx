@@ -75,7 +75,7 @@ const AddEditCategoryModal = memo(({
         formData.append("image", file);
       }
       if(isEdit){
-        updateCategoryMutation.mutate({ data: formData, id , public_id});
+        updateCategoryMutation.mutate({ data: formData, id , public_id });
       }else{
         createCategoryMutation.mutate(formData);
       }
