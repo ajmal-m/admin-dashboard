@@ -70,11 +70,11 @@ const CategoryTable: React.FC = () => {
                 {category.name}
               </th>
               <td className="px-6 py-4">
-                <img className="w-10 h-10" src={category.image} alt={category.name} />
+                <img className="w-10 h-10" src={category.image?.secure_url} alt={category.name} loading="lazy" />
               </td>
               <td className="px-6 py-4">
                 <EditCategory category={category} />
-                <DeleteCategory/>
+                <DeleteCategory id={category._id}/>
               </td>
             </tr>
           ))}
