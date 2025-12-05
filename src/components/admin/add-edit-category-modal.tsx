@@ -34,6 +34,8 @@ type AddEditCategoryPropType = {
   currName?: string;
   currImage?: string;
   isEdit?: boolean;
+  id: string;
+  public_id ?:string;
 }
 
 
@@ -41,7 +43,9 @@ const AddEditCategoryModal = memo(({
     close,
     currName,
     currImage,
-    isEdit = false
+    isEdit = false,
+    id,
+    public_id
 }:AddEditCategoryPropType) => {
 
     const [image, setImage] = useState<string | null>( currImage ?? null);
@@ -71,7 +75,7 @@ const AddEditCategoryModal = memo(({
         formData.append("image", file);
       }
       if(isEdit){
-        updateCategoryMutation.mutate(formData);
+        updateCategoryMutation.mutate({ data: formData, id , public_id});
       }else{
         createCategoryMutation.mutate(formData);
       }
@@ -153,10 +157,10 @@ const AddEditCategoryModal = memo(({
             hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full cursor-pointer
             font-mont h-10 flex items-center justify-center
             "
-            disabled={createCategoryMutation.isPending}
+            disabled={createCategoryMutation.isPending || updateCategoryMutation.isPending}
           >
             {
-              createCategoryMutation.isPending ? (
+              (createCategoryMutation.isPending || updateCategoryMutation.isPending) ? (
               <div className="flex gap-2 items-center">
                 <span>Uploading..</span>
                 <Oval

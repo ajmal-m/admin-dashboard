@@ -6,9 +6,9 @@ type CategoryData = FormData;
 
 
 
-export const updateCategory = async(data : CategoryData) => {
+export const updateCategory = async({ data , id , public_id} : { data: CategoryData ; id : string; public_id : string;}) => {
     try {
-        return await axiosInstance.put('/category',data);
+        return await axiosInstance.put(`/category?id=${id}&public_id=${public_id}`,data);
     } catch (error) {
         console.log(error);
     }
@@ -16,14 +16,14 @@ export const updateCategory = async(data : CategoryData) => {
 
 
 export const useUpdateCategory = ({
-    close 
+    close ,
 }: {
-    close ?: () => void
+    close ?: () => void;
 }) => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (data : CategoryData ) => {
-            return updateCategory(data);
+        mutationFn: ({ data , id , public_id }: { data : CategoryData ; id : string; public_id : string;}  ) => {
+            return updateCategory({ data, id , public_id });
         },
         onError(error) {
             console.log(error)
