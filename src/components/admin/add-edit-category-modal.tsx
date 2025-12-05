@@ -34,7 +34,7 @@ type AddEditCategoryPropType = {
   currName?: string;
   currImage?: string;
   isEdit?: boolean;
-  id: string;
+  id ?: string;
   public_id ?:string;
 }
 
