@@ -1,6 +1,6 @@
 import {  memo } from "react";
-import AddCategory from "../../components/admin/add-category";
-import CategoryTable from "../../components/admin/category-table";
+import AddCategory from "../../components/admin/category/add-category";
+import CategoryTable from "../../components/admin/category/category-table";
 
 const AdminCategoryPage = memo(() => {
     return(

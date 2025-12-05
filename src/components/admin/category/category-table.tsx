@@ -31,7 +31,15 @@ const CategoryTable: React.FC = () => {
 
   const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
 
-  console.log(categories)
+
+  if(!categories.length){
+    return (
+      <div>
+        <h1>No Items Found!</h1>
+      </div>
+    )
+  }
+
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default mt-4">
       <table className="w-full text-sm text-left rtl:text-right text-body">

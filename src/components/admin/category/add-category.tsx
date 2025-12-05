@@ -1,5 +1,5 @@
 import { memo } from "react";
-import PopUp from "../pop-up";
+import PopUp from "../../pop-up";
 import AddCategoryModal from "./add-category-modal";
 
 const AddCategory = memo(() => {

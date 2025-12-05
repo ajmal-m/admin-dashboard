@@ -30,7 +30,7 @@ export const useCreateCategory = ({
         },
         async onSuccess(data) {
             close?.();
-            queryClient.invalidateQueries({ queryKey : (await getCategoryQueryOptions()).queryKey })
+            queryClient.invalidateQueries({ queryKey : (getCategoryQueryOptions()).queryKey })
         },
     })
 }

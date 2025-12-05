@@ -1,7 +1,7 @@
 import { memo, useCallback, useRef, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import ImageCropModal from "./image-crop-modal";
+import ImageCropModal from "../image-crop-modal";
 import { useCreateCategory } from "@/api/category/create-category";
 import { Oval } from 'react-loader-spinner';
 
@@ -149,8 +149,8 @@ const AddCategoryModal = memo(({
                 height="20"
                 width="20"
                 color="#4fa94d"
-               strokeWidth='5'
-               animationDuration='0.5'
+                strokeWidth='5'
+                animationDuration='0.5'
                 />
              </div>
             ) : "Add"
