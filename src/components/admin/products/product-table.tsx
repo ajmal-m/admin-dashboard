@@ -46,10 +46,10 @@ const ProductTable: React.FC = memo( () => {
                 Fruits
               </th>
               <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                Rs. 240 / Kg
+                Rs. 240
               </th>
                <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                300Kg
+                300
               </th>
               <td className="px-6 py-4">
                 <img className="w-10 h-10" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIZsfkc2zDCA423IfWyeg_FaRvFs_LyLeMUw&s" loading="lazy" />
