@@ -1,5 +1,7 @@
-import { memo } from "react";
+import { memo, useCallback, useState } from "react";
 import CloseIcon from "../icon/close";
+import { useGetCategories } from "@/api/category/get-category";
+import type { Category } from "@/type/category";
 
 type AddEditPropType = {
     close: () => void;
@@ -27,6 +29,22 @@ const Toggle = memo( () => {
 const AddEditProduct = memo((
     { close }: AddEditPropType
 ) => {
+
+    const [productData, setProductData] = useState({
+        name:"",
+        category:"",
+        price:0,
+        stock:0,
+    });
+    const getCategoryMutation = useGetCategories({});
+    const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
+
+
+    const updateProductData = useCallback((e : React.ChangeEvent<HTMLInputElement | HTMLSelectElement >) => {
+        const { name, value} = e.target;
+        setProductData((prevData) => ({ ...prevData , [name] : value }) );
+    },[productData])
+
     return(
         <div className="relative bg-green-800 rounded shadow-sm p-4 md:p-6 font-mont text-white">
             {/* Header */}
@@ -58,11 +76,13 @@ const AddEditProduct = memo((
                     <input
                         type="text"
                         id="name"
+                        name="name"
                         className="border border-white text-heading text-sm outline-none rounded-base block 
                         w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont"
-                        placeholder="Enter category name"
+                        placeholder="Enter product name"
                         required
-                    
+                        onChange={updateProductData}
+                        value={productData.name}
                     />
                 </div>
 
@@ -75,52 +95,64 @@ const AddEditProduct = memo((
                     >
                         Category
                     </label>
-                    <input
-                        type="text"
-                        id="name"
-                        className="border border-white text-heading text-sm outline-none rounded-base block 
-                        w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont"
-                        placeholder="Enter category name"
-                        required
-                    
-                    />
+                    <select 
+                        name="category" 
+                        id="category"
+                         className="border border-white text-heading text-sm outline-none rounded-base block 
+                        w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont max-h-40"
+                        onChange={updateProductData}
+                        value={productData.category}
+                    >
+                        {
+                            getCategoryMutation.isLoading ? 
+                            (
+                                <option value="">Loading...</option>
+                            ) : categories.map((category) => (
+                                <option value={category._id} key={category.name} className="text-green-800">{category.name}</option>
+                            ))
+                        }
+                    </select>
                 </div>
 
                 {/* Price */}
                 <div className="mb-4">
                     <label
-                        htmlFor="name"
+                        htmlFor="price"
                         className="block mb-2.5 text-sm text-heading font-mont"
                     >
                         Price
                     </label>
                     <input
                         type="number"
-                        id="name"
+                        id="price"
+                        name="price"
                         className="border border-white text-heading text-sm outline-none rounded-base block 
                         w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont"
-                        placeholder="Enter category name"
+                        placeholder="Enter price"
                         required
-                    
+                        onChange={updateProductData}
+                        value={productData.price}
                     />
                 </div>
 
                 {/* Stock */}
                 <div className="mb-4">
                     <label
-                        htmlFor="name"
+                        htmlFor="stock"
                         className="block mb-2.5 text-sm text-heading font-mont"
                     >
                         Stock
                     </label>
                     <input
                         type="number"
-                        id="name"
+                        id="stock"
+                        name="stock"
                         className="border border-white text-heading text-sm outline-none rounded-base block 
                         w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont"
-                        placeholder="Enter category name"
+                        placeholder="Enter stock"
                         required
-                    
+                        onChange={updateProductData}
+                        value={productData.stock}
                     />
                 </div>
 
@@ -160,7 +192,7 @@ const AddEditProduct = memo((
                     font-mont h-10 flex items-center justify-center
                 "
                 >
-                    Loader
+                    Add
                 </button>
     
             </form>
