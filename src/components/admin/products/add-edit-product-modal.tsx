@@ -1,12 +1,13 @@
 import { memo, useCallback, useState } from "react";
 import CloseIcon from "../icon/close";
 import { useGetCategories } from "@/api/category/get-category";
-import type { Category } from "@/type/type";
+import type { Category, Product } from "@/type/type";
 import { useCreateProduct } from "@/api/product/create-product";
 import { Oval } from "react-loader-spinner";
 
 type AddEditPropType = {
     close: () => void;
+    product ?: Product
 }
 
 
@@ -34,15 +35,15 @@ const Toggle = memo( ({
 
 
 const AddEditProduct = memo((
-    { close }: AddEditPropType
+    { close , product }: AddEditPropType
 ) => {
 
     const [productData, setProductData] = useState({
-        name:"",
-        category:"",
-        price:"",
-        stock:"",
-        active:true
+        name: product?.name ?? "",
+        category: product?.category._id ?? "",
+        price: product?.price ?? '0',
+        stock: product?.stock ?? '0',
+        active: product?.active ?? true
     });
     const [file, setFile] = useState<File | null>(null);
 
@@ -67,11 +68,13 @@ const AddEditProduct = memo((
         e.preventDefault();
         const formData = new FormData();
         formData.append("name", productData.name);
-        formData.append("price", productData.price );
-        formData.append("category", productData.category);
-        formData.append("stock", productData.stock);
+        formData.append("price", String(productData.price) );
+        formData.append("category", String(productData.category) );
+        formData.append("stock", String(productData.stock) );
         formData.append("active", productData.active ? "1" : "0");
-        formData.append("image" , file as File);
+        if(file){
+            formData.append("image" , file as File);
+        }
         createProductMutation.mutate(formData)
     },[productData , file]);
 

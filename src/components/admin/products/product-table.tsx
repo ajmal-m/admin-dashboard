@@ -4,6 +4,7 @@ import { useGetProducts } from "@/api/product/get-product";
 import { Bars } from "react-loader-spinner";
 import type { Product } from "@/type/type";
 import DeleteProduct from "./delete-product";
+import EditProduct from "./edit-product";
 const rows = [
     "Product Name",
     "Category",
@@ -101,7 +102,7 @@ const ProductTable: React.FC = memo( () => {
               </th>
               <td className="px-6 py-4">
                 <div className="flex items-center gap-2">
-                  <p>Edit</p>
+                  <EditProduct product={product} evenRow={index % 2 === 0}/>
                   <DeleteProduct id={product._id} evenRow={index % 2 === 0}/>
                 </div>
               </td>
