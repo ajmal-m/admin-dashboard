@@ -1,5 +1,6 @@
 import { memo } from "react";
 import PopUp from "../../pop-up";
+import AddEditProduct from "./add-edit-product-modal";
 
 const AddProduct = memo(() => {
     return(
@@ -7,9 +8,7 @@ const AddProduct = memo(() => {
             <PopUp 
                 model={
                     (close) => (
-                        <div className="w-20 h-20 bg-red-500">
-                            <button onClick={close}>Close</button>
-                        </div>
+                        <AddEditProduct/>
                     )
                 } 
                 trigger={
