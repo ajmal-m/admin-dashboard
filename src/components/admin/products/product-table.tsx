@@ -72,7 +72,7 @@ const ProductTable: React.FC = memo( () => {
                 {product.name}
               </th>
                <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                {product.category}
+                {product.category.name}
               </th>
               <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
                 Rs. {product.price}

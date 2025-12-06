@@ -11,7 +11,7 @@ export type Category = {
 export type Product = {
     _id: string;
     name: string;
-    category: string;
+    category: Category;
     stock: number;
     price: number;
     image:{
