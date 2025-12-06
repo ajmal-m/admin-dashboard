@@ -2,6 +2,8 @@ import { memo, useCallback, useState } from "react";
 import CloseIcon from "../icon/close";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/category";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type AddEditPropType = {
     close: () => void;
@@ -42,6 +44,7 @@ const AddEditProduct = memo((
         stock:0,
         active:true
     });
+    const [imagePreview, setImagePreview] = useState<String | null>(null)
     const getCategoryMutation = useGetCategories({});
     const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
 
@@ -60,7 +63,15 @@ const AddEditProduct = memo((
     const handleSubmit = useCallback(( e : React.FormEvent) => {
         e.preventDefault();
         console.log(productData);
-    },[productData])
+    },[productData]);
+
+
+    const uploadImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if(!file) return;
+        const image = URL.createObjectURL(file);
+        setImagePreview(image);
+    },[])
 
     return(
         <div className="relative bg-green-800 rounded shadow-sm p-4 md:p-6 font-mont text-white">
@@ -111,7 +122,7 @@ const AddEditProduct = memo((
                         className="block mb-2.5 text-sm text-heading font-mont"
                     >
                         Category
-                    </label>
+                    </label> 
                     <select 
                         name="category" 
                         id="category"
@@ -199,9 +210,9 @@ const AddEditProduct = memo((
                         className="bg-neutral-secondary-medium border border-default-medium text-heading 
                         text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 
                         shadow-xs placeholder:text-body cursor-pointer"
+                        onChange={uploadImage}
                     />
                 </div>
-    
                 <button
                     type="submit"
                     className="mt-4 text-black font-medium border bg-[white] border-transparent 
