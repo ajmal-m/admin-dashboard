@@ -2,8 +2,6 @@ import { memo, useCallback, useState } from "react";
 import CloseIcon from "../icon/close";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/category";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 type AddEditPropType = {
     close: () => void;
@@ -25,7 +23,7 @@ const Toggle = memo( ({
       />
       <div className="relative w-9 h-5 bg-red-400 rounded-full peer 
       peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-green-400
-      peer-checked:after:border-buffer after:content-[''] after:absolute after:start-[2px] after:bg-white
+      peer-checked:after:border-buffer after:content-[''] after:absolute after:start-0.5 after:bg-white
       after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand border border-white outline-none focus:outline-none"></div>
     </label>
   );
@@ -44,7 +42,7 @@ const AddEditProduct = memo((
         stock:0,
         active:true
     });
-    const [setImagePreview] = useState<String | null>(null)
+    const [file, setFile] = useState<File | null>(null);
     const getCategoryMutation = useGetCategories({});
     const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
 
@@ -69,8 +67,7 @@ const AddEditProduct = memo((
     const uploadImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if(!file) return;
-        const image = URL.createObjectURL(file);
-        setImagePreview(image);
+        setFile(file);
     },[])
 
     return(
