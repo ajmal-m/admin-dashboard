@@ -4,6 +4,7 @@ import { useGetCategories } from "@/api/category/get-category";
 import type { Category, Product } from "@/type/type";
 import { useCreateProduct } from "@/api/product/create-product";
 import { Oval } from "react-loader-spinner";
+import { useUpdateProduct } from "@/api/product/update-product";
 
 type AddEditPropType = {
     close: () => void;
@@ -49,6 +50,7 @@ const AddEditProduct = memo((
 
     const getCategory = useGetCategories({});
     const createProductMutation = useCreateProduct({ close });
+    const updateProductMutation = useUpdateProduct({ close });
 
     const categories : Category[] = getCategory.data?.data?.data ?? [];
 
@@ -75,7 +77,12 @@ const AddEditProduct = memo((
         if(file){
             formData.append("image" , file as File);
         }
-        createProductMutation.mutate(formData)
+        if(product){
+            formData.append("public_id", product.category.image?.public_id as string)
+            updateProductMutation.mutate({ data: formData, id : product._id })
+        }else{
+            createProductMutation.mutate(formData)
+        }
     },[productData , file]);
 
 
@@ -90,7 +97,7 @@ const AddEditProduct = memo((
             {/* Header */}
             <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5">
                 <h3 className="text-lg text-heading font-mont">
-                    New Product
+                    { product ? 'Edit' : 'New' } Product
                 </h3>
 
                 <button
@@ -234,9 +241,9 @@ const AddEditProduct = memo((
                 "
                 >
                     {
-                        createProductMutation.isPending ? (
+                        createProductMutation.isPending || updateProductMutation.isPending ? (
                            <div className="flex items-center gap-2">
-                            <span>Uploading...</span>
+                            <span>{ product ? "Updating..." : "Uploading..."}</span>
                             <Oval
                                 visible={true}
                                 height="20"
