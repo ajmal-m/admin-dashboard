@@ -44,7 +44,7 @@ const AddEditProduct = memo((
         stock:0,
         active:true
     });
-    const [imagePreview, setImagePreview] = useState<String | null>(null)
+    const [setImagePreview] = useState<String | null>(null)
     const getCategoryMutation = useGetCategories({});
     const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
 
