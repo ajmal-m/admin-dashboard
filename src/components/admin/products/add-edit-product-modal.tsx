@@ -3,6 +3,7 @@ import CloseIcon from "../icon/close";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/type";
 import { useCreateProduct } from "@/api/product/create-product";
+import { Oval } from "react-loader-spinner";
 
 type AddEditPropType = {
     close: () => void;
@@ -229,7 +230,22 @@ const AddEditProduct = memo((
                     font-mont h-10 flex items-center justify-center
                 "
                 >
-                    Add
+                    {
+                        createProductMutation.isPending ? (
+                           <div className="flex items-center gap-2">
+                            <span>Uploading...</span>
+                            <Oval
+                                visible={true}
+                                height="20"
+                                width="20"
+                                color="#4fa94d"
+                                strokeWidth='5'
+                                animationDuration='0.5'
+                            />
+                           </div>
+                            
+                        ) : "Add"
+                    }
                 </button>
     
             </form>
