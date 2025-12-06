@@ -9,12 +9,17 @@ type AddEditPropType = {
 
 
 
-const Toggle = memo( () => {
+const Toggle = memo( ({
+    value, onChange
+} : { value : boolean; onChange: (e : React.ChangeEvent<HTMLInputElement> ) => void }) => {
   return (
     <label className="inline-flex items-center cursor-pointer">
       <input
         type="checkbox"
         className="sr-only peer outline-none"
+        name="active"
+        onChange={onChange}
+        checked={value}
       />
       <div className="relative w-9 h-5 bg-red-400 rounded-full peer 
       peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-green-400
@@ -35,9 +40,16 @@ const AddEditProduct = memo((
         category:"",
         price:0,
         stock:0,
+        active:true
     });
     const getCategoryMutation = useGetCategories({});
     const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
+
+
+    const updateToggle = useCallback(( e : React.ChangeEvent<HTMLInputElement> ) => {
+        const { name, checked }= e.target;
+        setProductData((prevData) => ({ ...prevData , [name] : checked }) )
+    },[])
 
 
     const updateProductData = useCallback((e : React.ChangeEvent<HTMLInputElement | HTMLSelectElement >) => {
@@ -170,7 +182,7 @@ const AddEditProduct = memo((
                     >
                         Active
                     </label>
-                   <Toggle />
+                   <Toggle value={productData.active} onChange={updateToggle} />
                 </div>
     
                 <div>
