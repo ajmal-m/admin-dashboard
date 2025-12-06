@@ -8,7 +8,7 @@ const AddProduct = memo(() => {
             <PopUp 
                 model={
                     (close) => (
-                        <AddEditProduct/>
+                        <AddEditProduct close={close} />
                     )
                 } 
                 trigger={
