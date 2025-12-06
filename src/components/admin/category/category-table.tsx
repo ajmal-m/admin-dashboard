@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { cn } from "@/lib/utils";
 import { useGetCategories } from "@/api/category/get-category";
-import { type  Category } from "@/type/category";
+import { type  Category } from "@/type/type";
 import { Bars } from 'react-loader-spinner';
 import EditCategory from "./edit-category";
 import DeleteCategory from "./delete-category";

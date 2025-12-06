@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import AddEditCategoryModal from "./add-edit-category-modal";
-import { type Category } from "@/type/category";
+import { type Category } from "@/type/type";
 
 
 type EditCategoryPropType = {

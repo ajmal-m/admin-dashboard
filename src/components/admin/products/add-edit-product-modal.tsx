@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from "react";
 import CloseIcon from "../icon/close";
 import { useGetCategories } from "@/api/category/get-category";
-import type { Category } from "@/type/category";
+import type { Category } from "@/type/type";
 import { useCreateProduct } from "@/api/product/create-product";
 
 type AddEditPropType = {
