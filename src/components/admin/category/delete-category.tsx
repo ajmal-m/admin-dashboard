@@ -1,12 +1,11 @@
 import { useDeleteCategory } from "@/api/category/delete-category";
-import PopUp from "@/components/pop-up";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { memo, useCallback } from "react";
 
 
 
-const DeleteCategoryModal = memo(( { close , id } : { close : () => void; id: string; } ) => {
+export const DeleteCategoryModal = memo(( { close , id } : { close : () => void; id: string; } ) => {
     const deleteCategoryMutation = useDeleteCategory({ id , close });
 
     const handleDelete = useCallback(() => {
@@ -29,22 +28,3 @@ const DeleteCategoryModal = memo(( { close , id } : { close : () => void; id: st
         </div>
     )
 })
-
-
-const DeleteCategory = memo(( 
-    { id , evenRow}: { id : string; evenRow : boolean}
-) => {
-    return(
-        <>
-            <PopUp
-                trigger={(open) =>  <Button className={cn("cursor-pointer bg-transparent hover:bg-transparent" , !evenRow ? "text-white" : "text-black")} onClick={open}>Delete</Button>}
-                model={(close) => (
-                    <DeleteCategoryModal close={close} id={id}/>               
-                )}
-                keyProp={'delete-category'}
-            />
-        </>
-    )
-});
-
-export default DeleteCategory;
