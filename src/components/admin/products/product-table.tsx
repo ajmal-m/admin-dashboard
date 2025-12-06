@@ -1,10 +1,12 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useGetProducts } from "@/api/product/get-product";
 import { Bars } from "react-loader-spinner";
 import type { Product } from "@/type/type";
 import DeleteProduct from "./delete-product";
-import EditProduct from "./edit-product";
+import { Button } from "@/components/ui/button";
+import PopUp from "@/components/pop-up-drawer";
+import AddEditProduct from "./add-edit-product-modal";
 const rows = [
     "Product Name",
     "Category",
@@ -17,9 +19,22 @@ const rows = [
     "Action",
 ];
 
+
+
+
+
+
+
 const ProductTable: React.FC = memo( () => {
 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const getProductMutation = useGetProducts({});
+
+  const openProductEditModal = useCallback((product : Product) => {
+    setIsOpen(true);
+    setSelectedProduct(product);
+  },[])
 
   if(getProductMutation.isLoading){
     return <div className="flex items-center justify-center">
@@ -45,6 +60,7 @@ const ProductTable: React.FC = memo( () => {
       </div>
     )
   }
+
 
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default mt-4">
@@ -102,7 +118,13 @@ const ProductTable: React.FC = memo( () => {
               </th>
               <td className="px-6 py-4">
                 <div className="flex items-center gap-2">
-                  <EditProduct product={product} evenRow={index % 2 === 0}/>
+                  {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
+                  <Button 
+                    className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+                    onClick={() => openProductEditModal(product)}
+                  >
+                    Edit
+                  </Button>
                   <DeleteProduct id={product._id} evenRow={index % 2 === 0}/>
                 </div>
               </td>
@@ -110,6 +132,12 @@ const ProductTable: React.FC = memo( () => {
           ))}
         </tbody>
       </table>
+      <PopUp 
+        model={(close) => <AddEditProduct close={close} product={selectedProduct as Product}/>}
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+        keyProp={'edit-product'}
+      />
     </div>
   );
 });
