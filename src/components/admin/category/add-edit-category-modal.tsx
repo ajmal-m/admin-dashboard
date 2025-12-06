@@ -5,29 +5,22 @@ import { useCreateCategory } from "@/api/category/create-category";
 import { Oval } from 'react-loader-spinner';
 import {  useUpdateCategory } from "@/api/category/update-category";
 import CloseIcon from "../icon/close";
+import type { Category } from "@/type/type";
 
 
 type AddEditCategoryPropType = {
   close : () => void;
-  currName?: string;
-  currImage?: string;
-  isEdit?: boolean;
-  id ?: string;
-  public_id ?:string;
+  category ?: Category 
 }
 
 
 const AddEditCategoryModal = memo(({
     close,
-    currName,
-    currImage,
-    isEdit = false,
-    id,
-    public_id
+    category
 }:AddEditCategoryPropType) => {
 
-    const [image, setImage] = useState<string | null>( currImage ?? null);
-    const [categoryName, setCategoryName] = useState<string>(currName ?? "");
+    const [image, setImage] = useState<string | null>(  category?.image?.secure_url ?? null);
+    const [categoryName, setCategoryName] = useState<string>( category?.name ?? "");
     const createCategoryMutation = useCreateCategory({ close });
     const updateCategoryMutation = useUpdateCategory({ close});
     const imageRef = useRef<HTMLInputElement | null>(null);
@@ -52,8 +45,8 @@ const AddEditCategoryModal = memo(({
       if(file){
         formData.append("image", file);
       }
-      if(isEdit){
-        updateCategoryMutation.mutate({ data: formData, id , public_id });
+      if(category){
+        updateCategoryMutation.mutate({ data: formData, id : category._id , public_id : category.image?.public_id });
       }else{
         createCategoryMutation.mutate(formData);
       }
@@ -65,7 +58,7 @@ const AddEditCategoryModal = memo(({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-default pb-4 md:pb-5">
           <h3 className="text-lg text-heading font-mont">
-            { isEdit ? 'Edit' : 'New' } Category
+            { category ? 'Edit' : 'New' } Category
           </h3>
 
           <button
@@ -115,7 +108,7 @@ const AddEditCategoryModal = memo(({
               text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 
               shadow-xs placeholder:text-body cursor-pointer"
               onChange={updateImage}
-              required={!isEdit}
+              required={!category}
               ref={imageRef}
             />
           </div>
@@ -155,7 +148,7 @@ const AddEditCategoryModal = memo(({
                   />
               </div>
               ) : (
-                isEdit ? "Update" : "Add"
+                category ? "Update" : "Add"
               )
             }
           </button>

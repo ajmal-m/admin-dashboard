@@ -17,7 +17,7 @@ const EditCategory = memo(( { category , evenRow }:EditCategoryPropType  ) => {
         <PopUp
             trigger={ (open) => <Button className={cn("cursor-pointer bg-transparent hover:bg-transparent", !evenRow ? "text-white" :"text-black" )} onClick={open}>Edit</Button> }
             model={ (close) => 
-               <AddEditCategoryModal close={close} isEdit={true} currName={category?.name} currImage={category.image?.secure_url} id={category._id} public_id={category.image?.public_id}/>
+               <AddEditCategoryModal close={close} category={category}/>
             }
             keyProp='edit-category'
         />
