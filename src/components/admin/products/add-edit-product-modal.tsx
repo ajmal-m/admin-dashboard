@@ -2,6 +2,7 @@ import { memo, useCallback, useState } from "react";
 import CloseIcon from "../icon/close";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/category";
+import { useCreateProduct } from "@/api/product/create-product";
 
 type AddEditPropType = {
     close: () => void;
@@ -38,13 +39,16 @@ const AddEditProduct = memo((
     const [productData, setProductData] = useState({
         name:"",
         category:"",
-        price:0,
-        stock:0,
+        price:"",
+        stock:"",
         active:true
     });
     const [file, setFile] = useState<File | null>(null);
-    const getCategoryMutation = useGetCategories({});
-    const categories : Category[] = getCategoryMutation.data?.data?.data ?? [];
+
+    const getCategory = useGetCategories({});
+    const createProductMutation = useCreateProduct({ close });
+
+    const categories : Category[] = getCategory.data?.data?.data ?? [];
 
 
     const updateToggle = useCallback(( e : React.ChangeEvent<HTMLInputElement> ) => {
@@ -60,8 +64,15 @@ const AddEditProduct = memo((
 
     const handleSubmit = useCallback(( e : React.FormEvent) => {
         e.preventDefault();
-        console.log(productData);
-    },[productData]);
+        const formData = new FormData();
+        formData.append("name", productData.name);
+        formData.append("price", productData.price );
+        formData.append("category", productData.category);
+        formData.append("stock", productData.stock);
+        formData.append("active", productData.active ? "1" : "0");
+        formData.append("image" , file as File);
+        createProductMutation.mutate(formData)
+    },[productData , file]);
 
 
     const uploadImage = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
@@ -128,8 +139,9 @@ const AddEditProduct = memo((
                         onChange={updateProductData}
                         value={productData.category}
                     >
+                         <option value="" disabled>Select Category</option>
                         {
-                            getCategoryMutation.isLoading ? 
+                            getCategory.isLoading ? 
                             (
                                 <option value="">Loading...</option>
                             ) : categories.map((category) => (
