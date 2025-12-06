@@ -35,6 +35,15 @@ const ProductTable: React.FC = memo( () => {
 
   const products : Product[] = getProductMutation.data?.data?.data ?? [];
 
+
+  if(!products.length){
+    return(
+      <div>
+        <h1>No Products Found</h1>
+      </div>
+    )
+  }
+
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default mt-4">
       <table className="w-full text-sm text-left rtl:text-right text-body">
