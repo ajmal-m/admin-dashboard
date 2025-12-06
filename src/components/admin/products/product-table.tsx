@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 import { useGetProducts } from "@/api/product/get-product";
 import { Bars } from "react-loader-spinner";
 import type { Product } from "@/type/type";
-import DeleteProduct from "./delete-product";
 import { Button } from "@/components/ui/button";
 import PopUp from "@/components/pop-up-drawer";
 import AddEditProduct from "./add-edit-product-modal";
+import { DeleteProductModal } from "./delete-product";
 const rows = [
     "Product Name",
     "Category",
@@ -22,17 +22,102 @@ const rows = [
 
 
 
+const TableHead = memo((
+) => {
+  return(
+    <thead className="bg-neutral-secondary-soft border-b border-default">
+      <tr>
+        {
+            rows.map((rowItem ) => (
+                  <th scope="col" 
+                  className={cn("px-6 py-3 font-medium font-mont text-[16px]" ) }
+                  key={rowItem}
+                  >{rowItem}</th>
+            ))
+        }
+      </tr>
+    </thead>
+  )
+});
+
+
+const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { product : Product ; index: number ; setProduct : (v : Product) => void ; setDeleteProduct : (v: Product) => void } ) => {
+  return(
+    <tr
+      key={product._id}
+      className={`border-b border-default font-mont ${
+        index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
+      }`}
+
+    >
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {product.name}
+      </th>
+        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {product.category.name}
+      </th>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        Rs. {product.price}
+      </th>
+        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {product.stock}
+      </th>
+      <td className="px-6 py-4">
+        <img 
+          className="w-10 h-10" 
+          src={product.image.secure_url}
+          alt={product.name}
+          loading="lazy" />
+      </td>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {
+          product.active ? "Active" :"Inactive"
+        }
+      </th>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        2 Month ago
+      </th>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        2 Days ago
+      </th>
+      <td className="px-6 py-4">
+        <div className="flex items-center gap-2">
+          {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
+          <Button 
+            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            onClick={() => setProduct(product)}
+          >
+            Edit
+          </Button>
+          <Button 
+            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            onClick={() => setDeleteProduct(product)}
+          >
+            Delete
+          </Button>
+        </div>
+      </td>
+    </tr>
+  )
+})
+
 
 
 
 const ProductTable: React.FC = memo( () => {
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenEditProduct, setIsOpenEditProduct] = useState<boolean>(false);
+  const [isOpenDeleteProduct, setIsOpenDeleteProduct] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const getProductMutation = useGetProducts({});
 
   const openProductEditModal = useCallback((product : Product) => {
-    setIsOpen(true);
+    setIsOpenEditProduct(true);
+    setSelectedProduct(product);
+  },[])
+
+  const openDeleteProductModal = useCallback((product  : Product ) => {
+    setIsOpenDeleteProduct(true);
     setSelectedProduct(product);
   },[])
 
@@ -65,78 +150,24 @@ const ProductTable: React.FC = memo( () => {
   return (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default mt-4">
       <table className="w-full text-sm text-left rtl:text-right text-body">
-        <thead className="bg-neutral-secondary-soft border-b border-default">
-          <tr>
-            {
-                rows.map((rowItem ) => (
-                     <th scope="col" 
-                      className={cn("px-6 py-3 font-medium font-mont text-[16px]" ) }
-                      key={rowItem}
-                      >{rowItem}</th>
-                ))
-            }
-          </tr>
-        </thead>
+        <TableHead/>
         <tbody>
           { products.map((product, index) => (
-            <tr
-              key={index}
-              className={`border-b border-default font-mont ${
-                index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
-              }`}
-
-            >
-              <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                {product.name}
-              </th>
-               <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                {product.category.name}
-              </th>
-              <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                Rs. {product.price}
-              </th>
-               <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                {product.stock}
-              </th>
-              <td className="px-6 py-4">
-                <img 
-                  className="w-10 h-10" 
-                  src={product.image.secure_url}
-                  alt={product.name}
-                  loading="lazy" />
-              </td>
-              <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                {
-                  product.active ? "Active" :"Inactive"
-                }
-              </th>
-              <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                2 Month ago
-              </th>
-              <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                2 Days ago
-              </th>
-              <td className="px-6 py-4">
-                <div className="flex items-center gap-2">
-                  {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
-                  <Button 
-                    className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
-                    onClick={() => openProductEditModal(product)}
-                  >
-                    Edit
-                  </Button>
-                  <DeleteProduct id={product._id} evenRow={index % 2 === 0}/>
-                </div>
-              </td>
-            </tr>
+            <TableRow product={product} index={index} setProduct={openProductEditModal}  setDeleteProduct={openDeleteProductModal}/>
           ))}
         </tbody>
       </table>
       <PopUp 
         model={(close) => <AddEditProduct close={close} product={selectedProduct as Product}/>}
-        isOpen={isOpen}
-        handleClose={() => setIsOpen(false)}
+        isOpen={isOpenEditProduct}
+        handleClose={() => setIsOpenEditProduct(false)}
         keyProp={'edit-product'}
+      />
+      <PopUp 
+        model={(close) => <DeleteProductModal close={close} id={selectedProduct?._id as string}/>}
+        isOpen={isOpenDeleteProduct}
+        handleClose={() => setIsOpenDeleteProduct(false)}
+        keyProp={'delete-product'}
       />
     </div>
   );

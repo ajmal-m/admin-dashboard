@@ -1,12 +1,11 @@
 import { useDeleteProduct } from "@/api/product/delete-products";
-import PopUp from "@/components/pop-up";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { memo, useCallback } from "react";
 
 
 
-const DeleteProductModal = memo(( { close , id } : { close : () => void; id: string; } ) => {
+export const DeleteProductModal = memo(( { close , id } : { close : () => void; id: string; } ) => {
     const deleteProductMutation = useDeleteProduct({ close });
 
     const handleDelete = useCallback(() => {
@@ -29,22 +28,3 @@ const DeleteProductModal = memo(( { close , id } : { close : () => void; id: str
         </div>
     )
 })
-
-
-const DeleteProduct = memo(( 
-    { id , evenRow}: { id : string; evenRow : boolean}
-) => {
-    return(
-        <>
-            <PopUp
-                trigger={(open) =>  <Button className={cn("cursor-pointer bg-transparent hover:bg-transparent" , !evenRow ? "text-white" : "text-black")} onClick={open}>Delete</Button>}
-                model={(close) => (
-                    <DeleteProductModal close={close} id={id}/>               
-                )}
-                keyProp={'delete-product'}
-            />
-        </>
-    )
-});
-
-export default DeleteProduct;
