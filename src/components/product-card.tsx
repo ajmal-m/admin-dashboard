@@ -1,19 +1,9 @@
 import { memo, useCallback, useState } from "react";
-import ProductImage from '../assets/Image.svg';
+import type { Product } from "@/type/type";
 
 
-type ProductType={
-    id:string,
-    name:string,
-    image:any,
-    quantityType:string,
-    categoryId:string,
-    quantity:number,
-    price:number
-}
 
-
-const ProductCard = memo(({ product }:{ product: ProductType}) => {
+const ProductCard = memo(({ product }:{ product: Product}) => {
     const [selectedQuantity, setSelectQuantity] = useState(0);
 
     const updateQuantity = useCallback((type : string) => {
@@ -39,11 +29,13 @@ const ProductCard = memo(({ product }:{ product: ProductType}) => {
             py-3 text-[12px] px-2
         "
         >
-            <img src={ProductImage} alt="product-image" loading="lazy"/>
+            <div className="h-[153px] w-full flex items-center justify-center">
+                <img src={product.image.secure_url} alt="product-image" loading="lazy" className="max-h-[153px]"/>
+            </div>
             <h3 className="text-[24px] font-mont text-[rgb(0,0,0)] max-[400px]:text-[16px]">{product.name}</h3>
             <div className="w-full flex items-center justify-between">
                 <p className="font-mont text-[#000000] text-[20px] min-[600px]:text-[24px]">₹{product.price}</p>
-                <p className="font-mont text-[#000000] text-[12px] min-[600px]:text-[17px] items-left">{product.quantityType}</p>
+                <p className="font-mont text-[#000000] text-[12px] min-[600px]:text-[17px] items-left">1 Item</p>
             </div>
             <div className="w-full flex items-center justify-between">
                 {

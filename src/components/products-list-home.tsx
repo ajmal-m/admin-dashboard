@@ -1,25 +1,43 @@
 import { memo } from "react";
 import ProductCard from "./product-card";
-import ProductImage from '../assets/Image.svg';
+import { useGetProducts } from "@/api/product/get-product";
+import type { Product } from "@/type/type";
+import { Bars } from "react-loader-spinner";
 
-const productItem = {
-    id:"7467826487324632",
-    name:"Cabbage",
-    image:ProductImage,
-    categoryId:"764781246812064",
-    quantity:100,
-    quantityType:"Kg",
-    price:24
-}
 
 const Products = memo(() => {
+    const getProductsMutation = useGetProducts({});
+
+    if(getProductsMutation.isLoading){
+        return <div className="flex items-center justify-center">
+        <Bars
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="bars-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+        />
+        </div>
+    }
+
+    const products : Product[] = getProductsMutation.data?.data?.data ?? [];
+
+    if(!products.length){
+        return(
+            <div>
+                <h1>No Products Found</h1>
+            </div>
+        )
+    }
     return(
         <section className="px-10 mt-[30px] flex flex-col gap-[30px] max-[992px]:px-4 max-[992px]:mt-3">
             <h2  className="text-[32px] font-semibold text-[#000000] font-mont max-[400px]:text-[24px]">ALL PRODUCTS</h2>
             <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 min-[548px]:grid-cols-3 min-[716px]:grid-cols-4 min-[912px]:grid-cols-5">
                 {
-                    new Array(20).fill(0).map((_,i) => (
-                        <ProductCard key={i} product={productItem}/>
+                    products.map((product,i) => (
+                        <ProductCard key={i} product={product}/>
                     ))
                 }
             </div>
