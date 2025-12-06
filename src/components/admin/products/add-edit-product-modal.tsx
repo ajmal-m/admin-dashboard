@@ -43,6 +43,11 @@ const AddEditProduct = memo((
     const updateProductData = useCallback((e : React.ChangeEvent<HTMLInputElement | HTMLSelectElement >) => {
         const { name, value} = e.target;
         setProductData((prevData) => ({ ...prevData , [name] : value }) );
+    },[]);
+
+    const handleSubmit = useCallback(( e : React.FormEvent) => {
+        e.preventDefault();
+        console.log(productData);
     },[productData])
 
     return(
@@ -64,7 +69,7 @@ const AddEditProduct = memo((
              </div>
 
             {/* Form Content */}
-            <form className="pt-4 md:pt-6" >
+            <form className="pt-4 md:pt-6" onSubmit={handleSubmit} >
                 {/* Product Name */}
                 <div className="mb-4">
                     <label
