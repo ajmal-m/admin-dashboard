@@ -26,7 +26,7 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
         <div className="
             min-w-[120px] max-h-[418px] border border-[#0B6434] 
             rounded flex flex-col items-start justify-center gap-1
-            py-3 text-[12px] px-2 shadow-2xl
+            py-3 text-[12px] px-2 shadow
         "
         >
             <div className="h-[153px] w-full flex items-center justify-center">
