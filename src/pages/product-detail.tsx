@@ -1,4 +1,5 @@
 import { useGetProductsById } from "@/api/product/get-product-by-id";
+import SimilarProducts from "@/components/similar-products";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/type/type";
@@ -44,6 +45,7 @@ const ProductDetail = memo(() => {
                     <button className="bg-[#318616] text-white rounded py-2 font-mont font-medium max-w-50 self-end px-3 cursor-pointer capitalize">Add To cart</button>
                 </div>
             </div>
+            <SimilarProducts  product={product}/>
         </section>
     )
 });
