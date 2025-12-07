@@ -7,6 +7,7 @@ import { createBrowserRouter } from "react-router";
 const HomePage = lazy(() => import('../pages/home'));
 const AboutPage = lazy(() => import('../pages/about'));
 const ProductPage = lazy(() => import('../pages/product'));
+const ProductDetailPage = lazy(() => import("../pages/product-detail"));
 const ContactPage= lazy(() => import('../pages/contact'));
 const ServicePage = lazy(() => import('../pages/service'));
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
                 path:"service",
                 Component:ServicePage
             },
+            {
+                path:"/pd/:productId",
+                Component:ProductDetailPage
+            }
         ]
     },
     {
