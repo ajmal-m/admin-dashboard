@@ -1,4 +1,5 @@
 import AdminLayout from "@/layouts/admin-layout";
+import MainLayout from "@/layouts/main-layout";
 import {  lazy } from "react";
 import { createBrowserRouter } from "react-router";
 
@@ -19,23 +20,29 @@ const AdminCategories = lazy(() => import('../pages/admin/admin-category'));
 const router = createBrowserRouter([
     {
         path: '/',
-        Component:HomePage
-    },
-    {
-        path:"/about",
-        Component: AboutPage
-    },
-    {
-        path: '/products' ,
-        Component:ProductPage
-    },
-    {
-        path:"/contact",
-        Component:ContactPage
-    },
-    {
-        path:"/service",
-        Component:ServicePage
+        Component:MainLayout,
+        children:[
+            {
+                index:true,
+                Component:HomePage
+            },
+            {
+                path:"about",
+                Component: AboutPage
+            },
+            {
+                path: 'products' ,
+                Component:ProductPage
+            },
+            {
+                path:"contact",
+                Component:ContactPage
+            },
+            {
+                path:"service",
+                Component:ServicePage
+            },
+        ]
     },
     {
         path:"/admin",

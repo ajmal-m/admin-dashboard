@@ -1,10 +1,9 @@
 import { memo } from "react";
-import Navbar from "../components/navbar";
 
 const ContactPage = memo(() => {
     return(
         <>
-            <Navbar/>
+            <h1>Contact Page</h1>
         </>
     )
 });
