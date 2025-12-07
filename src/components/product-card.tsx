@@ -1,23 +1,39 @@
 import { memo, useCallback, useState } from "react";
 import type { Product } from "@/type/type";
 import { Link } from "react-router";
+import { useDispatch } from "react-redux";
+import { type AppDispatch } from "@/redux/store";
+import { updateCart } from "@/redux/features/cartSlice";
 
 
 
 const ProductCard = memo(({ product }:{ product: Product}) => {
+
     const [selectedQuantity, setSelectQuantity] = useState(0);
+    const dispatch = useDispatch<AppDispatch>();
+
 
     const updateQuantity = useCallback((type : string) => {
         try {
+            let newQuantity;
             if(type === "+"){
                 setSelectQuantity(q => q+1);
+                newQuantity = selectedQuantity+1;
             }else{
                 if(selectedQuantity === 1){
                     setSelectQuantity(0);
+                    newQuantity = 0;
                 }else{
                     setSelectQuantity(q => q-1);
+                    newQuantity = selectedQuantity-1;
                 }
             }
+            dispatch(updateCart(
+                {
+                    product,
+                    quantity: newQuantity
+                }
+            ));
         } catch (error) {
             console.log(error);
         }
