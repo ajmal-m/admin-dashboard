@@ -32,7 +32,7 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
             <div className="h-[153px] w-full flex items-center justify-center">
                 <img src={product.image.secure_url} alt="product-image" loading="lazy" className="max-h-[153px]"/>
             </div>
-            <h3 className="text-[16px] font-mont text-[rgb(0,0,0)] max-[400px]:text-[16px] font-medium">{product.name}</h3>
+            <h3 className="text-[16px] font-mont text-[rgb(0,0,0)] max-[400px]:text-[16px] font-medium capitalize">{product.name}</h3>
             <div className="w-full flex items-center justify-between">
                 <p className="font-mont text-[#000000] text-[16px] font-medium">₹{product.price}</p>
                 <p className="font-mont text-[#000000] text-[16px] items-left font-medium">1 Kg</p>
