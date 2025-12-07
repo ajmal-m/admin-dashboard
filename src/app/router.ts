@@ -8,6 +8,7 @@ const HomePage = lazy(() => import('../pages/home'));
 const AboutPage = lazy(() => import('../pages/about'));
 const ProductPage = lazy(() => import('../pages/product'));
 const ProductDetailPage = lazy(() => import("../pages/product-detail"));
+const ProductByCategoryPage = lazy(() => import("../pages/products-by-category"));
 const ContactPage= lazy(() => import('../pages/contact'));
 const ServicePage = lazy(() => import('../pages/service'));
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path:"/pd/:pId",
                 Component:ProductDetailPage
+            },
+            {
+                path:"/cd/:cId",
+                Component: ProductByCategoryPage
             }
         ]
     },

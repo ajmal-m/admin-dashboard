@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/type";
+import { Link } from "react-router";
 
 
 const CategorySwiper = memo(() => {
@@ -42,10 +43,12 @@ const CategorySwiper = memo(() => {
           ) : (
              categories.map((category, index) => (
                 <SwiperSlide key={index}>
+                  <Link to={`cd/${category._id}`}>
                     <div className="flex flex-col items-center justify-between">
                         <img src={category.image?.secure_url} alt="item" loading="lazy"  className="w-[154px] h-[114px]"/>
                         <p className="text-[16px] font-mont font-medium text-[#2B2B2B] dark:text-[#2B2B2B] uppercase">{category.name}</p>
                     </div>
+                  </Link>
                 </SwiperSlide>
             ))
           )
