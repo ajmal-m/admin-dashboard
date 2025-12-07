@@ -15,7 +15,7 @@ export const getProductByIdOptions = (id : string) => {
 }
 
 
-export const useGetProducts = ( {
+export const useGetProductsById = ( {
     id,
     queryConfig 
 } : { id: string;queryConfig ?: any} ) => {
