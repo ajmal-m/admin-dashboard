@@ -33,7 +33,7 @@ const ProductDetail = memo(() => {
                     alt={product.name}
                     className="w-[480px] h-[480px]"
                 />
-                <div className="flex flex-col self-start pt-[60px] gap-4 max-[800px]:self-center max-[800px]:pt-0 max-[800px]:w-full">
+                <div className="flex flex-col self-start pt-[60px] gap-4 max-[800px]:self-center max-[800px]:pt-0 max-[800px]:w-full max-[800px]:gap-1">
                     <h2 className="text-[24px] text-black font-mont font-medium capitalize">{product.name}</h2>
                     <div className="flex items-center justify-between gap-10">
                         <p className="text-[24px] text-[black] font-mont font-bold">₹ {product.price}</p>

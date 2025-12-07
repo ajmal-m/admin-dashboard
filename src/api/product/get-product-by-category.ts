@@ -18,7 +18,7 @@ export const getProductByCategoryIdQueryOptions = ({  cId }: {  cId : string }) 
 export const useGetProductByCategoryId = ( {
     cId,
     queryConfig 
-} : { queryConfig ?: any; pId : string; cId: string; } ) => {
+} : { queryConfig ?: any;  cId: string; } ) => {
     return useQuery({
        ...getProductByCategoryIdQueryOptions({ cId}),
        ...queryConfig

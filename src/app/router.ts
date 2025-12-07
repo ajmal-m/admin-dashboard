@@ -49,7 +49,7 @@ const router = createBrowserRouter([
                 Component:ProductDetailPage
             },
             {
-                path:"/cd/:cId",
+                path:"/cd/:cn/:cId",
                 Component: ProductByCategoryPage
             }
         ]
