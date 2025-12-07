@@ -44,7 +44,7 @@ const router = createBrowserRouter([
                 Component:ServicePage
             },
             {
-                path:"/pd/:productId",
+                path:"/pd/:pId",
                 Component:ProductDetailPage
             }
         ]
