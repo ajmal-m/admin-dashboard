@@ -62,7 +62,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
         </div>
 
 
-        <div className="flex flex-col gap-2 mt-4">
+        <div className="flex flex-col gap-2 mt-4 overflow-y-auto">
             {
                 Object.keys(productQuantity).map(( productKey ) => (
                     <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center justify-between" key={productKey}>
