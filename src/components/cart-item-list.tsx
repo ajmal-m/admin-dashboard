@@ -1,7 +1,7 @@
 import { updateCart } from "@/redux/features/cartSlice";
 import type { AppDispatch, RootState } from "@/redux/store";
 import type { cartProducts, productQuantity } from "@/type/type";
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 interface DrawerProps {
@@ -9,6 +9,20 @@ interface DrawerProps {
   onClose: () => void;
   width?: string; 
 }
+
+
+const CartItemList = memo(() => {
+  const { productQuantity, cartProducts} = useSelector((store : RootState) => store.cart);
+  return(
+    <div className="flex flex-col gap-2 mt-4 overflow-y-auto">
+      {
+        Object.keys(productQuantity).map(( productKey ) => (
+            <CartItem productKey={productKey} cartProducts={cartProducts} productQuantity={productQuantity} key={productKey}/>
+        ))
+      }
+    </div>
+  )
+});
 
 
 const CartItem = memo((
@@ -70,23 +84,34 @@ const CartItem = memo((
 
 
 const BillingDetails = memo(( ) => {
+  const { productQuantity, cartProducts } = useSelector((store : RootState) => store.cart);
+  const hadleCharge = 2;
+  const itemTotal = useMemo(() => {
+    return Object.keys(productQuantity).reduce((acc, pId) => {
+      acc+= cartProducts[pId].price*productQuantity[pId];
+      return acc;
+    },0)
+  },[productQuantity, cartProducts]);
+
+  console.log("Item TOtal ", itemTotal)
   return(
     <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex flex-col gap-2 mt-3">
       <h2 className="text-black text-[16px] font-mont font-medium">Billing Details</h2>
       <div className="grid grid-cols-2 font-mont text-[16px] text-[#2B2B2B]">
         <p>Items total</p>
-        <p className="text-black font-medium">₹456</p>
+        <p className="text-black font-medium">₹{itemTotal}</p>
         <p>Delivery charge</p>
         <h1 className="text-[#256FEF] font-medium"><span className="line-through text-[#787878] mr-2">₹25</span>FREE</h1>
         <p>Handling charge</p>
-        <p className="text-black font-medium">₹2</p>
+        <p className="text-black font-medium">₹{hadleCharge}</p>
+        <p className="font-semibold mt-3">Grand total</p>
+        <p className="text-black font-semibold mt-3">₹{itemTotal+hadleCharge}</p>
       </div>
     </div>
   )
 })
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
-    const { productQuantity, cartProducts} = useSelector((store : RootState) => store.cart);
   return (
     <>
       {/* Backdrop */}
@@ -137,15 +162,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
             </svg>
           </button>
         </div>
-
-
-        <div className="flex flex-col gap-2 mt-4 overflow-y-auto">
-          {
-            Object.keys(productQuantity).map(( productKey ) => (
-                <CartItem productKey={productKey} cartProducts={cartProducts} productQuantity={productQuantity} key={productKey}/>
-            ))
-          }
-        </div>
+        <CartItemList/>
         <BillingDetails/>
       
       </div>
