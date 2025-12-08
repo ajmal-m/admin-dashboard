@@ -42,7 +42,10 @@ const ProductDetail = memo(() => {
                             <Badge className={cn("bg-blue-500 text-white px-2 py-1 rounded font-month font-medium")}>10% off</Badge>
                         </div>
                     </div>
-                    <button className="bg-[#318616] text-white rounded py-2 font-mont font-medium max-w-50 self-end px-3 cursor-pointer capitalize">Add To cart</button>
+                    <button className="bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                    max-w-50 self-end px-3 cursor-pointer capitalize">
+                        Add To cart
+                    </button>
                 </div>
             </div>
             <SimilarProducts  product={product}/>
