@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { Product } from "@/type/type";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,21 +10,22 @@ import { updateCart } from "@/redux/features/cartSlice";
 const ProductCard = memo(({ product }:{ product: Product}) => {
     
     const dispatch = useDispatch<AppDispatch>();
-    const quantity = useSelector((store : RootState ) => store.cart.productQuantity[product._id ]);
-     const [selectedQuantity, setSelectQuantity] = useState( quantity ?? 0);
+    const {productQuantity} = useSelector((store : RootState ) => store.cart);
+    const [selectedQuantity, setSelectQuantity] = useState( productQuantity[product._id] ?? 0);
+
+    useEffect(() => {
+        setSelectQuantity(productQuantity[product._id] ?? 0)
+    },[productQuantity , product])
 
     const updateQuantity = useCallback((type : string) => {
         try {
             let newQuantity;
             if(type === "+"){
-                setSelectQuantity(q => q+1);
                 newQuantity = selectedQuantity+1;
             }else{
                 if(selectedQuantity === 1){
-                    setSelectQuantity(0);
                     newQuantity = 0;
                 }else{
-                    setSelectQuantity(q => q-1);
                     newQuantity = selectedQuantity-1;
                 }
             }
@@ -69,7 +70,7 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
                                 <div className="flex justify-end">
                                     <span className="cursor-pointer text-end" onClick={() => updateQuantity("-")}>-</span>
                                 </div>
-                                <span>{selectedQuantity}</span>
+                                <span className="font-mont">{selectedQuantity}</span>
                                 <div className="flex justify-start">
                                     <span className="cursor-pointer text-justify" onClick={() => updateQuantity("+")}>+</span>
                                 </div>

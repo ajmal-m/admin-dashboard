@@ -14,7 +14,7 @@ const ProductList = memo(({ product }: { product: Product}) => {
             <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 min-[548px]:grid-cols-3 min-[716px]:grid-cols-4 min-[912px]:grid-cols-5 mt-6">
                 {
                     new Array(10).fill(-1).map((_,i) => (
-                       <ProductCardSkelton />
+                       <ProductCardSkelton key={i} />
                     ))
                 }
             </div>
@@ -25,8 +25,8 @@ const ProductList = memo(({ product }: { product: Product}) => {
     return(
         <div className="grid gap-4 grid-cols-1 min-[360px]:grid-cols-2 min-[548px]:grid-cols-3 min-[716px]:grid-cols-4 min-[912px]:grid-cols-5 mt-6">
             {
-                similarProducts.map((pItem,i) => (
-                    <ProductCard key={i} product={pItem}/>
+                similarProducts.map((pItem) => (
+                    <ProductCard key={pItem._id} product={pItem}/>
                 ))
             }
         </div>

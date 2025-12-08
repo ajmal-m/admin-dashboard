@@ -20,3 +20,12 @@ export type Product = {
     }
     active: boolean;
 }
+
+
+export type productQuantity = {
+    [pId : string] : number
+};
+
+export type cartProducts = {
+    [pId: string] : Product
+}

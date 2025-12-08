@@ -1,15 +1,76 @@
-import type { RootState } from "@/redux/store";
-import React from "react";
-import { useSelector } from "react-redux";
+import { updateCart } from "@/redux/features/cartSlice";
+import type { AppDispatch, RootState } from "@/redux/store";
+import type { cartProducts, productQuantity } from "@/type/type";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  width?: string; // optional (default w-96)
+  width?: string; 
 }
 
+
+const CartItem = memo((
+  { productKey , cartProducts , productQuantity  } : { productKey: string; cartProducts: cartProducts ; productQuantity : productQuantity }
+) => {
+  const [selectedQuantity , setSelectedQuantity] = useState<number>(productQuantity[productKey] ?? 0);
+  const dispatch = useDispatch<AppDispatch>();
+
+ 
+
+  useEffect(() => {
+     setSelectedQuantity(productQuantity[productKey]??0);
+  },[productQuantity, productKey])
+
+  const updateQuantity = useCallback(( type : string) => {
+    let newQuantity;
+    if(type === '+'){
+      newQuantity = selectedQuantity+1;
+    }else{
+      if(selectedQuantity === 1){
+        newQuantity = 0;
+      }else{
+        newQuantity = selectedQuantity-1;
+      }
+    }
+    dispatch(updateCart({ product : cartProducts[productKey] , quantity: newQuantity }))
+  },[selectedQuantity]);
+
+  return(
+    <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center justify-between" key={productKey}>
+        <div className="flex items-center gap-4">
+            <div>
+            <img src={cartProducts[productKey].image.secure_url} alt={cartProducts[productKey].name} className="w-15 h-15"/>
+            </div>
+            <div className="flex flex-col">
+                <p className="text-black text-[16px] font-mont capitalize">{cartProducts[productKey].name}</p>
+                <p className="text-black text-[16px] font-mont capitalize font-bold">₹{cartProducts[productKey].price}</p>
+            </div>
+        </div>
+        <div >
+            <button
+                className="w-20 h-8 flex items-center justify-center bg-[#0B6434] text-white 
+                rounded font-mont text-[16px] px-4"
+            >
+                <div className="w-full grid grid-cols-3 gap-1">
+                    <div className="flex justify-start">
+                        <span className="cursor-pointer text-end"  onClick={() => updateQuantity('-')} >-</span>
+                    </div>
+                    <span>{selectedQuantity}</span>
+                    <div className="flex justify-end">
+                        <span className="cursor-pointer text-justify"    onClick={() => updateQuantity('+')}>+</span>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>
+  )
+})
+
+
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
-    const { productQuantity, cartProducts} = useSelector((store : RootState) => store.cart)
+    const { productQuantity, cartProducts} = useSelector((store : RootState) => store.cart);
   return (
     <>
       {/* Backdrop */}
@@ -63,37 +124,11 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
 
 
         <div className="flex flex-col gap-2 mt-4 overflow-y-auto">
-            {
-                Object.keys(productQuantity).map(( productKey ) => (
-                    <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center justify-between" key={productKey}>
-                        <div className="flex items-center gap-4">
-                            <div>
-                            <img src={cartProducts[productKey].image.secure_url} alt={cartProducts[productKey].name} className="w-15 h-15"/>
-                            </div>
-                            <div className="flex flex-col">
-                                <p className="text-black text-[16px] font-mont capitalize">{cartProducts[productKey].name}</p>
-                                <p className="text-black text-[16px] font-mont capitalize font-bold">₹{cartProducts[productKey].price}</p>
-                            </div>
-                        </div>
-                        <div >
-                            <button
-                                className="w-20 h-8 flex items-center justify-center bg-[#0B6434] text-white 
-                                rounded font-mont text-[16px] px-4"
-                            >
-                                <div className="w-full grid grid-cols-3 gap-1">
-                                    <div className="flex justify-end">
-                                        <span className="cursor-pointer text-end" >-</span>
-                                    </div>
-                                    <span>{productQuantity[productKey]}</span>
-                                    <div className="flex justify-start">
-                                        <span className="cursor-pointer text-justify" >+</span>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                ))
-            }
+          {
+            Object.keys(productQuantity).map(( productKey ) => (
+                <CartItem productKey={productKey} cartProducts={cartProducts} productQuantity={productQuantity} key={productKey}/>
+            ))
+          }
         </div>
 
       
