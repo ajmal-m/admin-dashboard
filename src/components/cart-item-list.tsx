@@ -111,6 +111,20 @@ const BillingDetails = memo(( ) => {
   )
 })
 
+
+const ProceedOrderButton = memo(() => {
+  return(
+    <button className="
+      w-full min-h-10 bg-white mt-3 rounded 
+      transition-all duration-300 ease-in hover:bg-green-600
+      cursor-pointer hover:text-white font-mont font-medium
+    "
+    >
+      <p>Proceed</p>
+    </button>
+  )
+})
+
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
   return (
     <>
@@ -164,7 +178,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
         </div>
         <CartItemList/>
         <BillingDetails/>
-      
+        <ProceedOrderButton/>
       </div>
     </>
   );
