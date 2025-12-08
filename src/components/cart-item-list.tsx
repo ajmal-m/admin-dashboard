@@ -69,6 +69,22 @@ const CartItem = memo((
 })
 
 
+const BillingDetails = memo(( ) => {
+  return(
+    <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex flex-col gap-2 mt-3">
+      <h2 className="text-black text-[16px] font-mont font-medium">Billing Details</h2>
+      <div className="grid grid-cols-2 font-mont text-[16px] text-[#2B2B2B]">
+        <p>Items total</p>
+        <p className="text-black font-medium">₹456</p>
+        <p>Delivery charge</p>
+        <h1 className="text-[#256FEF] font-medium"><span className="line-through text-[#787878] mr-2">₹25</span>FREE</h1>
+        <p>Handling charge</p>
+        <p className="text-black font-medium">₹2</p>
+      </div>
+    </div>
+  )
+})
+
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
     const { productQuantity, cartProducts} = useSelector((store : RootState) => store.cart);
   return (
@@ -130,7 +146,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
             ))
           }
         </div>
-
+        <BillingDetails/>
       
       </div>
     </>
