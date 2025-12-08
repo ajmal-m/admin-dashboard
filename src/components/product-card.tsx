@@ -78,11 +78,12 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
                         </button>
                     ) : (
                         <button
-                            className="w-full h-8 flex items-center justify-center bg-[white] text-[#0B6434] border border-[#0B6434] rounded-[5px] cursor-pointer font-mont text-[16px] font-semibold"
+                            className="w-full h-8 flex items-center justify-center bg-[white] text-[#0B6434] border border-[#0B6434] 
+                            rounded-[5px] cursor-pointer font-mont text-[16px] font-semibold"
                             type="button"
                             onClick={() => updateQuantity("+")}
                         >
-                            ADD
+                            Add
                         </button>
                     )
                 }
