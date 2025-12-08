@@ -53,7 +53,7 @@ const LoginModal = memo(( { close } : { close : () => void} ) => {
                     className={cn(`text-black border bg-[white] border-transparent 
                         hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full
                         font-mont h-10 flex items-center justify-center
-                    ` , isValid(phone) ? "cursor-pointer hover:bg-green-500 hover:text-white" : "bg-[#9c9c9c] text-white" )}
+                    ` , isValid(phone) ? "cursor-pointer" : "bg-[#9c9c9c] text-white" )}
                 >
                     Continue
                 </button>
