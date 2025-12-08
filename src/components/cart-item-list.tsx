@@ -128,7 +128,6 @@ const ProceedOrderButton = memo(() => {
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
   return (
     <>
-      {/* Backdrop */}
       {isOpen && (
         <div
           onClick={onClose}
@@ -141,7 +140,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
         className={`
           fixed top-0 right-0 h-screen p-4 bg-neutral-primary-soft z-50 
           transition-transform duration-300 overflow-y-auto
-          ${width}
+          ${width} max-[400px]:w-full
           ${isOpen ? "translate-x-0" : "translate-x-full"}
           bg-green-900 border border-green-800 rounded
         `}
