@@ -105,9 +105,15 @@ const SignUpSection = memo(() => {
 
     const verifyEmailByOTP = useCallback(() => {
         otpVerifyMutation.mutate({ email : data?.email , otp: data?.otp});
-    },[data])
+    },[data]);
+
+
+    const handleSignUp = useCallback((e : React.FormEvent) => {
+        e.preventDefault();
+        console.log(data);
+    },[])
     return(
-        <form className="w-full flex flex-col gap-4"   >
+        <form className="w-full flex flex-col gap-4" onSubmit={handleSignUp}   >
             <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" className="text-[14px] font-mont font-normal">Email</label>
                 <div className="bg-white rounded relative">
