@@ -2,6 +2,10 @@ import { memo, useCallback, useState } from "react";
 import PopUp from "../pop-up-drawer";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { isValidEmail } from "@/utils/utils";
+import { useSendOTPtoEmail } from "@/api/otp/send-otp";
+import { useVerifyOTP } from "@/api/otp/verify-otp";
+import {  toast } from 'react-toastify';
 
 
 const LoginSection = memo(() => {
@@ -60,7 +64,9 @@ const LoginSection = memo(() => {
 })
 
 const SignUpSection = memo(() => {
-    const [verifyEmail, setVerifyEmail] = useState<boolean>(false);
+
+    const [ openOTP, setOpenOTP] = useState<boolean>(false);
+    const [ emailVerified, setEmailVerified] = useState<boolean>(false);
     const [data, setData] = useState({
         email:'',
         otp:'',
@@ -68,10 +74,38 @@ const SignUpSection = memo(() => {
         cpassword:''
     });
 
+    const otpSendMutation = useSendOTPtoEmail({
+        onSuccess:() => {
+            setOpenOTP(true);
+            toast.success("OTP has been sent to your email. Please enter it below to verify your account");
+        }
+    });
+    const otpVerifyMutation = useVerifyOTP({
+        onSuccess:() => {
+            setOpenOTP(false);
+            setEmailVerified(true);
+            toast.success("OTP verified successfully.")
+        },
+        onError:() => {
+            toast.error("Invalid OTP. Please try again.")
+        }
+    });
+
+   
+
     const updateData = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setData((prevData) => ({ ...prevData, [name] : value}))
-    },[])
+    },[]);
+
+    const sendOtpToEmailAddress = useCallback(() => {
+        if(emailVerified) return;
+        otpSendMutation.mutate({ email : data?.email });
+    },[data , emailVerified]);
+
+    const verifyEmailByOTP = useCallback(() => {
+        otpVerifyMutation.mutate({ email : data?.email , otp: data?.otp});
+    },[data])
     return(
         <form className="w-full flex flex-col gap-4"   >
             <div className="flex flex-col gap-1.5">
@@ -90,21 +124,29 @@ const SignUpSection = memo(() => {
                         required
                         value={data.email}
                         onChange={updateData}
+                        readOnly={emailVerified}
                     />
-                    <button 
-                        className="
-                            absolute bg-green-900 top-2 right-2 
-                            text-[12px] px-2 py-1 rounded font-mont
-                        " 
-                        onClick={() => setVerifyEmail(true)}
-                        type="button" 
-                    >
-                        Verify
-                    </button>
+                    {
+                        isValidEmail(data.email) && (
+                            <button 
+                                className="
+                                    absolute bg-green-900 top-2 right-2 
+                                    text-[12px] px-2 py-1 rounded font-mont
+                                " 
+                                onClick={() => sendOtpToEmailAddress()}
+                                type="button" 
+                            >
+                                {
+                                    otpSendMutation.isPending ? "Sending OTP" : emailVerified ? "Verified" : "Verify"
+                                }
+                            </button>
+                        )
+                    }
+                    
                 </div>
             </div>
             {
-                verifyEmail && (
+                otpSendMutation.isSuccess && openOTP && (
                     <div className="bg-white rounded relative transition-all duration-300 ease-in">
                         <input
                             type="number"
@@ -124,9 +166,11 @@ const SignUpSection = memo(() => {
                                 absolute bg-green-900 top-2 right-2 
                                 text-[12px] px-2 py-1 rounded font-mont
                             " 
-                            onClick={() => setVerifyEmail(false)} 
+                            onClick={verifyEmailByOTP} 
                         >
-                            send OTP
+                            {
+                                otpVerifyMutation.isPending ? "Verifying OTP" : "verify OTP"
+                            }
                         </button>
                     </div>
                 )
@@ -161,9 +205,9 @@ const SignUpSection = memo(() => {
             </div>
             <Button
                 className={
-                    cn("text-black bg-white font-mont hover:text-white" , !verifyEmail && 'cursor-pointer')
+                    cn("text-black bg-white font-mont hover:text-white" , !openOTP && 'cursor-pointer')
                 }
-                disabled={verifyEmail}
+                disabled={ !emailVerified || !isValidEmail(data.email) || !data.password || data.password !== data.cpassword }  
             >Login</Button>
         </form>
     )
