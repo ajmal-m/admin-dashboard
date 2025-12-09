@@ -1,6 +1,7 @@
 import { memo, useCallback, useState } from "react";
 import PopUp from "../pop-up-drawer";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 
 const LoginSection = memo(() => {
@@ -75,32 +76,61 @@ const SignUpSection = memo(() => {
         <form className="w-full flex flex-col gap-4"   >
             <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" className="text-[14px] font-mont font-normal">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                   className="border border-white text-heading text-sm outline-none rounded-base block 
-                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
-                    placeholder="Enter email address"
-                    required
-                    value={data.email}
-                    onChange={updateData}
-                />
+                <div className="bg-white rounded relative">
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        className="
+                            border border-white text-heading text-sm outline-none rounded-base block 
+                            w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
+                            pr-[63px]
+                        "
+                        placeholder="Enter email address"
+                        required
+                        value={data.email}
+                        onChange={updateData}
+                    />
+                    <button 
+                        className="
+                            absolute bg-green-900 top-2 right-2 
+                            text-[12px] px-2 py-1 rounded font-mont
+                        " 
+                        onClick={() => setVerifyEmail(true)}
+                        type="button" 
+                    >
+                        Verify
+                    </button>
+                </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-                <label htmlFor="otp" className="text-[14px] font-mont font-normal">OTP</label>
-                <input
-                    type="number"
-                    id="otp"
-                    name="otp"
-                   className="border border-white text-heading text-sm outline-none rounded-base block 
-                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
-                    placeholder="Enter email address"
-                    required
-                    value={data.otp}
-                    onChange={updateData}
-                />
-            </div>
+            {
+                verifyEmail && (
+                    <div className="bg-white rounded relative transition-all duration-300 ease-in">
+                        <input
+                            type="number"
+                            id="otp"
+                            name="otp"
+                            className="
+                                border border-white text-heading text-sm outline-none rounded-base block 
+                                w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                            placeholder="OTP"
+                            required
+                            value={data.otp}
+                            onChange={updateData}
+                        />
+                        <button
+                            type="button" 
+                            className="
+                                absolute bg-green-900 top-2 right-2 
+                                text-[12px] px-2 py-1 rounded font-mont
+                            " 
+                            onClick={() => setVerifyEmail(false)} 
+                        >
+                            send OTP
+                        </button>
+                    </div>
+                )
+            }
             <div className="flex flex-col gap-1.5">
                 <label htmlFor="password" className="text-[14px] font-mont font-normal">Password</label>
                 <input
@@ -129,16 +159,12 @@ const SignUpSection = memo(() => {
                     onChange={updateData}
                 />
             </div>
-            <button
-                type="button"
-                className={cn(`text-black border bg-[white] border-transparent 
-                    hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full
-                    font-mont h-10 flex items-center justify-center
-                ` , data.email && data.password && 'cursor-pointer' )}
-                disabled={!data.email || !data.password}
-            >
-                Create
-            </button>
+            <Button
+                className={
+                    cn("text-black bg-white font-mont hover:text-white" , !verifyEmail && 'cursor-pointer')
+                }
+                disabled={verifyEmail}
+            >Login</Button>
         </form>
     )
 });
