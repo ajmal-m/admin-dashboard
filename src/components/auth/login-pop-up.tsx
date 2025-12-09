@@ -32,9 +32,9 @@ const LoginModal = memo(( { close } : { close : () => void} ) => {
                 />
                 </svg>
             </div>
-           <form className="w-full flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-4" >
                 <div className="relative bg-white rounded">
-                    <span className="absolute font-normal font-mont top-[9px] left-[6px] text-[#2B2B2B]">+91</span>
+                    <span className="absolute font-normal font-mont top-[9px] left-1.5 text-[#2B2B2B]">+91</span>
                     <input
                         type="number"
                         maxLength={10}
