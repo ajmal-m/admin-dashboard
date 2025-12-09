@@ -3,8 +3,68 @@ import PopUp from "../pop-up-drawer";
 import { cn } from "@/lib/utils";
 
 
+const LoginSection = memo(() => {
+    const [data, setData] = useState({ email:"", password:""});
+    const updateData = useCallback((e : React.ChangeEvent<HTMLInputElement>) => {
+        const {name , value} = e.target;
+        setData((prevData) => ({ ...prevData , [name] : value }));
+    },[]);
+
+    const handleLogin = useCallback(( e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(data)
+    },[data])
+    return(
+         <form className="w-full flex flex-col gap-4"  onSubmit={handleLogin} >
+            <div>
+                <label htmlFor="email" className="text-[14px] font-mont font-normal">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                   className="border border-white text-heading text-sm outline-none rounded-base block 
+                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                    placeholder="Enter email address"
+                    required
+                    value={data.email}
+                    onChange={updateData}
+                />
+            </div>
+            <div>
+                <label htmlFor="email" className="text-[14px] font-mont font-normal">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="border border-white text-heading text-sm outline-none rounded-base block 
+                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                    placeholder="Enter password"
+                    required
+                    value={data.password}
+                    onChange={updateData}
+                />
+            </div>
+            <button
+                type="submit"
+                className={cn(`text-black border bg-[white] border-transparent 
+                    hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full
+                    font-mont h-10 flex items-center justify-center
+                ` , data.email && data.password && 'cursor-pointer' )}
+                disabled={!data.email || !data.password}
+            >
+                Continue
+            </button>
+        </form>
+    )
+})
+
+
+
 const LoginModal = memo(( { close } : { close : () => void} ) => {
-    const [phone, setPhone] = useState("");
+    const [data, setData] = useState({
+        email:"",
+        password:''
+    });
     const isValid = useCallback((phone: string) => {
         return /^[6-9]\d{9}$/.test(phone);
     },[])
@@ -32,32 +92,7 @@ const LoginModal = memo(( { close } : { close : () => void} ) => {
                 />
                 </svg>
             </div>
-            <div className="w-full flex flex-col gap-4" >
-                <div className="relative bg-white rounded">
-                    <span className="absolute font-normal font-mont top-[9px] left-1.5 text-[#2B2B2B]">+91</span>
-                    <input
-                        type="number"
-                        maxLength={10}
-                        id="mobile"
-                        name="mobile"
-                        className="border border-white text-heading text-sm outline-none rounded-base block 
-                        w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black pl-9"
-                        placeholder="Enter mobile number"
-                        required
-                        value={phone}
-                        onChange={(e ) => setPhone(e.target.value)}
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className={cn(`text-black border bg-[white] border-transparent 
-                        hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full
-                        font-mont h-10 flex items-center justify-center
-                    ` , isValid(phone) ? "cursor-pointer" : "bg-[#9c9c9c] text-white" )}
-                >
-                    Continue
-                </button>
-           </form>
+            <LoginSection/>
         </div>
     )
 })
