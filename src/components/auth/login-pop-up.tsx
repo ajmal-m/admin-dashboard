@@ -58,21 +58,101 @@ const LoginSection = memo(() => {
     )
 })
 
+const SignUpSection = memo(() => {
+    const [verifyEmail, setVerifyEmail] = useState<boolean>(false);
+    const [data, setData] = useState({
+        email:'',
+        otp:'',
+        password:'',
+        cpassword:''
+    });
+
+    const updateData = useCallback(( e : React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setData((prevData) => ({ ...prevData, [name] : value}))
+    },[])
+    return(
+        <form className="w-full flex flex-col gap-4"   >
+            <div className="flex flex-col gap-1.5">
+                <label htmlFor="email" className="text-[14px] font-mont font-normal">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                   className="border border-white text-heading text-sm outline-none rounded-base block 
+                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                    placeholder="Enter email address"
+                    required
+                    value={data.email}
+                    onChange={updateData}
+                />
+            </div>
+            <div className="flex flex-col gap-1.5">
+                <label htmlFor="otp" className="text-[14px] font-mont font-normal">OTP</label>
+                <input
+                    type="number"
+                    id="otp"
+                    name="otp"
+                   className="border border-white text-heading text-sm outline-none rounded-base block 
+                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                    placeholder="Enter email address"
+                    required
+                    value={data.otp}
+                    onChange={updateData}
+                />
+            </div>
+            <div className="flex flex-col gap-1.5">
+                <label htmlFor="password" className="text-[14px] font-mont font-normal">Password</label>
+                <input
+                    type="password"
+                    id="cpassword"
+                    name="cpassword"
+                    className="border border-white text-heading text-sm outline-none rounded-base block 
+                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                    placeholder="Enter password"
+                    required
+                    value={data.cpassword}
+                    onChange={updateData}
+                />
+            </div>
+            <div className="flex flex-col gap-1.5">
+                <label htmlFor="password" className="text-[14px] font-mont font-normal">Confirm Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="border border-white text-heading text-sm outline-none rounded-base block 
+                    w-full px-3 py-2.5 shadow-xs placeholder:text-body font-mont rounded bg-white text-black"
+                    placeholder="Enter password"
+                    required
+                    value={data.password}
+                    onChange={updateData}
+                />
+            </div>
+            <button
+                type="button"
+                className={cn(`text-black border bg-[white] border-transparent 
+                    hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full
+                    font-mont h-10 flex items-center justify-center
+                ` , data.email && data.password && 'cursor-pointer' )}
+                disabled={!data.email || !data.password}
+            >
+                Create
+            </button>
+        </form>
+    )
+});
+
 
 
 const LoginModal = memo(( { close } : { close : () => void} ) => {
-    const [data, setData] = useState({
-        email:"",
-        password:''
-    });
-    const isValid = useCallback((phone: string) => {
-        return /^[6-9]\d{9}$/.test(phone);
-    },[])
-
+    const [showLogin, setShowLogin] = useState<boolean>(true);
     return(
-        <div className="relative bg-green-800 rounded shadow-sm p-4 md:p-6 font-mont text-white min-w-80 flex flex-col gap-4">
-            <h1 className="text-[16px] text-white font-mont text-center mt-2">Log in or Sign up</h1>
-            <div className="absolute top-2 right-2">
+        <div className="relative bg-green-800 rounded shadow-sm p-4 md:p-6 font-mont text-white flex flex-col gap-4 min-w-[358px]">
+            <h1 className="text-[16px] text-white font-mont text-center mt-2">
+                { showLogin ? "Login Account" : "Sign Up Account"}
+            </h1>
+            <div className="absolute top-2 right-2 cursor-pointer">
                 <svg
                     className="w-5 h-5"
                     aria-hidden="true"
@@ -92,7 +172,32 @@ const LoginModal = memo(( { close } : { close : () => void} ) => {
                 />
                 </svg>
             </div>
-            <LoginSection/>
+            {
+                showLogin ? (<LoginSection/>) : (<SignUpSection/>)
+            }
+            {
+                showLogin ? (
+                    <p className="text-[12px] font-mont text-center">
+                        You don't have an account? 
+                        <span 
+                            className="text-blue-200 underline text-[10px] cursor-pointer ml-1" 
+                            onClick={() => setShowLogin(false)}
+                        >
+                            Create one by clicking here.
+                        </span>
+                    </p>
+                ):(
+                    <p className="text-[12px] font-mont text-center"> 
+                        Already have an account?
+                        <span 
+                            className="text-blue-200 underline text-[10px] cursor-pointer ml-1" 
+                            onClick={() => setShowLogin(true)}
+                        >
+                            Click here to sign in
+                        </span>
+                    </p>
+                )
+            }
         </div>
     )
 })
