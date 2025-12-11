@@ -1,6 +1,6 @@
 import axiosInstance from "../api";
 import { useMutation  } from "@tanstack/react-query";
-import { updateEmail , updateAuth, updateToken } from "@/redux/features/auth";
+import {  updateState } from "@/redux/features/auth";
 import {AxiosError} from 'axios';
 
 type AuthData = {
@@ -29,13 +29,11 @@ export const useAuthSignUp = ( { onSuccess , onError}: {
         },
         onError(error : AxiosError<{ message?:string }>) {
             onError(error?.response?.data?.message??"")
-            updateAuth({ isAuthenticated : false});
+            updateState({ isAuthenticated : false});
         },
         async onSuccess(data) {
             onSuccess();
-            updateAuth({ isAuthenticated : true});
-            updateEmail({ email : data.data?.email ?? ""});
-            updateToken({ token : data.data?.email })
+            updateState({ isAuthenticated : true , email : data?.data?.email ?? '' , token: data?.data?.token ?? ''});
         },
     })
 }
