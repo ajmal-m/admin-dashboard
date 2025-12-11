@@ -119,6 +119,9 @@ const SignUpSection = memo(( { close }: { close : () => void }) => {
         onSuccess:() => {
             setOpenOTP(true);
             toast.success("OTP has been sent to your email. Please enter it below to verify your account");
+        },
+        onError:(msg: string) => {
+            toast.error(msg)
         }
     });
     const otpVerifyMutation = useVerifyOTP({
