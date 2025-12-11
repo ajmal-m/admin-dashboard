@@ -245,7 +245,9 @@ const SignUpSection = memo(() => {
             </div>
             <Button
                 className={
-                    cn("text-black bg-white font-mont hover:text-white" , !openOTP && 'cursor-pointer')
+                    cn(`text-black border bg-[white] border-transparent 
+                    hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full
+                    font-mont h-10 flex items-center justify-center font-normal` , !openOTP && 'cursor-pointer')
                 }
                 disabled={ !emailVerified || !isValidEmail(data.email) || !data.password || data.password !== data.cpassword }  
             >
