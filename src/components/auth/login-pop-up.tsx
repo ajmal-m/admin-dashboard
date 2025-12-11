@@ -9,13 +9,19 @@ import {  toast } from 'react-toastify';
 import { useAuthSignUp } from "@/api/auth/sign-up";
 import { Oval } from "react-loader-spinner";
 import { useAuthLogIn } from "@/api/auth/log-in";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { closeLogInPopUp, openLogInPopUp } from "@/redux/features/popup";
 
 
-const LoginSection = memo(() => {
+const LoginSection = memo((
+    { close }: { close : () => void}
+) => {
     const [data, setData] = useState({ email:"", password:""});
     const loginMutation = useAuthLogIn({
         onSuccess:() => {
             toast.success("Logged successfully.");
+            close();
         },
         onError:(msg: string) => {
             toast.error(msg);
@@ -89,13 +95,14 @@ const LoginSection = memo(() => {
     )
 })
 
-const SignUpSection = memo(() => {
+const SignUpSection = memo(( { close }: { close : () => void }) => {
 
     const [ openOTP, setOpenOTP] = useState<boolean>(false);
     const [ emailVerified, setEmailVerified] = useState<boolean>(false);
     const authSignUpMutation = useAuthSignUp({
         onSuccess:() => {
-            toast.success("Sign up successfully.")
+            toast.success("Sign up successfully.");
+            close();
         },
         onError:(message: string) => {
             toast.error(message);
@@ -300,7 +307,7 @@ const LoginModal = memo(( { close } : { close : () => void} ) => {
                 </svg>
             </div>
             {
-                showLogin ? (<LoginSection/>) : (<SignUpSection/>)
+                showLogin ? (<LoginSection  close={close}/>) : (<SignUpSection  close={close}/>)
             }
             {
                 showLogin ? (
@@ -332,17 +339,17 @@ const LoginModal = memo(( { close } : { close : () => void} ) => {
 
 
 const LoginPopup  = memo(() => {
-    const [isOpen, setIsOpen] = useState(false);
+    const {logInPopUp } = useSelector((store: RootState) => store.popup);
+    const dispatch = useDispatch<AppDispatch>();
     return(
         <>
-        <p className="text-[16px] text-black font-mont font-medium cursor-pointer" onClick={() => setIsOpen(true)}>Login</p>
         <PopUp
             model={(close) => (
                <LoginModal close={close}/>
             )}
             keyProp={'login-number'}
-            isOpen={isOpen}
-            handleClose={() => setIsOpen(false)}
+            isOpen={logInPopUp}
+            handleClose={() => dispatch(closeLogInPopUp())}
         />
         </>
     )

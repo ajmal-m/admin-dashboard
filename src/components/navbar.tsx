@@ -1,8 +1,38 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import Logo from '../assets/Grocery_Logo 1.svg';
 import CartContainer from "./cart-container";
 import { Link } from "react-router";
-import LoginPopup from "./auth/login-pop-up";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { openLogInPopUp } from "@/redux/features/popup";
+
+
+const LoginButton = () => {
+    const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
+    const email = useSelector((store: RootState) => store.auth.email);
+
+    const dispatch = useDispatch<AppDispatch>();
+    useEffect(() => {
+        console.log("Authentication update" , isAuthenticated)
+    },[isAuthenticated])
+    return(
+        <>
+        {
+            isAuthenticated ? (
+            <Button className={cn("px-2 py-1 rounded")}>
+                {email}
+            </Button>
+            ):(
+            <Button className={cn("px-2 py-1 rounded")}  onClick={() => dispatch(openLogInPopUp())}>
+                Login {email ? "Email@gmail.com" : 'user@admin.com'}
+            </Button>   
+            )
+        }
+        </>
+    )
+}
 
 
 
@@ -15,7 +45,7 @@ const Navbar = memo(() => {
        >
             <Link to={'/'}><img src={Logo} alt="web-app-logo" className="max-[400px]:w-12 max-[400px]:h-12" loading="lazy"/></Link>
            <div className="flex items-center gap-4">
-                <LoginPopup/>
+                <LoginButton/>
                 <CartContainer/>
            </div>
        </nav>

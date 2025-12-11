@@ -3,6 +3,7 @@ import Navbar from "../components/navbar";
 import { Outlet } from "react-router";
 import Footer from "@/components/footer";
 import ScrollToTop from "@/utils/scrollTop";
+import LoginPopup from "@/components/auth/login-pop-up";
 
 const MainLayout = memo(() => {
     return(
@@ -11,6 +12,7 @@ const MainLayout = memo(() => {
             <Navbar/>
             <Outlet/>
             <Footer/>
+            <LoginPopup/>
         </>
     )
 });

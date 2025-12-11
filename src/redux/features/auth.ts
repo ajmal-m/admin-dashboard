@@ -17,16 +17,19 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     updateEmail: (state , action : PayloadAction<{ email: string}> ) => {
-       state.email = action.payload.email;
+      return { ...state, email: action.payload.email };
     },
     updateToken: (state , action : PayloadAction<{ token: string}> ) => {
-       state.token = action.payload.token;
+       return { ...state, token: action.payload.token}
     },
     updateAuth: (state , action : PayloadAction<{ isAuthenticated: boolean}> ) => {
-       state.isAuthenticated = action.payload.isAuthenticated;
+       return {...state, isAuthenticated : action.payload.isAuthenticated };
     },
+    updateState: (state, action : PayloadAction<{ email?:string; token?: string; isAuthenticated?:boolean }> ) => {
+      return { ...state, ...action.payload};
+    }
   },
 });
 
-export const { updateEmail  , updateAuth, updateToken } = authSlice.actions;
+export const { updateEmail  , updateAuth, updateToken , updateState } = authSlice.actions;
 export default authSlice.reducer;

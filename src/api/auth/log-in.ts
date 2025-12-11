@@ -1,7 +1,9 @@
 import axiosInstance from "../api";
 import { useMutation  } from "@tanstack/react-query";
-import { updateEmail , updateAuth, updateToken } from "@/redux/features/auth";
+import {   updateState } from "@/redux/features/auth";
 import {AxiosError} from 'axios';
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/redux/store";
 
 type AuthData = {
     email: string;
@@ -23,19 +25,19 @@ export const useAuthLogIn = ( { onSuccess , onError}: {
     onSuccess: () => void,
     onError: (message: string) => void
 }) => {
+    const dispatch = useDispatch<AppDispatch>();
     return useMutation({
         mutationFn: (data : AuthData ) => {
             return logIn(data);
         },
         onError(error : AxiosError<{ message?:string }>) {
-            onError(error?.response?.data?.message??"")
-            updateAuth({ isAuthenticated : false});
+            onError(error?.response?.data?.message??"");
+            dispatch(updateState({ isAuthenticated : false}));
         },
         async onSuccess(data) {
             onSuccess();
-            updateAuth({ isAuthenticated : true});
-            updateEmail({ email : data.data?.email ?? ""});
-            updateToken({ token : data.data?.email })
+            dispatch(updateState({ isAuthenticated : true , email: data.data?.email ?? '', token: data.data?.token??'' }))
+            console.log("STate are updates.")
         },
     })
 }
