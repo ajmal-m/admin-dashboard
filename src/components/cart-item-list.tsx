@@ -1,4 +1,5 @@
 import { updateCart } from "@/redux/features/cartSlice";
+import { openLogInPopUp } from "@/redux/features/popup";
 import type { AppDispatch, RootState } from "@/redux/store";
 import type { cartProducts, productQuantity } from "@/type/type";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
@@ -113,14 +114,28 @@ const BillingDetails = memo(( ) => {
 
 
 const ProceedOrderButton = memo(() => {
+  const isLogged = useSelector((store: RootState) => store.auth.isAuthenticated);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleCheckOut = useCallback(() => {
+    if(!isLogged){
+      dispatch(openLogInPopUp());
+    }
+  },[isLogged]);
+
   return(
     <button className="
       w-full min-h-10 bg-white mt-3 rounded 
-      transition-all duration-300 ease-in hover:bg-green-600
+    hover:bg-green-600
       cursor-pointer hover:text-white font-mont font-medium
     "
+    onClick={handleCheckOut}
     >
-      <p>Proceed</p>
+      {
+        isLogged ? ("Continue") : (
+          "Login & Proceed"
+        )
+      }
     </button>
   )
 })

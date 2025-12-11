@@ -36,7 +36,7 @@ export const useAuthSignUp = ( { onSuccess , onError}: {
         },
         async onSuccess(data) {
             onSuccess(data?.data?.token ?? '');
-            dispatch( updateState({ isAuthenticated : true , email : data?.data?.email ?? '' , token: data?.data?.token ?? ''}));
+            dispatch( updateState({ isAuthenticated : true , email : data?.data?.email ?? '' , token: data?.data?.token ?? '' , id: data?.data?.id ??''}));
         },
     })
 }

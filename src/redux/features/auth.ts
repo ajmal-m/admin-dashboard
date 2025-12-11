@@ -4,12 +4,14 @@ type StateType = {
     email: string;
     token:string;
     isAuthenticated:boolean;
+    id:string;
 }
 
 const initialState : StateType = {
     email:'',
     token:"",
-    isAuthenticated:false
+    isAuthenticated:false,
+    id:"",
 }
 
 const authSlice = createSlice({
@@ -25,7 +27,7 @@ const authSlice = createSlice({
     updateAuth: (state , action : PayloadAction<{ isAuthenticated: boolean}> ) => {
        return {...state, isAuthenticated : action.payload.isAuthenticated };
     },
-    updateState: (state, action : PayloadAction<{ email?:string; token?: string; isAuthenticated?:boolean }> ) => {
+    updateState: (state, action : PayloadAction<{ email?:string; token?: string; isAuthenticated?:boolean ; id?: string; }> ) => {
       return { ...state, ...action.payload};
     },
     

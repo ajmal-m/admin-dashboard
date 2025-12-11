@@ -19,7 +19,7 @@ const LoginButton = () => {
     const dispatch = useDispatch<AppDispatch>();
     const handleLogOut = useCallback(() => {
         localStorage.removeItem("token");
-        dispatch(updateState({ isAuthenticated: false, email:"" , token:"" }))
+        dispatch(updateState({ isAuthenticated: false, email:"" , token:"" , id:"" }))
     },[])
     return(
         <>

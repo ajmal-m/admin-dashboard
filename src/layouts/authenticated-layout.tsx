@@ -10,7 +10,9 @@ const AuthenticatedLayout =  memo( () => {
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         if(verifyUserAuth.data && !verifyUserAuth.isLoading){
-            dispatch(updateState({ email : verifyUserAuth.data.data.data.email ?? "User", isAuthenticated:true}))
+            dispatch(updateState({ email : verifyUserAuth.data.data.data.email ?? "User", isAuthenticated:true ,
+                id : verifyUserAuth.data?.data?.data?.id ??"" 
+            }))
         }
     }, [verifyUserAuth])
     return <Outlet/>;
