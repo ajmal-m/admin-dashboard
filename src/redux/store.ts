@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from './features/cartSlice';
 import authReducer from './features/auth';
 import popupReducer from './features/popup';
+import addressReducer from './features/address';
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     auth: authReducer,
-    popup: popupReducer
+    popup: popupReducer,
+    address: addressReducer
   },
 });
 

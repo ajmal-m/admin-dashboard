@@ -6,6 +6,7 @@ import { closeCheckOutPopUp } from "@/redux/features/popup";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { indianStates } from "@/const/indian-states";
+import { updateAddress } from "@/redux/features/address";
 
 const steps = [
     "Shipping Address",
@@ -17,6 +18,12 @@ const steps = [
 
 
 const ShippingAddressForm = memo(() => {
+    const dispatch = useDispatch<AppDispatch>();
+    const address = useSelector((store: RootState) => store.address);
+    const handleChange = useCallback(( e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { value , name} = e.target;
+        dispatch(updateAddress({ name , value}));
+    },[])
     return(
         <>
         <form >
@@ -33,64 +40,76 @@ const ShippingAddressForm = memo(() => {
                             rounded bg-white text-black
                         " 
                         placeholder="Enter name"
+                        onChange={handleChange}
+                        value={address.name}
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="name" className="text-[12px] font-mont font-normal">Mobile Number</label>
+                    <label htmlFor="mobile" className="text-[12px] font-mont font-normal">Mobile Number</label>
                     <input 
-                        type="text" 
-                        name="name" id="name"   
+                        type="number"
+                        maxLength={10} 
+                        name="mobile" id="mobile"   
                         className="
                             border border-white text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
                         " 
                         placeholder="Enter mobile number"
+                        onChange={handleChange}
+                         value={address.mobile}
                     />
                 </div>
                  <div className="flex flex-col gap-1">
-                    <label htmlFor="name" className="text-[12px] font-mont font-normal">Pin Code</label>
+                    <label htmlFor="pincode" className="text-[12px] font-mont font-normal">Pin Code</label>
                     <input 
-                        type="text" 
-                        name="name" id="name"   
+                        type="number" 
+                        name="pincode" id="pincode"   
                         className="
                             border border-white text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
                         " 
                         placeholder="Enter pin  code"
+                        onChange={handleChange}
+                        value={address.pincode}
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="name" className="text-[12px] font-mont font-normal">Locality</label>
+                    <label htmlFor="locality" className="text-[12px] font-mont font-normal">Locality</label>
                     <input 
                         type="text" 
-                        name="name" id="name"   
+                        name="locality" id="locality"   
                         className="
                             border border-white text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
                         " 
-                        placeholder="Enter pin  code"
+                        placeholder="Enter locality"
+                        onChange={handleChange}
+                        value={address.locality}
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="name" className="text-[12px] font-mont font-normal">City / District / Town</label>
+                    <label htmlFor="city" className="text-[12px] font-mont font-normal">City / District / Town</label>
                     <input 
                         type="text" 
-                        name="name" id="name"   
+                        name="city" id="city"   
                         className="
                             border border-white text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
                         " 
-                        placeholder="Enter pin  code"
+                        placeholder="Enter city / District / Town"
+                        onChange={handleChange}
+                        value={address.city}
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="name" className="text-[12px] font-mont font-normal">State</label>
+                    <label htmlFor="state" className="text-[12px] font-mont font-normal">State</label>
                     <select
                         name="state" id="state"
                         className="
                             border border-white text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
                         " 
+                        value={address.state}
                     >
                         {
                             indianStates.map((state) => (
@@ -105,13 +124,15 @@ const ShippingAddressForm = memo(() => {
                 <div className="flex flex-col gap-1">
                      <label htmlFor="address" className="text-[12px] font-mont font-normal">Address ( street / Area )</label>
                     <textarea 
-                    placeholder="Write about steet or area"
+                        placeholder="Write about steet or area"
                         name="address" id="address"  
                         className="
                             border border-white text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont 
                             rounded bg-white text-black
-                            " 
+                            "
+                        onChange={handleChange}
+                        value={address.address}
                     ></textarea>
                 </div>
             </div>
@@ -137,7 +158,7 @@ const OrderSummary = memo(() => {
     return(
         <div className="flex flex-col gap-4 self-start">
             <p className="text-[14px] text-white font-medium font-mont">Order Summary</p>
-            
+
         </div>
     )
 })
@@ -167,7 +188,7 @@ const CheckOutModal = memo((
     },[])
     return(
         <div className="min-w-200 min-h-100 bg-green-800 rounded p-6 max-w-200 h-full relative text-white">
-            <button className="text-[14px] font-mont font-medium text-white absolute top-6 right-6">
+            <button className="text-[14px] font-mont font-medium text-white absolute top-6 right-6 cursor-pointer">
                  <svg
                     className="w-5 h-5"
                     aria-hidden="true"
