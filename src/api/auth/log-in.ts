@@ -22,7 +22,7 @@ export const logIn = async(data : AuthData ) => {
 
 
 export const useAuthLogIn = ( { onSuccess , onError}: {
-    onSuccess: () => void,
+    onSuccess: ( token: string) => void,
     onError: (message: string) => void
 }) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -35,7 +35,7 @@ export const useAuthLogIn = ( { onSuccess , onError}: {
             dispatch(updateState({ isAuthenticated : false}));
         },
         async onSuccess(data) {
-            onSuccess();
+            onSuccess(data?.data?.token ?? '');
             dispatch(updateState({ isAuthenticated : true , email: data.data?.email ?? '', token: data.data?.token??'' }))
             console.log("STate are updates.")
         },

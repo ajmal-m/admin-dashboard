@@ -11,7 +11,7 @@ import { Oval } from "react-loader-spinner";
 import { useAuthLogIn } from "@/api/auth/log-in";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { closeLogInPopUp, openLogInPopUp } from "@/redux/features/popup";
+import { closeLogInPopUp } from "@/redux/features/popup";
 
 
 const LoginSection = memo((
@@ -19,8 +19,9 @@ const LoginSection = memo((
 ) => {
     const [data, setData] = useState({ email:"", password:""});
     const loginMutation = useAuthLogIn({
-        onSuccess:() => {
+        onSuccess:(token : string) => {
             toast.success("Logged successfully.");
+            localStorage.setItem("token", JSON.stringify(token));
             close();
         },
         onError:(msg: string) => {
@@ -100,8 +101,9 @@ const SignUpSection = memo(( { close }: { close : () => void }) => {
     const [ openOTP, setOpenOTP] = useState<boolean>(false);
     const [ emailVerified, setEmailVerified] = useState<boolean>(false);
     const authSignUpMutation = useAuthSignUp({
-        onSuccess:() => {
+        onSuccess:(token : string) => {
             toast.success("Sign up successfully.");
+            localStorage.setItem("token", JSON.stringify(token) );
             close();
         },
         onError:(message: string) => {
