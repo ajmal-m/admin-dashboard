@@ -16,62 +16,70 @@ const AdminPage = lazy(() => import('../pages/admin/admin-home'));
 const AdminProducts = lazy(() => import('../pages/admin/admin-products'));
 const AdminCategories = lazy(() => import('../pages/admin/admin-category'));
 
+import AuthenticatedLayout from "@/layouts/authenticated-layout";
+
 
 
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        Component:MainLayout,
+        path:'/',
+        Component : AuthenticatedLayout,
         children:[
             {
-                index:true,
-                Component:HomePage
+                path:'/',
+                Component: MainLayout,
+                children:[
+                    {
+                        index:true,
+                        Component:HomePage
+                    },
+                     {
+                        path:"about",
+                        Component: AboutPage
+                    },
+                    {
+                        path: 'products' ,
+                        Component:ProductPage
+                    },
+                    {
+                        path:"contact",
+                        Component:ContactPage
+                    },
+                    {
+                        path:"service",
+                        Component:ServicePage
+                    },
+                    {
+                        path:"/pd/:pId",
+                        Component:ProductDetailPage
+                    },
+                    {
+                        path:"/cd/:cn/:cId",
+                        Component: ProductByCategoryPage
+                    }
+                ]
             },
             {
-                path:"about",
-                Component: AboutPage
-            },
-            {
-                path: 'products' ,
-                Component:ProductPage
-            },
-            {
-                path:"contact",
-                Component:ContactPage
-            },
-            {
-                path:"service",
-                Component:ServicePage
-            },
-            {
-                path:"/pd/:pId",
-                Component:ProductDetailPage
-            },
-            {
-                path:"/cd/:cn/:cId",
-                Component: ProductByCategoryPage
+                path:"/admin",
+                Component:AdminLayout,
+                children:[
+                    {
+                        index:true,
+                        Component:AdminPage
+                    },
+                    {
+                        path:"categories",
+                        Component:AdminCategories
+                    },
+                    {
+                        path:'products',
+                        Component:AdminProducts
+                    }
+                ]
             }
         ]
     },
-    {
-        path:"/admin",
-        Component:AdminLayout,
-        children:[
-            {
-                index:true,
-                Component:AdminPage
-            },
-            {
-                path:"categories",
-                Component:AdminCategories
-            },
-            {
-                path:'products',
-                Component:AdminProducts
-            }
-        ]
-    }
 ]);
 
 export default router;
