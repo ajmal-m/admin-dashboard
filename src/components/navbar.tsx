@@ -21,12 +21,14 @@ const LoginButton = () => {
         <>
         {
             isAuthenticated ? (
-            <Button className={cn("px-2 py-1 rounded")}>
-                {email}
+            <Button className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                self-end px-3 cursor-pointer capitalize`)}>
+                {email.split("@")?.[0] ?? email }
             </Button>
             ):(
-            <Button className={cn("px-2 py-1 rounded")}  onClick={() => dispatch(openLogInPopUp())}>
-                Login {email ? "Email@gmail.com" : 'user@admin.com'}
+            <Button className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                    self-end px-3 cursor-pointer capitalize`)}  onClick={() => dispatch(openLogInPopUp())}>
+                Login
             </Button>   
             )
         }
