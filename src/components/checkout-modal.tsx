@@ -155,10 +155,29 @@ const PaymentMethods = memo(() => {
 });
 
 const OrderSummary = memo(() => {
+    const address = useSelector((state : RootState) => state.address);
     return(
         <div className="flex flex-col gap-4 self-start">
             <p className="text-[14px] text-white font-medium font-mont">Order Summary</p>
-
+            <div className="grid grid-cols-2 gap-y-4">
+                <p className="text-[12px] text-white font-mont font-normal">Name : {address.name}</p>
+                <p className="text-[12px] text-white font-mont">
+                    Mobile Number : +91 {address.mobile.toString().slice(0,3)} - {address.mobile.toString().slice(3,6)} - {address.mobile.toString().slice(6,10)}
+                </p>
+                <p className="text-[12px] text-white font-mont font-normal">Locality : {address.locality}</p>
+                <p className="text-[12px] text-white font-mont font-normal">City : {address.city}</p>
+                <p className="text-[12px] text-white font-mont font-normal">State : {address.state}</p>
+                <p className="text-[12px] text-white font-mont font-normal">Address : {address.address}</p> 
+            </div>
+            <div className="grid grid-cols-2 gap-4 pr-2">
+                {/* Product */}
+                {
+                    new Array(20).fill(5).map((_,i) => (
+                        <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center justify-between">
+                        </div>
+                    ))
+                }
+            </div>
         </div>
     )
 })
