@@ -113,7 +113,7 @@ const BillingDetails = memo(( ) => {
 })
 
 
-const ProceedOrderButton = memo(() => {
+const ProceedOrderButton = memo(({ close }: { close : () => void}) => {
   const isLogged = useSelector((store: RootState) => store.auth.isAuthenticated);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -122,6 +122,7 @@ const ProceedOrderButton = memo(() => {
       dispatch(openLogInPopUp());
       return
     }
+    close();
     dispatch(openCheckOutPopUp());
   },[isLogged]);
 
@@ -194,7 +195,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, width = "w-96" }) => {
         </div>
         <CartItemList/>
         <BillingDetails/>
-        <ProceedOrderButton/>
+        <ProceedOrderButton close={onClose}/>
       </div>
     </>
   );
