@@ -6,10 +6,21 @@ import { isValidEmail } from "@/utils/utils";
 import { useSendOTPtoEmail } from "@/api/otp/send-otp";
 import { useVerifyOTP } from "@/api/otp/verify-otp";
 import {  toast } from 'react-toastify';
+import { useAuthSignUp } from "@/api/auth/sign-up";
+import { Oval } from "react-loader-spinner";
+import { useAuthLogIn } from "@/api/auth/log-in";
 
 
 const LoginSection = memo(() => {
     const [data, setData] = useState({ email:"", password:""});
+    const loginMutation = useAuthLogIn({
+        onSuccess:() => {
+            toast.success("Logged successfully.");
+        },
+        onError:(msg: string) => {
+            toast.error(msg);
+        }
+    })
     const updateData = useCallback((e : React.ChangeEvent<HTMLInputElement>) => {
         const {name , value} = e.target;
         setData((prevData) => ({ ...prevData , [name] : value }));
@@ -17,7 +28,7 @@ const LoginSection = memo(() => {
 
     const handleLogin = useCallback(( e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(data)
+        loginMutation.mutate(data);
     },[data])
     return(
          <form className="w-full flex flex-col gap-4"  onSubmit={handleLogin} >
@@ -57,7 +68,22 @@ const LoginSection = memo(() => {
                 ` , data.email && data.password && 'cursor-pointer' )}
                 disabled={!data.email || !data.password}
             >
-                Continue
+                {
+                    loginMutation.isPending ? (
+                        <div className="w-full flex items-center justify-center">
+                            <Oval
+                                visible={true}
+                                height="20"
+                                width="20"
+                                color="#4fa94d"
+                                strokeWidth='5'
+                                animationDuration='0.5'
+                            />
+                        </div>
+                    ):(
+                        "LogIn"
+                    )
+                }
             </button>
         </form>
     )
@@ -67,6 +93,14 @@ const SignUpSection = memo(() => {
 
     const [ openOTP, setOpenOTP] = useState<boolean>(false);
     const [ emailVerified, setEmailVerified] = useState<boolean>(false);
+    const authSignUpMutation = useAuthSignUp({
+        onSuccess:() => {
+            toast.success("Sign up successfully.")
+        },
+        onError:(message: string) => {
+            toast.error(message);
+        }
+    });
     const [data, setData] = useState({
         email:'',
         otp:'',
@@ -110,10 +144,10 @@ const SignUpSection = memo(() => {
 
     const handleSignUp = useCallback((e : React.FormEvent) => {
         e.preventDefault();
-        console.log(data);
-    },[])
+        authSignUpMutation.mutate(data);
+    },[data])
     return(
-        <form className="w-full flex flex-col gap-4" onSubmit={handleSignUp}   >
+        <form className="w-full flex flex-col gap-4" onSubmit={handleSignUp} >
             <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" className="text-[14px] font-mont font-normal">Email</label>
                 <div className="bg-white rounded relative">
@@ -214,7 +248,22 @@ const SignUpSection = memo(() => {
                     cn("text-black bg-white font-mont hover:text-white" , !openOTP && 'cursor-pointer')
                 }
                 disabled={ !emailVerified || !isValidEmail(data.email) || !data.password || data.password !== data.cpassword }  
-            >Login</Button>
+            >
+                {
+                    authSignUpMutation.isPending ? (
+                        <div className="w-full flex items-center justify-center">
+                            <Oval
+                                visible={true}
+                                height="20"
+                                width="20"
+                                color="#4fa94d"
+                                strokeWidth='5'
+                                animationDuration='0.5'
+                            />
+                        </div>
+                    ) : ('Create')
+                }
+            </Button>
         </form>
     )
 });
