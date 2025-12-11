@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type StateType = {
     logInPopUp:boolean;
+    checkOutPopUp:boolean;
 }
 
 const initialState : StateType = {
-    logInPopUp: false
+    logInPopUp: false,
+    checkOutPopUp:false
 }
 
 const popUpSlice = createSlice({
@@ -13,13 +15,19 @@ const popUpSlice = createSlice({
   initialState,
   reducers: {
     openLogInPopUp: (state   ) => {
-       state.logInPopUp = true;
+      state.logInPopUp = true;
     },
     closeLogInPopUp:(state  ) => {
-       state.logInPopUp = false;
+      state.logInPopUp = false;
+    },
+    openCheckOutPopUp:(state  ) => {
+      state.checkOutPopUp = true;
+    },
+    closeCheckOutPopUp:(state  ) => {
+       state.checkOutPopUp = false;
     },
   },
 });
 
-export const { openLogInPopUp, closeLogInPopUp   } = popUpSlice.actions;
+export const { openLogInPopUp, closeLogInPopUp   , openCheckOutPopUp, closeCheckOutPopUp } = popUpSlice.actions;
 export default popUpSlice.reducer;

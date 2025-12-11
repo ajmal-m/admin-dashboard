@@ -1,5 +1,5 @@
 import { updateCart } from "@/redux/features/cartSlice";
-import { openLogInPopUp } from "@/redux/features/popup";
+import { openCheckOutPopUp, openLogInPopUp } from "@/redux/features/popup";
 import type { AppDispatch, RootState } from "@/redux/store";
 import type { cartProducts, productQuantity } from "@/type/type";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
@@ -120,7 +120,9 @@ const ProceedOrderButton = memo(() => {
   const handleCheckOut = useCallback(() => {
     if(!isLogged){
       dispatch(openLogInPopUp());
+      return
     }
+    dispatch(openCheckOutPopUp());
   },[isLogged]);
 
   return(
