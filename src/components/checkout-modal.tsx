@@ -131,6 +131,15 @@ const PaymentMethods = memo(() => {
             <p className="text-blue-900 bg-white rounded-full text-center px-2 py-1 max-w-50 text-[12px]">More option will come</p>
         </div>
     )
+});
+
+const OrderSummary = memo(() => {
+    return(
+        <div className="flex flex-col gap-4 self-start">
+            <p className="text-[14px] text-white font-medium font-mont">Order Summary</p>
+            
+        </div>
+    )
 })
 
 
@@ -157,7 +166,7 @@ const CheckOutModal = memo((
         })
     },[])
     return(
-        <div className="min-w-200 min-h-100 bg-green-800 rounded p-6 w-full h-full relative text-white">
+        <div className="min-w-200 min-h-100 bg-green-800 rounded p-6 max-w-200 h-full relative text-white">
             <button className="text-[14px] font-mont font-medium text-white absolute top-6 right-6">
                  <svg
                     className="w-5 h-5"
@@ -186,11 +195,10 @@ const CheckOutModal = memo((
                 />
             </div>
           
-            <div className="mt-6" >
+            <div className="mt-6 overflow-y-auto max-h-125" >
                 { step === 0 && <ShippingAddressForm/> }
                 { step === 1 && <PaymentMethods/> }
-                { step === 2 && <div>Step 3</div> }
-                { step === 3 && <div>Step 4</div> }
+                { step === 2 && <OrderSummary/>}
 
             </div>
             <div className="w-full flex justify-between mt-3">
