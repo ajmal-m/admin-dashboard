@@ -27,7 +27,8 @@ const authSlice = createSlice({
     },
     updateState: (state, action : PayloadAction<{ email?:string; token?: string; isAuthenticated?:boolean }> ) => {
       return { ...state, ...action.payload};
-    }
+    },
+    
   },
 });
 

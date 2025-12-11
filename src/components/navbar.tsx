@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import Logo from '../assets/Grocery_Logo 1.svg';
 import CartContainer from "./cart-container";
 import { Link } from "react-router";
@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import { openLogInPopUp } from "@/redux/features/popup";
+import { DropdownMenu, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
+import { updateState } from "@/redux/features/auth";
 
 
 const LoginButton = () => {
@@ -14,22 +17,38 @@ const LoginButton = () => {
     const email = useSelector((store: RootState) => store.auth.email);
 
     const dispatch = useDispatch<AppDispatch>();
-    useEffect(() => {
-        console.log("Authentication update" , isAuthenticated)
-    },[isAuthenticated])
+    const handleLogOut = useCallback(() => {
+        localStorage.removeItem("token");
+        dispatch(updateState({ isAuthenticated: false, email:"" , token:"" }))
+    },[])
     return(
         <>
         {
             isAuthenticated ? (
-            <Button className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
-                self-end px-3 cursor-pointer capitalize`)}>
-                {email.split("@")?.[0] ?? email }
-            </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <Button 
+                            className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                            self-end px-3 cursor-pointer capitalize`)}
+                        >
+                            {email.split("@")?.[0] ?? email }
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-full">
+                        <Button
+                            className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                            self-end px-3 cursor-pointer capitalize w-full`)}
+                            onClick={handleLogOut}
+                        >
+                            Logout
+                        </Button>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             ):(
-            <Button className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
-                    self-end px-3 cursor-pointer capitalize`)}  onClick={() => dispatch(openLogInPopUp())}>
-                Login
-            </Button>   
+                <Button className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                        self-end px-3 cursor-pointer capitalize`)}  onClick={() => dispatch(openLogInPopUp())}>
+                    Login
+                </Button>   
             )
         }
         </>
