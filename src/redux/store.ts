@@ -3,13 +3,15 @@ import cartReducer from './features/cartSlice';
 import authReducer from './features/auth';
 import popupReducer from './features/popup';
 import addressReducer from './features/address';
+import paymentReducer from './features/payment';
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     auth: authReducer,
     popup: popupReducer,
-    address: addressReducer
+    address: addressReducer,
+    payment:paymentReducer
   },
 });
 
