@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import ScrollToTop from "@/utils/scrollTop";
 import LoginPopup from "@/components/auth/login-pop-up";
 import CheckOutPopUp from "@/components/checkout-modal";
+import OrderModal from "@/components/order/order-modal";
 
 const MainLayout = memo(() => {
     return(
@@ -16,6 +17,7 @@ const MainLayout = memo(() => {
             {/* PopUps */}
             <LoginPopup/>
             <CheckOutPopUp/>
+            <OrderModal/>
         </>
     )
 });

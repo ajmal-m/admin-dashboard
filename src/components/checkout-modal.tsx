@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import PopUp from "./pop-up-drawer";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/redux/store";
-import { closeCheckOutPopUp } from "@/redux/features/popup";
+import { closeCheckOutPopUp, openOrderSuccessPopUp } from "@/redux/features/popup";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { indianStates } from "@/const/indian-states";
@@ -273,8 +273,17 @@ const PlaceOrderButton = memo(() => {
     const address = useSelector((state : RootState) => state.address);
     const userId = useSelector((state : RootState  ) => state.auth.id);
     const paymentMethod = useSelector((state : RootState) => state.payment.paymentMethod);
-    const createOrderMutation = useCreateOrder();
     const dispatch = useDispatch<AppDispatch>();
+    const createOrderMutation = useCreateOrder({
+        onSuccess:() => {
+            dispatch(closeCheckOutPopUp());
+            dispatch(clearCart());
+            setTimeout(() => {
+            
+                 dispatch(openOrderSuccessPopUp());
+            }, 500);
+        }
+    });
 
     const placeOrder = useCallback(( ) => {
         try {
@@ -305,9 +314,6 @@ const PlaceOrderButton = memo(() => {
                 orderStatus:"PLACED"
             }
             createOrderMutation.mutate(newOrder);
-            dispatch(closeCheckOutPopUp());
-            dispatch(clearCart());
-            toast.success("Order created successfully.")
         } catch (error) {
             console.log(error);
         }

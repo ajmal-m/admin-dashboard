@@ -16,7 +16,11 @@ export const createOrder = async(data : Order) => {
 }
 
 
-export const useCreateOrder = () => {
+export const useCreateOrder = ({
+    onSuccess
+}: {
+    onSuccess: () => void
+}) => {
     return useMutation({
         mutationFn: (data : Order ) => {
             return createOrder(data);
@@ -25,7 +29,7 @@ export const useCreateOrder = () => {
             console.log(error)
         },
         async onSuccess(data) {
-            console.log(data);
+            onSuccess();
         },
     })
 }
