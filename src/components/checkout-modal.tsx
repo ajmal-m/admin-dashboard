@@ -12,6 +12,8 @@ import { CURRENCY, DELIVERY_CHARGE } from "@/utils/utils";
 import { useCreateOrder } from "@/api/order/create-order";
 import type { OrderAddress, OrderPayment, PaymentMethods } from "@/type/type";
 import { Oval } from "react-loader-spinner";
+import { clearCart } from "@/redux/features/cartSlice";
+import { toast } from "react-toastify";
 
 const steps = [
     "Shipping Address",
@@ -272,42 +274,43 @@ const PlaceOrderButton = memo(() => {
     const userId = useSelector((state : RootState  ) => state.auth.id);
     const paymentMethod = useSelector((state : RootState) => state.payment.paymentMethod);
     const createOrderMutation = useCreateOrder();
+    const dispatch = useDispatch<AppDispatch>();
 
     const placeOrder = useCallback(( ) => {
+        try {
+            const orderItems = Object.keys(productQuantity).map((pId) => {
+                return {
+                    productId: pId,
+                    name: cartProducts[pId].name,
+                    price:cartProducts[pId].price ,
+                    quantity: productQuantity[pId],
+                    subTotal: Math.round(productQuantity[pId] * cartProducts[pId].price) ,
+                }
+            });
+            const totalPrice = orderItems.reduce((sum, item) => ( sum + item.subTotal ),0) + DELIVERY_CHARGE;
+            const payment : OrderPayment = {
+                method: paymentMethod as PaymentMethods,
+                status:"PENDING",
+                paidAmount: totalPrice,
+                currency : CURRENCY
+            };
 
-        const orderItems = Object.keys(productQuantity).map((pId) => {
-            return {
-                productId: pId,
-                name: cartProducts[pId].name,
-                price:cartProducts[pId].price ,
-                quantity: productQuantity[pId],
-                subTotal: Math.round(productQuantity[pId] * cartProducts[pId].price) ,
+
+            const newOrder = {
+                userId,
+                items: orderItems,
+                shippingAddress: address as OrderAddress,
+                payment,
+                grandTotal:totalPrice as number,
+                orderStatus:"PLACED"
             }
-        });
-        const totalPrice = orderItems.reduce((sum, item) => ( sum + item.subTotal ),0) + DELIVERY_CHARGE;
-        const payment : OrderPayment = {
-            method: paymentMethod as PaymentMethods,
-            status:"PENDING",
-            paidAmount: totalPrice,
-            currency : CURRENCY
-        };
-
-
-        const newOrder = {
-            userId,
-            items: orderItems,
-            shippingAddress: address as OrderAddress,
-            payment,
-            grandTotal:totalPrice as number,
-            orderStatus:"PLACED"
+            createOrderMutation.mutate(newOrder);
+            dispatch(closeCheckOutPopUp());
+            dispatch(clearCart());
+            toast.success("Order created successfully.")
+        } catch (error) {
+            console.log(error);
         }
-
-        /* 
-        
-            API CAll AND Create a new ORDER
-        */
-        createOrderMutation.mutate(newOrder);
-        console.log("Order placed successfully ", newOrder)
     },[]);
 
     return(
