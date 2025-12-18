@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { indianStates } from "@/const/indian-states";
 import { updateAddress } from "@/redux/features/address";
 import { updatePaymentMethod } from "@/redux/features/payment";
+import { CURRENCY, DELIVERY_CHARGE } from "@/utils/utils";
 
 const steps = [
     "Shipping Address",
@@ -161,8 +162,8 @@ const PaymentMethods = memo(() => {
                     type="radio" 
                     name="cod" 
                     id="cod" 
-                    value='cod'
-                    checked={paymentMethod === "cod"} 
+                    value='COD'
+                    checked={paymentMethod === "COD"} 
                     className="w-4 h-4" 
                     onChange={updatePayment} 
                 />
@@ -205,7 +206,6 @@ const ProductSummary = memo(() => {
     const { cartProducts , productQuantity } = useSelector((store: RootState ) => store.cart);
     return(
         <div className="grid grid-cols-2 gap-4 pr-2">
-            {/* Product  s*/}
             {
                 Object.keys(productQuantity).map((productId) => (
                     <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center gap-4" key={productId}>
@@ -214,7 +214,9 @@ const ProductSummary = memo(() => {
                             <p className="text-black text-[14px] font-mont font-medium capitalize">{cartProducts[productId].name}</p>
                             <p className="text-black text-[14px] font-mont font-medium">₹{cartProducts[productId].price} <span className="text-[11px] font-mont text-blue-800">per kg</span></p>
                             <p className="text-black text-[14px] font-mont font-medium capitalize">Quantity : {productQuantity[productId]}</p>
-                            <p className="text-black text-[14px] font-mont font-medium capitalize">SubTotal : <span className="text-[16px] font-mont font-bold">₹{ Math.round( productQuantity[productId] *  cartProducts[productId].price ) }</span></p>
+                            <p className="text-black text-[14px] font-mont font-medium capitalize">
+                                SubTotal : <span className="text-[16px] font-mont font-bold">₹{ Math.round( productQuantity[productId] *  cartProducts[productId].price ) }</span>
+                            </p>
 
                         </div>
                     </div>
@@ -233,6 +235,102 @@ const OrderSummary = memo(() => {
             <ProductSummary/>
         </div>
     )
+});
+
+
+const PlaceOrderButton = memo(() => {
+
+    const { productQuantity , cartProducts} = useSelector((store: RootState) => store.cart);
+    const address = useSelector((state : RootState) => state.address);
+    const userId = useSelector((state : RootState  ) => state.auth.id);
+    const paymentMethod = useSelector((state : RootState) => state.payment.paymentMethod);
+
+    const placeOrder = useCallback(( ) => {
+
+        const orderItems = Object.keys(productQuantity).map((pId) => {
+            return {
+                productId: pId,
+                name: cartProducts[pId].name,
+                price:cartProducts[pId].price ,
+                quantity: productQuantity[pId],
+                subTotal: Math.round(productQuantity[pId] * cartProducts[pId].price) ,
+            }
+        });
+        const totalPrice = orderItems.reduce((sum, item) => ( sum + item.subTotal ),0) + DELIVERY_CHARGE;
+        const payment = {
+            method: paymentMethod,
+            status:"PENDING",
+            paidAmount: totalPrice,
+            currency : CURRENCY
+        };
+
+
+        const newOrder = {
+            userId,
+            items: orderItems,
+            shippingAddress: address,
+            payment,
+            grandTotal:totalPrice,
+        }
+
+        /* 
+        
+            API CAll AND Create a new ORDER
+        */
+        console.log("Order placed successfully ", newOrder)
+    },[]);
+
+    return(
+        <Button 
+            onClick={placeOrder}
+            className={cn(
+                'rounded bg-white border text-black font-mont hover:bg-white' ,
+                'cursor-pointer'
+            )}
+        >
+            Place Order
+        </Button>
+    )
+})
+
+
+
+const ButtonGroup = memo((
+    { firstStep , lastStep , nextStep , prevStep } : { 
+        firstStep:boolean; 
+        lastStep:boolean;
+        nextStep: () => void;
+        prevStep:() => void;
+    }
+) => {
+    return(
+        <div className="w-full flex justify-between mt-3">
+                <Button 
+                    onClick={prevStep} disabled={firstStep}  
+                    className={cn(
+                        'rounded bg-white border text-black font-mont hover:bg-white' ,
+                        'cursor-pointer'
+                    )}
+                >
+                    Previous
+                </Button>
+                {
+                    ( lastStep ) ? (
+                        <PlaceOrderButton/>
+                    ) : (
+                        <Button 
+                            onClick={nextStep}
+                            className={cn(
+                                'rounded bg-white border text-black font-mont hover:bg-white' ,
+                                'cursor-pointer'
+                            )}
+                        >
+                            Next
+                        </Button>
+                    )
+                }
+            </div>
+    )
 })
 
 
@@ -242,7 +340,9 @@ const CheckOutModal = memo((
         close : () => void
     }
 ) => {
+
     const [step, setStep] = useState(0);
+
     const nextStep = useCallback(() => {
         setStep((step) => {
             if(step === steps.length-1){
@@ -257,7 +357,8 @@ const CheckOutModal = memo((
             if(step === 0) return 0;
             return step-1;
         })
-    },[])
+    },[]);
+
     return(
         <div className="min-w-200 min-h-100 bg-green-800 rounded p-6 max-w-200 h-full relative text-white">
             <button className="text-[14px] font-mont font-medium text-white absolute top-6 right-6 cursor-pointer">
@@ -294,26 +395,13 @@ const CheckOutModal = memo((
                 { step === 2 && <OrderSummary/>}
 
             </div>
-            <div className="w-full flex justify-between mt-3">
-                <Button 
-                    onClick={prevStep} disabled={step==0}  
-                    className={cn(
-                        'rounded bg-white border text-black font-mont hover:bg-white' ,
-                        'cursor-pointer'
-                    )}
-                >
-                    Previous
-                </Button>
-                <Button 
-                    onClick={nextStep} disabled={step == steps.length-1}
-                    className={cn(
-                        'rounded bg-white border text-black font-mont hover:bg-white' ,
-                        'cursor-pointer'
-                    )}
-                >
-                    Next
-                </Button>
-            </div>
+           
+           <ButtonGroup 
+                firstStep={step===0} 
+                lastStep={step === steps.length-1} 
+                nextStep={nextStep}  
+                prevStep={prevStep}
+            />
 
         </div>
     )
