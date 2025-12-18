@@ -11,6 +11,7 @@ const ProductDetailPage = lazy(() => import("../pages/product-detail"));
 const ProductByCategoryPage = lazy(() => import("../pages/products-by-category"));
 const ContactPage= lazy(() => import('../pages/contact'));
 const ServicePage = lazy(() => import('../pages/service'));
+const OrdersPage = lazy(() => import('../pages/orders'));
 
 const AdminPage = lazy(() => import('../pages/admin/admin-home'));
 const AdminProducts = lazy(() => import('../pages/admin/admin-products'));
@@ -56,7 +57,11 @@ const router = createBrowserRouter([
                     },
                     {
                         path:"/cd/:cn/:cId",
-                        Component: ProductByCategoryPage
+                        Component: ProductByCategoryPage,
+                    },
+                    {
+                        path:"/orders",
+                        Component:OrdersPage
                     }
                 ]
             },

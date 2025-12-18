@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback } from "react";
 import Logo from '../assets/Grocery_Logo 1.svg';
 import CartContainer from "./cart-container";
 import { Link } from "react-router";
@@ -35,6 +35,14 @@ const LoginButton = () => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-full">
+                        <Link to={'/orders'}>
+                            <Button
+                                className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                                self-end px-3 cursor-pointer capitalize w-full`)}
+                            >
+                                Orders
+                            </Button>
+                        </Link>
                         <Button
                             className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
                             self-end px-3 cursor-pointer capitalize w-full`)}
