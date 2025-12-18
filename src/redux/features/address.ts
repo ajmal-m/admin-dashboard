@@ -1,16 +1,8 @@
+import type { OrderAddress } from "@/type/type";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type StateType = {
-    name:string;
-    mobile:number;
-    pincode:number;
-    locality:string;
-    city:string;
-    state:string;
-    address:string;
-}
 
-const initialState : StateType = {
+const initialState : OrderAddress = {
     name:'',
     mobile:12345678910,
     pincode:878918,

@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import PopUp from "./pop-up-drawer";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/redux/store";
@@ -9,6 +9,9 @@ import { indianStates } from "@/const/indian-states";
 import { updateAddress } from "@/redux/features/address";
 import { updatePaymentMethod } from "@/redux/features/payment";
 import { CURRENCY, DELIVERY_CHARGE } from "@/utils/utils";
+import { useCreateOrder } from "@/api/order/create-order";
+import type { OrderAddress, OrderPayment, PaymentMethods } from "@/type/type";
+import { Oval } from "react-loader-spinner";
 
 const steps = [
     "Shipping Address",
@@ -224,7 +227,30 @@ const ProductSummary = memo(() => {
             }
         </div>
     )
-})
+});
+
+const PaymentDetails = memo(() => {
+    const { cartProducts , productQuantity } = useSelector((store : RootState) => store.cart)
+    const totalPrice = useMemo(() => {
+        return Object.keys(productQuantity).reduce((acc, pId) =>  acc + cartProducts[pId].price * productQuantity[pId] , 0)
+    },[]);
+    return(
+        <div className="w-full min-h-15 bg-white rounded py-4 px-3 grid grid-cols-1 gap-y-1">
+            <div className="grid grid-cols-2 gap-4 text-black text-[14px] font-mont font-medium capitalize">
+                <p >Total</p>
+                <span className="font-bold">₹{Math.round(totalPrice)}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 text-black text-[14px] font-mont font-medium capitalize">
+                <p >Delivery Charge</p>
+                <span className="font-bold" >₹{DELIVERY_CHARGE}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 text-black text-[14px] font-mont font-medium capitalize">
+                <p >Total Payment</p>
+                <span className="font-bold" >₹{ totalPrice + DELIVERY_CHARGE}</span>
+            </div>
+        </div>
+    )
+});
 
 const OrderSummary = memo(() => {
     return(
@@ -233,6 +259,7 @@ const OrderSummary = memo(() => {
             <AddressSummary/>
             <PaymentSummary/>
             <ProductSummary/>
+            <PaymentDetails/>
         </div>
     )
 });
@@ -244,6 +271,7 @@ const PlaceOrderButton = memo(() => {
     const address = useSelector((state : RootState) => state.address);
     const userId = useSelector((state : RootState  ) => state.auth.id);
     const paymentMethod = useSelector((state : RootState) => state.payment.paymentMethod);
+    const createOrderMutation = useCreateOrder();
 
     const placeOrder = useCallback(( ) => {
 
@@ -257,8 +285,8 @@ const PlaceOrderButton = memo(() => {
             }
         });
         const totalPrice = orderItems.reduce((sum, item) => ( sum + item.subTotal ),0) + DELIVERY_CHARGE;
-        const payment = {
-            method: paymentMethod,
+        const payment : OrderPayment = {
+            method: paymentMethod as PaymentMethods,
             status:"PENDING",
             paidAmount: totalPrice,
             currency : CURRENCY
@@ -268,15 +296,17 @@ const PlaceOrderButton = memo(() => {
         const newOrder = {
             userId,
             items: orderItems,
-            shippingAddress: address,
+            shippingAddress: address as OrderAddress,
             payment,
-            grandTotal:totalPrice,
+            grandTotal:totalPrice as number,
+            orderStatus:"PLACED"
         }
 
         /* 
         
             API CAll AND Create a new ORDER
         */
+        createOrderMutation.mutate(newOrder);
         console.log("Order placed successfully ", newOrder)
     },[]);
 
@@ -288,7 +318,23 @@ const PlaceOrderButton = memo(() => {
                 'cursor-pointer'
             )}
         >
-            Place Order
+            {
+                createOrderMutation.isPending ? (
+                    <div className="flex gap-2 items-center">
+                        <span>
+                            Processing..
+                        </span>
+                        <Oval
+                            visible={true}
+                            height="20"
+                            width="20"
+                            color="#4fa94d"
+                            strokeWidth='5'
+                            animationDuration='0.5'
+                        />
+                    </div>
+                ) : "Place Order"
+            }
         </Button>
     )
 })
