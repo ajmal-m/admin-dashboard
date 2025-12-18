@@ -149,6 +149,7 @@ const ShippingAddressForm = memo(() => {
 
 const PaymentMethods = memo(() => {
     const dispatch = useDispatch<AppDispatch>();
+    const paymentMethod = useSelector((store: RootState) => store.payment.paymentMethod);
     const updatePayment = useCallback(( e : React.ChangeEvent<HTMLInputElement> ) => {
         dispatch(updatePaymentMethod({ value : e.target.value }));
     },[])
@@ -156,13 +157,33 @@ const PaymentMethods = memo(() => {
         <div className="flex flex-col gap-4 self-start">
             <p className="text-[14px] text-white font-medium font-mont">Payment Methods</p>
             <div className="flex items-center gap-2">
-                <input type="radio" name="cod" id="cod" value={'cod'} className="w-4 h-4" onChange={updatePayment} />
+                <input 
+                    type="radio" 
+                    name="cod" 
+                    id="cod" 
+                    value='cod'
+                    checked={paymentMethod === "cod"} 
+                    className="w-4 h-4" 
+                    onChange={updatePayment} 
+                />
                 <label htmlFor="cod" className="text-[12px] text-white font-medium font-mont">Cash on Delivery</label>
             </div>
             <p className="text-blue-900 bg-white rounded-full text-center px-2 py-1 max-w-50 text-[12px]">More option will come</p>
         </div>
     )
 });
+
+const PaymentSummary = memo(() => {
+    const paymentMethod = useSelector((store: RootState) => store.payment.paymentMethod);
+    return(
+        <div className="grid grid-cols-1 gap-y-4">
+            <p className="text-[12px] text-white font-mont font-normal">
+                Payment Method : <span className="uppercase" >{paymentMethod}</span>
+            </p>
+        </div>
+    )
+})
+
 
 const AddressSummary = memo(() => {
     const address = useSelector((state : RootState) => state.address);
@@ -208,6 +229,7 @@ const OrderSummary = memo(() => {
         <div className="flex flex-col gap-4 self-start">
             <p className="text-[14px] text-white font-medium font-mont">Order Summary</p>
             <AddressSummary/>
+            <PaymentSummary/>
             <ProductSummary/>
         </div>
     )
