@@ -61,6 +61,7 @@ export type OrderPayment = {
 
 
 export type Order = {
+    _id?:string;
     userId: string;
     items:OrderItem[];
     shippingAddress: OrderAddress;
