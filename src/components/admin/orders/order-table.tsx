@@ -1,0 +1,144 @@
+import React, { memo } from "react";
+import { cn } from "@/lib/utils";
+import { Bars } from "react-loader-spinner";
+import type { Order, Product } from "@/type/type";
+import { Button } from "@/components/ui/button";
+import { useGetAllOrders } from "@/api/order/get-all-orders";
+const rows = [
+    "Name",
+    "Mobile",
+    "Total",
+    "Status",
+    "Location",
+    "Payment status",
+    "Created At",
+    "Updated At",
+    "Action",
+];
+
+
+
+
+const TableHead = memo((
+) => {
+  return(
+    <thead className="bg-neutral-secondary-soft border-b border-default">
+      <tr>
+        {
+            rows.map((rowItem ) => (
+                  <th scope="col" 
+                  className={cn("px-6 py-3 font-medium font-mont text-[16px]" ) }
+                  key={rowItem}
+                  >{rowItem}</th>
+            ))
+        }
+      </tr>
+    </thead>
+  )
+});
+
+
+const TableRow = memo(({ order , index}: { order : Order ; index: number  } ) => {
+  return(
+    <tr
+      key={order._id}
+      className={`border-b border-default font-mont ${
+        index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
+      }`}
+
+    >
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {order.shippingAddress.name}
+      </th>
+        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        { String(order.shippingAddress.mobile)}
+      </th>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        Rs. {order.payment.paidAmount}
+      </th>
+        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {order.orderStatus}
+      </th>
+      <td className="px-6 py-4">
+        {order.shippingAddress.city}
+        <br />
+        {order.shippingAddress.state }
+      </td>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        {order.payment.status}
+      </th>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        2 Month ago
+      </th>
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        2 Days ago
+      </th>
+      <td className="px-6 py-4">
+        <div className="flex items-center gap-2">
+          {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
+          <Button 
+            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+    
+          >
+            Edit
+          </Button>
+          <Button 
+            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+          >
+            Delete
+          </Button>
+        </div>
+      </td>
+    </tr>
+  )
+})
+
+
+
+
+const OrdersTable: React.FC = memo( () => {
+
+  const getAllOrdersMutation = useGetAllOrders();
+
+
+  if(getAllOrdersMutation.isLoading){
+    return <div className="flex items-center justify-center">
+      <Bars
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="bars-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+      />
+    </div>
+  }
+
+  const orders : Order[] = getAllOrdersMutation.data?.data?.data ?? [];
+
+
+  if(!orders.length){
+    return(
+      <div>
+        <h1>No Orders Found</h1>
+      </div>
+    )
+  }
+
+
+  return (
+    <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default mt-4">
+      <table className="w-full text-sm text-left rtl:text-right text-body">
+        <TableHead/>
+        <tbody>
+          { orders.map((order, index) => (
+            <TableRow order={order} index={index}/>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+});
+
+export default OrdersTable;
