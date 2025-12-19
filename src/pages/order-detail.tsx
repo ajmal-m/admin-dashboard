@@ -1,10 +1,22 @@
 import { memo } from "react";
+import ProtectedRoute from "@/components/auth/protected-route";
+
+
+
+const OrderDetailSection = memo(() => {
+    return(
+        <section className="min-h-screen px-10 max-[992px]:px-4 mt-4">
+            <h1>Order Detail Section</h1>
+        </section>
+    )
+});
+
 
 const OrderDeatilPage = memo(() => {
     return(
-        <div>
-            <h1>Order Detail</h1>
-        </div>
+        <ProtectedRoute>
+            <OrderDetailSection/>
+        </ProtectedRoute>
     )
 });
 

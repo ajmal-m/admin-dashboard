@@ -1,5 +1,5 @@
 import { useVerifyUserAuth } from "@/api/auth/verify-auth";
-import { updateState } from "@/redux/features/auth";
+import { stopLoading, updateState } from "@/redux/features/auth";
 import { type AppDispatch } from "@/redux/store";
 import { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -10,9 +10,20 @@ const AuthenticatedLayout =  memo( () => {
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         if(verifyUserAuth.data && !verifyUserAuth.isLoading){
-            dispatch(updateState({ email : verifyUserAuth.data.data.data.email ?? "User", isAuthenticated:true ,
+            dispatch(updateState({ 
+                email : verifyUserAuth.data.data.data.email ?? "User", 
+                isAuthenticated:true ,
                 id : verifyUserAuth.data?.data?.data?.id ??"" 
-            }))
+            }));
+            dispatch(stopLoading());
+        }else if( !verifyUserAuth.data && !verifyUserAuth.isLoading ){
+            console.log(verifyUserAuth.data)
+            dispatch(updateState({ 
+                email : "",
+                isAuthenticated:false ,
+                id :""
+            }));
+            dispatch(stopLoading());
         }
     }, [verifyUserAuth])
     return <Outlet/>;
