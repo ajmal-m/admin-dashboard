@@ -13,7 +13,6 @@ import { useCreateOrder } from "@/api/order/create-order";
 import type { OrderAddress, OrderPayment, PaymentMethods } from "@/type/type";
 import { Oval } from "react-loader-spinner";
 import { clearCart } from "@/redux/features/cartSlice";
-import { toast } from "react-toastify";
 
 const steps = [
     "Shipping Address",

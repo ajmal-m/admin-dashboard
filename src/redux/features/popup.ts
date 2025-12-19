@@ -4,12 +4,14 @@ type StateType = {
     logInPopUp:boolean;
     checkOutPopUp:boolean;
     orderSuccessPopUp:boolean;
+    orderStatusUpdatePopUp: boolean
 }
 
 const initialState : StateType = {
     logInPopUp: false,
     checkOutPopUp:false,
     orderSuccessPopUp:false,
+    orderStatusUpdatePopUp:false
 }
 
 const popUpSlice = createSlice({
@@ -33,9 +35,17 @@ const popUpSlice = createSlice({
     },
     closeOrderSuccessPopUp: (state) => {
       state.orderSuccessPopUp = false; 
+    },
+    openOrderStatusUpdatePopUp:(state) => {
+      state.orderStatusUpdatePopUp = true;
+    },
+    closeOrderStatusUpdatePopUp:(state) => {
+      state.orderStatusUpdatePopUp = false;
     }
   },
 });
 
-export const { openLogInPopUp, closeLogInPopUp   , openCheckOutPopUp, closeCheckOutPopUp , openOrderSuccessPopUp , closeOrderSuccessPopUp } = popUpSlice.actions;
+export const { openLogInPopUp, closeLogInPopUp   , openCheckOutPopUp, closeCheckOutPopUp , openOrderSuccessPopUp , closeOrderSuccessPopUp ,
+  openOrderStatusUpdatePopUp, closeOrderStatusUpdatePopUp
+} = popUpSlice.actions;
 export default popUpSlice.reducer;

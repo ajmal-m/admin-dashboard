@@ -1,9 +1,15 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Bars } from "react-loader-spinner";
-import type { Order, Product } from "@/type/type";
+import type { Order, OrderItem, OrderItemWithProduct } from "@/type/type";
 import { Button } from "@/components/ui/button";
 import { useGetAllOrders } from "@/api/order/get-all-orders";
+import PopUp from '../../../components/pop-up-drawer';
+import OrderUpdateStatusModal from "./order-status-update";
+import { useDispatch, useSelector } from "react-redux";
+import { type AppDispatch, type RootState } from "@/redux/store";
+import { closeOrderStatusUpdatePopUp, openOrderStatusUpdatePopUp } from "@/redux/features/popup";
+
 const rows = [
     "Name",
     "Mobile",
@@ -38,7 +44,15 @@ const TableHead = memo((
 });
 
 
-const TableRow = memo(({ order , index}: { order : Order ; index: number  } ) => {
+const TableRow = memo(({ order , index , selectOrder}: { order : Order ; index: number ; selectOrder : () => void } ) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const updateOrder = useCallback(() => {
+    selectOrder(); 
+    dispatch(openOrderStatusUpdatePopUp());
+  },[]);
+
+  
   return(
     <tr
       key={order._id}
@@ -56,7 +70,7 @@ const TableRow = memo(({ order , index}: { order : Order ; index: number  } ) =>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
         Rs. {order.payment.paidAmount}
       </th>
-        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap capitalize">
         {order.orderStatus}
       </th>
       <td className="px-6 py-4">
@@ -64,7 +78,7 @@ const TableRow = memo(({ order , index}: { order : Order ; index: number  } ) =>
         <br />
         {order.shippingAddress.state }
       </td>
-      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+      <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap capitalize">
         {order.payment.status}
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
@@ -78,9 +92,10 @@ const TableRow = memo(({ order , index}: { order : Order ; index: number  } ) =>
           {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
           <Button 
             className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            onClick={updateOrder}
     
           >
-            Edit
+            Update
           </Button>
           <Button 
             className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
@@ -98,7 +113,10 @@ const TableRow = memo(({ order , index}: { order : Order ; index: number  } ) =>
 
 const OrdersTable: React.FC = memo( () => {
 
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const getAllOrdersMutation = useGetAllOrders();
+  const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
+  const dispatch = useDispatch<AppDispatch>();
 
 
   if(getAllOrdersMutation.isLoading){
@@ -133,10 +151,16 @@ const OrdersTable: React.FC = memo( () => {
         <TableHead/>
         <tbody>
           { orders.map((order, index) => (
-            <TableRow order={order} index={index}/>
+            <TableRow order={order} index={index}  selectOrder={() => setSelectedOrder(order) }/>
           ))}
         </tbody>
       </table>
+      <PopUp
+        keyProp={'update-order'}
+        model={(close) => <OrderUpdateStatusModal close={close} order={selectedOrder as Order} />}
+        isOpen={isOpen}
+        handleClose={() => dispatch(closeOrderStatusUpdatePopUp()) }
+      />
     </div>
   );
 });

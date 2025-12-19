@@ -10,5 +10,20 @@ export const paymentStatusClass: Record<string, string> = {
   REFUNDED: "bg-yellow-700",
 };
 
+export const ORDER_STATUS = [
+  "PLACED",
+  "CONFIRMED",
+  "PROCESSING",
+  "SHIPPED",
+  "OUT_FOR_DELIVERY",
+  "DELIVERED",
+  "CANCELLED",
+  "RETURN_REQUESTED",
+  "RETURNED",
+  "REFUNDED"
+];
+
+
+export const PAYMENT_STATUS =  ["PENDING", "PAID", "FAILED", "REFUNDED"];
 export const DELIVERY_CHARGE=2;
 export const CURRENCY = "INR"
