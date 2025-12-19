@@ -18,6 +18,7 @@ const OrderDetailPage = lazy(() => import('../pages/order-detail'));
 const AdminPage = lazy(() => import('../pages/admin/admin-home'));
 const AdminProducts = lazy(() => import('../pages/admin/admin-products'));
 const AdminCategories = lazy(() => import('../pages/admin/admin-category'));
+const AdminOrders = lazy(() => import('../pages/admin/admin-orders'));
 
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
 
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
                     {
                         path:'products',
                         Component:AdminProducts
+                    },
+                    {
+                        path:"orders",
+                        Component: AdminOrders
                     }
                 ]
             }

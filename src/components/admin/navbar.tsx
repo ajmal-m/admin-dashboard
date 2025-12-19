@@ -10,6 +10,10 @@ const NavLinks = [
     {
         name:"Categories",
         url:"/admin/categories"
+    },
+    {
+        name:"Orders",
+        url:"/admin/orders"
     }
 ]
 
