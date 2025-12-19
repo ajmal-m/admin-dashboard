@@ -23,6 +23,20 @@ export const ORDER_STATUS = [
   "REFUNDED"
 ];
 
+export const ORDER_STATUS_COLOR: Record<string, string> = {
+  PLACED: "bg-gray-500 text-white",
+  CONFIRMED: "bg-blue-600 text-white",
+  PROCESSING: "bg-indigo-600 text-white",
+  SHIPPED: "bg-purple-600 text-white",
+  OUT_FOR_DELIVERY: "bg-yellow-500 text-black",
+  DELIVERED: "bg-green-600 text-white",
+  CANCELLED: "bg-red-600 text-white",
+  RETURN_REQUESTED: "bg-orange-500 text-white",
+  RETURNED: "bg-pink-600 text-white",
+  REFUNDED: "bg-teal-600 text-white",
+};
+
+
 
 export const PAYMENT_STATUS =  ["PENDING", "PAID", "FAILED", "REFUNDED"];
 export const DELIVERY_CHARGE=2;

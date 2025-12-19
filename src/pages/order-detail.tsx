@@ -6,7 +6,7 @@ import { Oval } from "react-loader-spinner";
 import type {  OrderAddress, OrderItemWithProduct, OrderWithProduct } from "@/type/type";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { paymentStatusClass } from "@/utils/utils";
+import { ORDER_STATUS_COLOR, paymentStatusClass } from "@/utils/utils";
 
 
 
@@ -91,7 +91,7 @@ const OrderDetailSection = memo(() => {
     const params = useParams();
     const getOrderByIdMutation = useGetOrderById({ id : params.id as string });
 
-    if(getOrderByIdMutation.isFetching){
+    if(getOrderByIdMutation.isLoading){
         return(
             <div className="flex justify-center min-h-screen pt-5">
                 <Oval
@@ -131,7 +131,7 @@ const OrderDetailSection = memo(() => {
                <CardItem 
                     heading="Order Status" 
                     content={
-                        <Badge className={cn(order.orderStatus === "PLACED" && "bg-blue-800")} >{order.orderStatus}</Badge>
+                        <Badge className={cn(ORDER_STATUS_COLOR[order.orderStatus])} >{order.orderStatus}</Badge>
                     }
                 />
             </div>
