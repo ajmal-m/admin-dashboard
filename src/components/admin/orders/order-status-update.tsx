@@ -1,9 +1,11 @@
 
+import { useOrderStatusUpdate } from "@/api/order/update-order-status";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Order } from "@/type/type";
 import { ORDER_STATUS , PAYMENT_STATUS } from "@/utils/utils";
 import { memo, useCallback, useState } from "react";
+import { toast } from "react-toastify";
 
 
 const SelectOption = memo((
@@ -50,8 +52,16 @@ const OrderUpdateStatusModal = (
         order:Order
     }
 ) => {
+
     const [orderStatus , setOrderStatus] = useState<string>(order.orderStatus);
     const [paymentStatus, setPaymentStatus ] = useState<string>(order.payment.status ?? "");
+
+    const orderUpdateMutation = useOrderStatusUpdate({
+        onSuccess:() => {
+            toast.success("Order status updated successfully.")
+            close();
+        }
+    });
 
     const updateState = useCallback(( e : React.ChangeEvent<HTMLSelectElement>) => {
         const {name, value} = e.target;
@@ -64,7 +74,12 @@ const OrderUpdateStatusModal = (
 
 
     const updateOrder = useCallback(() => {
-        console.log(orderStatus, paymentStatus)
+        // API CALL HERE PUT UPdateg
+        orderUpdateMutation.mutate({
+            orderStatus,
+            paymentStatus,
+            id : order._id as string
+        });
     },[orderStatus, paymentStatus])
 
 
@@ -95,7 +110,9 @@ const OrderUpdateStatusModal = (
                         className={cn("text-black bg-white font-mont rounded hover:bg-white cursor-pointer")}
                         onClick={updateOrder}
                     >
-                        Update
+                        {
+                            orderUpdateMutation.isPending ? "Updating.." : "Update"
+                        }
                     </Button>
                 </div>
             </div>
