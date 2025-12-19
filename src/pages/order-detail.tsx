@@ -3,7 +3,7 @@ import ProtectedRoute from "@/components/auth/protected-route";
 import { useParams } from "react-router";
 import { useGetOrderById } from "@/api/order/get-order-by-id";
 import { Oval } from "react-loader-spinner";
-import type {  OrderAddress, OrderWithProduct } from "@/type/type";
+import type {  OrderAddress, OrderItemWithProduct, OrderWithProduct } from "@/type/type";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { paymentStatusClass } from "@/utils/utils";
@@ -26,7 +26,7 @@ const ShippingAddress = memo((
     { address }: { address : OrderAddress }
 ) => {
     return(
-        <div className="bg-green-800 rounded min-h-20 p-4">
+        <div className="bg-green-800 rounded min-h-20 p-6">
             <h1 className="text-[16px] text-white font-mont font-medium">Shipping Address</h1>
            <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
             {
@@ -41,10 +41,47 @@ const ShippingAddress = memo((
     )
 });
 
-const OrderedProducts = memo(() => {
+
+const OrderedProductCard = memo((
+    { orderItem }: { orderItem : OrderItemWithProduct }
+) => {
     return(
-        <div className="bg-green-800 rounded min-h-20 p-4">
+        <div className="min-w-[250px] min-h-50 bg-white rounded flex-1 flex flex-col p-4">
+            <img 
+                className="w-50 h-50 self-center"
+                src={orderItem.product.image.secure_url} loading="lazy" 
+                alt="prouct-image" 
+            />
+            <h1 className="text-[16px] text-black font-mont font-medium capitalize">{orderItem.name}</h1>
+            <div className="grid grid-cols-2">
+                <p className="text-[14px] text-black font-mont">Quantity</p>
+                <span className="text-[14px] text-black font-mont font-medium" >{orderItem.quantity as ReactNode} Kg</span>
+            </div>
+                <div className="grid grid-cols-2">
+                <p className="text-[14px] text-black font-mont">Price</p>
+                <span className="text-[14px] text-black font-mont font-medium" >₹ {orderItem.price as ReactNode}</span>
+            </div>
+                <div className="grid grid-cols-2">
+                <p className="text-[14px] text-black font-mont">SubTotal</p>
+                <span className="text-[14px] text-black font-mont font-medium" >₹ {orderItem.subTotal as ReactNode}</span>
+            </div>
+        </div>
+    )
+});
+
+const OrderedProducts = memo((
+    { items }: { items : OrderItemWithProduct[] }
+) => {
+    return(
+        <div className="bg-green-800 rounded min-h-20 p-6">
              <h1 className="text-[16px] text-white font-mont font-medium capitalize">Ordered Products</h1>
+             <div className="mt-4 flex flex-wrap gap-4">
+                {
+                   items.map((orderItem) => (
+                        <OrderedProductCard key={orderItem.product._id} orderItem={orderItem}/>
+                    ))
+                }
+             </div>
         </div>
     )
 });
@@ -102,7 +139,7 @@ const OrderDetailSection = memo(() => {
                 <ShippingAddress address={order.shippingAddress}/>
             </div>
             <div className="grid grid-cols-1 mt-4 w-full">
-                <OrderedProducts/>
+                <OrderedProducts items={order.items}/>
             </div>
         </section>
     )
