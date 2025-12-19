@@ -39,6 +39,8 @@ export type OrderItem = {
     subTotal:Number;
 }
 
+export type OrderItemWithProduct = Omit<OrderItem, "productId"> & { product: Product }
+
 export type OrderAddress = {
     name: String;
     mobile: Number;
@@ -69,3 +71,7 @@ export type Order = {
     grandTotal:number;
     orderStatus: string;
 }
+
+export type OrderWithProduct = Omit<Order, "items"> & (
+    { items: OrderItemWithProduct[]}
+)
