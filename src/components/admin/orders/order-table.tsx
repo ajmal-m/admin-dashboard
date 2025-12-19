@@ -9,6 +9,7 @@ import OrderUpdateStatusModal from "./order-status-update";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/redux/store";
 import { closeOrderStatusUpdatePopUp, openOrderStatusUpdatePopUp } from "@/redux/features/popup";
+import { timeAgo } from "@/utils/utils";
 
 const rows = [
     "Name",
@@ -50,7 +51,7 @@ const TableRow = memo(({ order , index , selectOrder}: { order : Order ; index: 
   const updateOrder = useCallback(() => {
     selectOrder(); 
     dispatch(openOrderStatusUpdatePopUp());
-  },[]);
+  },[selectOrder]);
 
   
   return(
@@ -82,10 +83,10 @@ const TableRow = memo(({ order , index , selectOrder}: { order : Order ; index: 
         {order.payment.status}
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        2 Month ago
+        {timeAgo(order.createdAt)}
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        2 Days ago
+        {timeAgo(order.updatedAt)}
       </th>
       <td className="px-6 py-4">
         <div className="flex items-center gap-2">

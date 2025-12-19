@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
 export const isValidEmail = (email : string) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return regex.test(email);
@@ -41,3 +44,12 @@ export const ORDER_STATUS_COLOR: Record<string, string> = {
 export const PAYMENT_STATUS =  ["PENDING", "PAID", "FAILED", "REFUNDED"];
 export const DELIVERY_CHARGE=2;
 export const CURRENCY = "INR"
+
+
+
+
+dayjs.extend(relativeTime);
+
+export const timeAgo = (date: string | Date) => {
+  return dayjs(date).fromNow();
+};

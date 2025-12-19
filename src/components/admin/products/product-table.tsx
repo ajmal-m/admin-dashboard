@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import PopUp from "@/components/pop-up-drawer";
 import AddEditProduct from "./add-edit-product-modal";
 import { DeleteProductModal } from "./delete-product";
+import { timeAgo } from "@/utils/utils";
 const rows = [
     "Product Name",
     "Category",
@@ -75,10 +76,10 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
         }
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        2 Month ago
+        {timeAgo(product.createdAt)}
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        2 Days ago
+       {timeAgo(product.updatedAt)}
       </th>
       <td className="px-6 py-4">
         <div className="flex items-center gap-2">

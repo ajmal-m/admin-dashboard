@@ -6,7 +6,7 @@ import { Oval } from "react-loader-spinner";
 import type {  OrderAddress, OrderItemWithProduct, OrderWithProduct } from "@/type/type";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ORDER_STATUS_COLOR, paymentStatusClass } from "@/utils/utils";
+import { ORDER_STATUS_COLOR, paymentStatusClass, timeAgo } from "@/utils/utils";
 
 
 
@@ -132,6 +132,12 @@ const OrderDetailSection = memo(() => {
                     heading="Order Status" 
                     content={
                         <Badge className={cn(ORDER_STATUS_COLOR[order.orderStatus])} >{order.orderStatus}</Badge>
+                    }
+                />
+                <CardItem 
+                    heading="Last Update At" 
+                    content={
+                        <span className="text-[16px]">{timeAgo(order.updatedAt)}</span>
                     }
                 />
             </div>
