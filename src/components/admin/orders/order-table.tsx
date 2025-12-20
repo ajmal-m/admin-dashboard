@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/redux/store";
 import { closeOrderStatusUpdatePopUp, openOrderStatusUpdatePopUp } from "@/redux/features/popup";
 import { timeAgo } from "@/utils/utils";
+import { DeleteOrderModal } from "./delete-order-modal";
 
 const rows = [
     "Name",
@@ -45,13 +46,18 @@ const TableHead = memo((
 });
 
 
-const TableRow = memo(({ order , index , selectOrder}: { order : Order ; index: number ; selectOrder : () => void } ) => {
+const TableRow = memo(({ order , index , selectOrder , openDeleteModal}: { order : Order ; index: number ; selectOrder : () => void;openDeleteModal:( ) => void } ) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const updateOrder = useCallback(() => {
     selectOrder(); 
     dispatch(openOrderStatusUpdatePopUp());
   },[selectOrder]);
+
+  const deleteOrder = useCallback(() => {
+    selectOrder();
+    openDeleteModal();
+  },[selectOrder, openDeleteModal])
 
   
   return(
@@ -100,6 +106,7 @@ const TableRow = memo(({ order , index , selectOrder}: { order : Order ; index: 
           </Button>
           <Button 
             className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            onClick={deleteOrder}
           >
             Delete
           </Button>
@@ -117,7 +124,12 @@ const OrdersTable: React.FC = memo( () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const getAllOrdersMutation = useGetAllOrders();
   const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+
+  const openDeleteModal = useCallback(() => {
+    setIsOpenDeleteModal(true);
+  },[])
 
 
   if(getAllOrdersMutation.isLoading){
@@ -152,7 +164,7 @@ const OrdersTable: React.FC = memo( () => {
         <TableHead/>
         <tbody>
           { orders.map((order, index) => (
-            <TableRow order={order} index={index}  selectOrder={() => setSelectedOrder(order) }/>
+            <TableRow order={order} index={index}  selectOrder={() => setSelectedOrder(order) } openDeleteModal={openDeleteModal}/>
           ))}
         </tbody>
       </table>
@@ -161,6 +173,12 @@ const OrdersTable: React.FC = memo( () => {
         model={(close) => <OrderUpdateStatusModal close={close} order={selectedOrder as Order} />}
         isOpen={isOpen}
         handleClose={() => dispatch(closeOrderStatusUpdatePopUp()) }
+      />
+      <PopUp
+        keyProp={'delete-order'}
+        model={(close) => <DeleteOrderModal close={close} id={selectedOrder?._id as string } />}
+        isOpen={isOpenDeleteModal}
+        handleClose={() => setIsOpenDeleteModal(false)  }
       />
     </div>
   );

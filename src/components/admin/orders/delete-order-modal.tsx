@@ -1,15 +1,17 @@
-import { useDeleteProduct } from "@/api/product/delete-products";
+import { useDeleteOrder } from "@/api/order/delete-order";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { memo, useCallback } from "react";
 
 
 
-export const DeleteProductModal = memo(( { close , id } : { close : () => void; id: string; } ) => {
-    const deleteProductMutation = useDeleteProduct({ close });
+export const DeleteOrderModal = memo(( { close , id } : { close : () => void; id: string; } ) => {
+    const deleteOrderMutation = useDeleteOrder({ onSuccess:() => {
+        close();
+    } });
 
     const handleDelete = useCallback(() => {
-        deleteProductMutation.mutate(id);
+        deleteOrderMutation.mutate({ id });
     },[])
     return(
         <div className="w-100 min-h-10 p-4 bg-[#016630] dark:bg-[#016630] rounded flex items-center justify-center flex-col">
@@ -21,7 +23,7 @@ export const DeleteProductModal = memo(( { close , id } : { close : () => void; 
                     onClick={handleDelete}
                 >
                     {
-                        deleteProductMutation.isPending ? "Deleting.." : "Delete"
+                        deleteOrderMutation.isPending ? "Deleting.." : "Delete"
                     }
                 </Button>
             </div>
