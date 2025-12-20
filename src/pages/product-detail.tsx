@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { AppDispatch, RootState } from "@/redux/store";
 import type { Product } from "@/type/type";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {  Oval } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -83,6 +83,54 @@ const AddToCartButton = memo((
 });
 
 
+const ProductImagePreview = memo((
+    { product }:
+    { product : Product}
+) => {
+
+    const imageRef = useRef<HTMLImageElement | null>(null);
+    const handleMouseMove = useCallback((e : React.MouseEvent<HTMLDivElement> ) => {
+        const { left, top, width, height } =
+        e.currentTarget.getBoundingClientRect();
+
+        const x = ((e.clientX - left) / width) * 100;
+        const y = ((e.clientY - top) / height) * 100;
+
+        e.currentTarget.style.cursor ='zoom-in'
+
+        if (imageRef.current) {
+            imageRef.current.style.transformOrigin = `${x}% ${y}%`;
+            imageRef.current.style.transform = "scale(3)";
+        }
+    },[imageRef]);
+
+    const handleMouseLeave = useCallback(() => {
+        if(imageRef.current){
+            imageRef.current.style.transform = "scale(1)";
+            imageRef.current.style.transformOrigin = "center";
+        }
+    },[imageRef])
+
+
+    return(
+        <div 
+            id="preview-image-wrapper" 
+            className="w-120 h-120 overflow-hidden transition-all duration-300 ease-in" 
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+        >
+            <img 
+                ref={imageRef}
+                src={product.image.secure_url}
+                alt={product.name}
+                className="w-[480px] h-[480px] object-contain"
+                id="preview-image"
+            />
+        </div>
+    )
+});
+
+
 
 const ProductDetail = memo(() => {
     const {pId} = useParams();
@@ -105,11 +153,7 @@ const ProductDetail = memo(() => {
     return(
         <section className="min-h-screen px-10 max-[992px]:px-4 mt-4">
             <div className="flex items-center justify-center gap-6 max-[800px]:flex-col">
-                <img 
-                    src={product.image.secure_url}
-                    alt={product.name}
-                    className="w-[480px] h-[480px]"
-                />
+                <ProductImagePreview product={product}/>
                 <div 
                     className="
                         flex flex-col self-start pt-[60px] gap-4 max-[800px]:self-center 
