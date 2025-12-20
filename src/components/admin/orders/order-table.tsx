@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Bars } from "react-loader-spinner";
-import type { Order, OrderItem, OrderItemWithProduct } from "@/type/type";
+import type { Order } from "@/type/type";
 import { Button } from "@/components/ui/button";
 import { useGetAllOrders } from "@/api/order/get-all-orders";
 import PopUp from '../../../components/pop-up-drawer';
