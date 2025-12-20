@@ -1,15 +1,28 @@
+import { useGetLastWeekSales } from "@/api/analytics/get-last-week-sales";
+import { formatIndianNumber } from "@/utils/utils";
 import {  memo } from "react";
 
 
 const SalesCard = memo(() => {
+    const getSalesMutation = useGetLastWeekSales();
+
+    const data = getSalesMutation?.data?.data?.data;
     return(
         <div className="bg-green-800 rounded p-4 min-h-20">
             <h1 className="text-[16px] text-white font-mont font-medium">
                 Sales at Last Week
             </h1>
-            <p className="text-[24px] text-white font-mont font-medium" >
-                $15,230
-            </p>
+            {
+                getSalesMutation.isLoading  ? (
+                    <div className="h-[34px] bg-green-700 rounded-full w-38 animate-pulse"></div>
+                ) : (
+                    <p className="text-[24px] text-white font-mont font-medium" >
+                       ₹ {
+                            formatIndianNumber(data)
+                        }
+                    </p>
+                )
+            }
         </div>
     )
 });

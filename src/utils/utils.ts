@@ -53,3 +53,11 @@ dayjs.extend(relativeTime);
 export const timeAgo = (date: string | Date) => {
   return dayjs(date).fromNow();
 };
+
+
+export function formatIndianNumber(value : string | number, decimals = 2) {
+  return Number(value || 0).toLocaleString("en-IN", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
+}
