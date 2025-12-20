@@ -278,8 +278,7 @@ const PlaceOrderButton = memo(() => {
             dispatch(closeCheckOutPopUp());
             dispatch(clearCart());
             setTimeout(() => {
-            
-                 dispatch(openOrderSuccessPopUp());
+                dispatch(openOrderSuccessPopUp());
             }, 500);
         }
     });

@@ -70,7 +70,7 @@ export type Order = {
     payment : OrderPayment;
     grandTotal:number;
     orderStatus: string;
-    updatedAt:string;
+    updatedAt?:string;
 }
 
 export type OrderWithProduct = Omit<Order, "items"> & (

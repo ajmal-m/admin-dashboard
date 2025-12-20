@@ -4,13 +4,25 @@ import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/redux/store";
 import { closeOrderSuccessPopUp } from "@/redux/features/popup";
+import { useNavigate, useSearchParams } from "react-router";
 
 const OrderModal = memo(() => {
+    const [params] = useSearchParams();
+    const navigate = useNavigate();
     const isOpen = useSelector((store: RootState) => store.popup.orderSuccessPopUp);
     const dispatch = useDispatch<AppDispatch>();
     const closePopUp = useCallback(() => {
         dispatch(closeOrderSuccessPopUp());
-    },[])
+    },[]);
+
+    const redirectToOrder = useCallback(() => {
+        const orderId = params.get("id");
+        if(!orderId) return;
+        dispatch(closeOrderSuccessPopUp());
+        setTimeout(() => {
+            navigate(`/order/${orderId}`);
+        }, 400);
+    },[params , dispatch , navigate ])
     return(
         <>
         {
@@ -43,6 +55,7 @@ const OrderModal = memo(() => {
                             className={
                                 cn("bg-green-800 rounded font-mont cursor-pointer hover:bg-green-900 text-[12px]")
                             }
+                            onClick={redirectToOrder}
                         >
                             Track your order
                         </Button>
