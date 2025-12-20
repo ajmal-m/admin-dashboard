@@ -8,7 +8,7 @@ export const isValidEmail = (email : string) => {
 
 export const paymentStatusClass: Record<string, string> = {
   PENDING: "bg-blue-800",
-  SUCCESS: "bg-green-700",
+  PAID: "bg-green-700",
   FAILED: "bg-red-700",
   REFUNDED: "bg-yellow-700",
 };

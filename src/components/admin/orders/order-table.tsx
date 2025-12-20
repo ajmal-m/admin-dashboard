@@ -9,8 +9,9 @@ import OrderUpdateStatusModal from "./order-status-update";
 import { useDispatch, useSelector } from "react-redux";
 import { type AppDispatch, type RootState } from "@/redux/store";
 import { closeOrderStatusUpdatePopUp, openOrderStatusUpdatePopUp } from "@/redux/features/popup";
-import { timeAgo } from "@/utils/utils";
+import { ORDER_STATUS_COLOR, paymentStatusClass, timeAgo } from "@/utils/utils";
 import { DeleteOrderModal } from "./delete-order-modal";
+import { Badge } from "@/components/ui/badge";
 
 const rows = [
     "Name",
@@ -78,7 +79,7 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal}: { order
         Rs. {order.payment.paidAmount}
       </th>
         <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap capitalize">
-        {order.orderStatus}
+        <Badge className={cn(ORDER_STATUS_COLOR[order.orderStatus as string])}>{order.orderStatus}</Badge>
       </th>
       <td className="px-6 py-4">
         {order.shippingAddress.city}
@@ -86,7 +87,7 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal}: { order
         {order.shippingAddress.state }
       </td>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap capitalize">
-        {order.payment.status}
+        <Badge className={cn(paymentStatusClass[order.payment.status as string])}>{order.payment.status}</Badge>
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
         {timeAgo(order.createdAt)}
