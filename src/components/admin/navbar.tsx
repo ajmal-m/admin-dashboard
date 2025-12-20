@@ -26,7 +26,9 @@ const Navbar = memo(() => {
                 justify-between px-10 border-b border-green-700 max-[992px]:px-4 sticky top-0 z-50
             "
        >
-            <img src={Logo} alt="web-app-logo" className="max-[400px]:w-12 max-[400px]:h-12" loading="lazy"/>
+            <Link to={'/admin'}>
+                <img src={Logo} alt="web-app-logo" className="max-[400px]:w-12 max-[400px]:h-12" loading="lazy"/>
+            </Link>
            <ul className="flex items-center gap-4">
             {
                 NavLinks.map((link) => (
