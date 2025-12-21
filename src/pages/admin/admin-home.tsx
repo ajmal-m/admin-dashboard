@@ -2,6 +2,9 @@ import { useGetAverageOrderValue } from "@/api/analytics/get-avg-order-value";
 import { useGetCustomersCount } from "@/api/analytics/get-customers-count";
 import { useGetDeliveredOrderCount } from "@/api/analytics/get-delivered-count";
 import { useGetLastWeekSales } from "@/api/analytics/get-last-week-sales";
+import { useGetOrderStatusData } from "@/api/analytics/get-order-status-data";
+import BarsDataset from "@/components/admin/analytics/bar-chart";
+import PieActiveArc from "@/components/admin/analytics/pie-chart";
 import { formatIndianNumber } from "@/utils/utils";
 import {  memo } from "react";
 
@@ -94,6 +97,36 @@ const AverageOrderValueCard = memo(() => {
     )
 });
 
+const OrderStatusPieChart = memo(() => {
+    const getOrderStatusDataMutation = useGetOrderStatusData();
+    const data = getOrderStatusDataMutation?.data?.data?.data;
+    return(
+        <div className="bg-green-800 rounded p-4 min-h-20">
+            <h1 className="text-[16px] text-white font-mont font-medium">
+                Order Status
+            </h1>
+            <PieActiveArc 
+                data={
+                    getOrderStatusDataMutation.isLoading ? 
+                    [{ label:'Loading..' , value:50}] : data
+                }
+            />
+        </div>
+    )
+});
+
+const BarChart = memo(() => {
+    return(
+        <div className="bg-green-800 rounded p-4 min-h-20">
+             <h1 className="text-[16px] text-white font-mont font-medium">
+                Popular product
+            </h1>
+            <BarsDataset/>
+        </div>
+    )
+});
+
+
 
 
 const AdminHomePage = memo(() => {
@@ -104,6 +137,10 @@ const AdminHomePage = memo(() => {
                 <DeliveredCard/>
                 <TotalCustomerCard/>
                 <AverageOrderValueCard/>
+            </div>
+            <div className="grid  grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 mt-4">
+                <OrderStatusPieChart/>
+                <BarChart/>
             </div>
         </section>
     )

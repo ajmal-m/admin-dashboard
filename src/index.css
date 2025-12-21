@@ -10,6 +10,12 @@
     --font-mont: "Montserrat", sans-serif;
 }
 
+
+.MuiChartsLabel-root{
+  color:white;
+  font-family: "Montserrat", sans-serif;
+}
+
 /* Swiper pagination bullet style */
 .swiper-pagination-bullet {
   background: #b9b5b5 !important;
