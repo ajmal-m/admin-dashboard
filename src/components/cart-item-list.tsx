@@ -56,7 +56,10 @@ const CartItem = memo((
     <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center justify-between" key={productKey}>
         <div className="flex items-center gap-4">
             <div>
-            <img src={cartProducts[productKey].image.secure_url} alt={cartProducts[productKey].name} className="w-15 h-15"/>
+            <img 
+              src={cartProducts[productKey].image.secure_url} alt={cartProducts[productKey].name} 
+              className="w-15 h-15 object-contain"
+            />
             </div>
             <div className="flex flex-col">
                 <p className="text-black text-[16px] font-mont capitalize">{cartProducts[productKey].name}</p>
