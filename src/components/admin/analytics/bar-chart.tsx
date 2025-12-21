@@ -2,29 +2,29 @@ import { BarChart , barElementClasses  } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { memo } from 'react';
 
-export function valueFormatter(value: number | null) {
-  return `${value}kg`;
-}
 
-const chartSetting = {
-  yAxis: [
-    {
-      label: 'Quantity',
-      width: 60,
-    },
-  ],
-  height: 300,
-};
 
 const BarsDataset = memo( (
-  {  data , loading } : { data : { name:string; value:number}[] , loading: boolean }
+  {  data , loading , label , xKey , yKey , valueFormatter } : 
+  { data : { [xKey]:string; [yKey]:number | string }[] , loading: boolean ; label : string ; xKey: string ; yKey: string ;
+    valueFormatter: ( x: number | string) => string;
+  }
 ) => {
+  const chartSetting = {
+    yAxis: [
+      {
+        label: label,
+        width: 60,
+      },
+    ],
+    height: 300,
+};
   return (
     <BarChart
       dataset={loading ? [] : data}
-      xAxis={[{ dataKey: 'name' , tickPlacement:"middle" }]}
+      xAxis={[{ dataKey: xKey , tickPlacement:"middle" }]}
       series={[
-        { dataKey: 'value', label: 'Quantity', valueFormatter },
+        { dataKey: yKey, label:label , valueFormatter },
       ]}
       loading={loading}
       sx={(theme) => ({

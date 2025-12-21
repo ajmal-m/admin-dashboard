@@ -1,6 +1,7 @@
 import { useGetAverageOrderValue } from "@/api/analytics/get-avg-order-value";
 import { useGetCustomersCount } from "@/api/analytics/get-customers-count";
 import { useGetDeliveredOrderCount } from "@/api/analytics/get-delivered-count";
+import { useGetLastSevenDaysSales } from "@/api/analytics/get-last-seven-days-sales";
 import { useGetLastWeekSales } from "@/api/analytics/get-last-week-sales";
 import { useGetOrderStatusData } from "@/api/analytics/get-order-status-data";
 import { useGetTopProducts } from "@/api/analytics/get-top-products";
@@ -130,7 +131,34 @@ const TopProductBarChart = memo(() => {
                 data={
                     data
                 }
+                xKey="name"
+                yKey="value"
+                label="Quantity"
                 loading={getTopProductMutation.isLoading}
+                valueFormatter={(x) => `${x} Kg`}
+            />
+        </div>
+    )
+});
+
+
+const LastWeekSales = memo(() => {
+    const getLastSevenDaysSalesMutation = useGetLastSevenDaysSales();
+    const data = getLastSevenDaysSalesMutation?.data?.data?.data || [];
+    return(
+         <div className="bg-green-800 rounded p-4 min-h-20">
+            <h1 className="text-[16px] text-white font-mont font-medium">
+                Last Week Sales
+            </h1>
+            <BarsDataset 
+                data={
+                    data
+                }
+                xKey="date"
+                yKey="sale"
+                label="sales"
+                loading={getLastSevenDaysSalesMutation.isLoading}
+                valueFormatter={(x) => `Rs.${x}`}
             />
         </div>
     )
@@ -151,6 +179,9 @@ const AdminHomePage = memo(() => {
             <div className="grid  grid-cols-[repeat(auto-fit,minmax(410px,1fr))] gap-4 mt-4">
                 <OrderStatusPieChart/>
                 <TopProductBarChart/>
+            </div>
+            <div className="grid  grid-cols-[repeat(auto-fit,minmax(410px,1fr))] gap-4 mt-4">
+                <LastWeekSales/>
             </div>
         </section>
     )
