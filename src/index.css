@@ -16,6 +16,15 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.css-ra8wgq-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-label{
+  fill:white !important;
+  font-family: "Montserrat", sans-serif;
+}
+
+.MuiChartsLegend-root .MuiChartsLegend-vertical .css-1nubu7u-MuiChartsLegend-root{
+  display:none !important;
+}
+
 /* Swiper pagination bullet style */
 .swiper-pagination-bullet {
   background: #b9b5b5 !important;

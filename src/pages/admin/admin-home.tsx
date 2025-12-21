@@ -126,15 +126,12 @@ const TopProductBarChart = memo(() => {
             <h1 className="text-[16px] text-white font-mont font-medium">
                 Top Demanded 10 Products
             </h1>
-            {
-                getTopProductMutation.isLoading ? ("Loading..") : (
-                    <BarsDataset 
-                        data={
-                            data
-                        }
-                    />
-                )
-            }
+            <BarsDataset 
+                data={
+                    data
+                }
+                loading={getTopProductMutation.isLoading}
+            />
         </div>
     )
 })
@@ -151,7 +148,7 @@ const AdminHomePage = memo(() => {
                 <TotalCustomerCard/>
                 <AverageOrderValueCard/>
             </div>
-            <div className="grid  grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 mt-4">
+            <div className="grid  grid-cols-[repeat(auto-fit,minmax(410px,1fr))] gap-4 mt-4">
                 <OrderStatusPieChart/>
                 <TopProductBarChart/>
             </div>
