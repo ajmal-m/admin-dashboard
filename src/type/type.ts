@@ -70,6 +70,7 @@ export type Order = {
     payment : OrderPayment;
     grandTotal:number;
     orderStatus: string;
+    createdAt?:string;
     updatedAt?:string;
 }
 

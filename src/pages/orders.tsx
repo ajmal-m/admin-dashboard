@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router";
 import { Oval } from "react-loader-spinner";
+import { ORDER_STATUS, ORDER_STATUS_COLOR, PAYMENT_STATUS, paymentStatusClass, timeAgo } from "@/utils/utils";
+import { Badge } from "@/components/ui/badge";
 
 
 const OrderCard = memo((
@@ -21,19 +23,21 @@ const OrderCard = memo((
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <p className="text-[14px] font-mont text-black">Total payment</p>
-                <span className="text-[14px] font-mont text-black">₹{order.grandTotal}</span>
+                <span className="text-[14px] font-mont text-black font-medium">₹ {order.grandTotal}</span>
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <p className="text-[14px] font-mont text-black">Payment status</p>
-                <span className="text-[14px] font-mont text-black">{order.payment.status}</span>
+                <Badge className={cn('text-[12px] font-mont text-white lowercase' , 
+                   order.payment.status && paymentStatusClass[order.payment.status] )}>{order.payment.status}</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <p className="text-[14px] font-mont text-black">Order status</p>
-                <span className="text-[14px] font-mont text-black">{order.orderStatus}</span>
+                <Badge className={cn('text-[12px] font-mont text-white lowercase' , 
+                   order.orderStatus && ORDER_STATUS_COLOR[order.orderStatus] )}>{order.orderStatus}</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <p className="text-[14px] font-mont text-black">Order placed</p>
-                <span className="text-[14px] font-mont text-black">2 days ago</span>
+                <span className="text-[14px] font-mont text-black">{ timeAgo(order.createdAt as string)}</span>
             </div>
             <Link to={`/order/${order._id}`} className={cn("w-full")}>
                 <Button className={cn("rounded bg-green-800 font-mont cursor-pointer text-[16px] w-full")}>
