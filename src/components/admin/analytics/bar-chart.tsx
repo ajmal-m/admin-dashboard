@@ -15,36 +15,16 @@ const chartSetting = {
   height: 300,
 };
 
-const BarsDataset = memo( () => {
+const BarsDataset = memo( (
+  {  data } : { data : { name:string; value:number}[] }
+) => {
   return (
     <BarChart
-      dataset={[{ value:90, name:"AC"} , { value :80 , name:"GV"}]}
+      dataset={data}
       xAxis={[{ dataKey: 'name' }]}
       series={[
         { dataKey: 'value', label: 'Quantity', valueFormatter },
       ]}
-       sx={{
-    // Y-axis label
-    "& .MuiChartsYAxis-label": {
-      fill: "#000", // blue
-      fontWeight: 600
-    },
-
-    // Y-axis tick labels
-    "& .MuiChartsYAxis-tickLabel": {
-      fill: "#000" // orange
-    },
-
-    // Y-axis line
-    "& .MuiChartsYAxis-line": {
-      stroke: "#000" // green
-    },
-
-    // Y-axis ticks
-    "& .MuiChartsYAxis-tick": {
-      stroke: "#000"
-    }
-  }}
       {...chartSetting}
     />
   );

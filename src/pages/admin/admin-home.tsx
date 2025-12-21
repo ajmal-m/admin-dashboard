@@ -3,6 +3,7 @@ import { useGetCustomersCount } from "@/api/analytics/get-customers-count";
 import { useGetDeliveredOrderCount } from "@/api/analytics/get-delivered-count";
 import { useGetLastWeekSales } from "@/api/analytics/get-last-week-sales";
 import { useGetOrderStatusData } from "@/api/analytics/get-order-status-data";
+import { useGetTopProducts } from "@/api/analytics/get-top-products";
 import BarsDataset from "@/components/admin/analytics/bar-chart";
 import PieActiveArc from "@/components/admin/analytics/pie-chart";
 import { formatIndianNumber } from "@/utils/utils";
@@ -115,16 +116,28 @@ const OrderStatusPieChart = memo(() => {
     )
 });
 
-const BarChart = memo(() => {
+
+const TopProductBarChart = memo(() => {
+    const getTopProductMutation = useGetTopProducts();
+
+    const data = getTopProductMutation?.data?.data?.data;
     return(
         <div className="bg-green-800 rounded p-4 min-h-20">
-             <h1 className="text-[16px] text-white font-mont font-medium">
-                Popular product
+            <h1 className="text-[16px] text-white font-mont font-medium">
+                Top Demanded 10 Products
             </h1>
-            <BarsDataset/>
+            {
+                getTopProductMutation.isLoading ? ("Loading..") : (
+                    <BarsDataset 
+                        data={
+                            data
+                        }
+                    />
+                )
+            }
         </div>
     )
-});
+})
 
 
 
@@ -140,7 +153,7 @@ const AdminHomePage = memo(() => {
             </div>
             <div className="grid  grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 mt-4">
                 <OrderStatusPieChart/>
-                <BarChart/>
+                <TopProductBarChart/>
             </div>
         </section>
     )
