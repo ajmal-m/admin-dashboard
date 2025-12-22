@@ -1,16 +1,42 @@
 
-import type { RootState } from '@/redux/store';
+import type { AppDispatch, RootState } from '@/redux/store';
 import type React from 'react';
 import { Oval } from 'react-loader-spinner';
-import { useSelector } from 'react-redux';
-import { Navigate, useLocation } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '../ui/button';
+import { memo, useCallback, useEffect } from 'react';
+import { openLogInPopUp } from '@/redux/features/popup';
+
+
+
+const UnAuthorizedRoot = memo(() => {
+  const dispatch = useDispatch<AppDispatch>();
+  const openLogin = useCallback(() => {
+      dispatch(openLogInPopUp());
+    },[]);
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        dispatch(openLogInPopUp());
+      },700);
+      return () => {
+        clearTimeout(timer);
+      }
+    },[dispatch])
+  return(
+    <div className='min-h-screen flex flex-col items-center'>
+      <h1 className='text-[16px] text-black font-mont font-medium text-center mt-4'>Not Authorized Access and Please Login</h1>
+      <Button className='text-[12px] text-white bg-green-800 rounded font-mont' onClick={openLogin}>Login</Button>
+    </div>
+  )
+});
+
+
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   const isAuthenticated = useSelector((store : RootState) => store.auth.isAuthenticated);
   const isLoading = useSelector((store : RootState) => store.auth.isLoading);
 
-  const location = useLocation();
 
   if(isLoading){
     return(
@@ -28,12 +54,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!isAuthenticated && !isLoading  ) {
-    <Navigate to={`?redirectTo=${encodeURIComponent(location.pathname)}`} replace />
-    return (
-      <div className='min-h-screen'>
-        No Authorized For Access
-      </div>
-    );
+   return <UnAuthorizedRoot/>
   }
 
   return (

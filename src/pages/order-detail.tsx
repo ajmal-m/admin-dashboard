@@ -48,7 +48,7 @@ const OrderedProductCard = memo((
     return(
         <div className="min-w-[250px] min-h-50 bg-white rounded flex-1 flex flex-col p-4">
             <img 
-                className="w-50 h-50 self-center"
+                className="w-50 h-50 self-center object-contain"
                 src={orderItem.product.image.secure_url} loading="lazy" 
                 alt="prouct-image" 
             />
