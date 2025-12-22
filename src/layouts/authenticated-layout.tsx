@@ -13,7 +13,8 @@ const AuthenticatedLayout =  memo( () => {
             dispatch(updateState({ 
                 email : verifyUserAuth.data.data.data.email ?? "User", 
                 isAuthenticated:true ,
-                id : verifyUserAuth.data?.data?.data?.id ??"" 
+                id : verifyUserAuth.data?.data?.data?.id ??"" ,
+                role: verifyUserAuth.data?.data?.data?.role ?? ""
             }));
             dispatch(stopLoading());
         }else if( !verifyUserAuth.data && !verifyUserAuth.isLoading ){
@@ -21,7 +22,8 @@ const AuthenticatedLayout =  memo( () => {
             dispatch(updateState({ 
                 email : "",
                 isAuthenticated:false ,
-                id :""
+                id :"",
+                role:""
             }));
             dispatch(stopLoading());
         }

@@ -41,46 +41,73 @@ const ProductList = memo(({ cId , sort , searchQuery } : { cId : string; sort : 
     )
 });
 
+
+const SortSelector = memo((
+    { handleSort , sort } : { handleSort : (e : React.ChangeEvent<HTMLSelectElement>) => void; sort: string }
+) => {
+    return(
+         <select 
+            name="sort" id="sort"
+            className={cn(
+                "rounded border border-green-900 font-mont",
+                "bg-green-800 text-white cursor-pointer px-4 py-2 text-[12px]"
+            )}
+            onChange={handleSort}
+            value={sort as string}
+        >
+            {
+                PRODUCT_SORT_OPTIONS.map((option) => (
+                    <option value={option.value} key={option.name}>{option.name}</option>
+                ))
+            }
+        </select>
+    )
+});
+
+const SearchInput = memo((
+    { search, changeSearch } : { 
+        search : string;
+        changeSearch: (e : React.ChangeEvent<HTMLInputElement>) => void;
+     }
+) => {
+    return(
+        <input 
+            type="search" name="search" id="search" 
+            className={
+                cn(
+                    "px-4 py-2 border border-green-900",
+                    "rounded font-mont font-medium text-[12px]"
+                )
+            }
+            placeholder="Search Products"
+            value={search}
+            onChange={changeSearch}
+        />
+    )
+});
+
 const ProductByCategoryPage = memo(() => {
     const { cne , cId } = useParams();
     const [sort, setSort] = useState<string>('A_Z');
     const [search, setSearch] = useState<string>("");
     const debouncedSearch = useDebouncer(search);
+    
     const handleSort = useCallback((e : React.ChangeEvent<HTMLSelectElement>) => {
        setSort(e.target.value);
     },[]);
+
+    const changeSearch = useCallback((e : React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+    },[]);
+
+
     return(
        <section className="min-h-screen px-10 max-[992px]:px-4 mt-4">
         <div className="flex justify-between items-center">
             <h1  className="text-[24px] font-semibold text-[#000000] font-mont max-[400px]:text-[24px] capitalize">{cne}</h1>
             <div className="flex items-center gap-2">
-                 <input 
-                    type="search" name="search" id="search" 
-                    className={
-                        cn(
-                            "px-4 py-2 border border-green-900",
-                            "rounded font-mont font-medium text-[12px]"
-                        )
-                    }
-                    placeholder="Search Products"
-                    value={search}
-                    onChange={(e ) => setSearch(e.target.value)}
-                />
-                <select 
-                    name="sort" id="sort"
-                    className={cn(
-                        "rounded border border-green-900 font-mont",
-                        "bg-green-800 text-white cursor-pointer px-4 py-2 text-[12px]"
-                    )}
-                    onChange={handleSort}
-                    value={sort as string}
-                >
-                    {
-                        PRODUCT_SORT_OPTIONS.map((option) => (
-                            <option value={option.value} key={option.name}>{option.name}</option>
-                        ))
-                    }
-                </select>
+                <SearchInput search={search} changeSearch={changeSearch}/>
+                <SortSelector sort={sort} handleSort={handleSort}/>
             </div>
         </div>
         <ProductList cId={cId as string} sort={sort} searchQuery={debouncedSearch}/>

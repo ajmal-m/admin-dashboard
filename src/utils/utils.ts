@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const isValidEmail = (email : string) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -46,6 +46,18 @@ export const PAYMENT_STATUS =  ["PENDING", "PAID", "FAILED", "REFUNDED"];
 export const DELIVERY_CHARGE=2;
 export const CURRENCY = "INR"
 
+
+export const USER_ROLES  : Record<string, string> = {
+  ADMIN:'admin',
+  USER:'user'
+};
+
+export const CHECK_ADMIN_ACCESS = ({ role } : { role: string }) => {
+  if( USER_ROLES.ADMIN === role ){
+    return true;
+  }
+  return false;
+}
 
 
 
