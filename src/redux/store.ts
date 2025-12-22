@@ -4,6 +4,7 @@ import authReducer from './features/auth';
 import popupReducer from './features/popup';
 import addressReducer from './features/address';
 import paymentReducer from './features/payment';
+import productTableFiltersReducer from './features/admin/product-table-filters';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     auth: authReducer,
     popup: popupReducer,
     address: addressReducer,
-    payment:paymentReducer
+    payment:paymentReducer,
+    productTableFilters : productTableFiltersReducer
   },
 });
 
