@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Logo from '../../assets/Grocery_Logo 1.svg';
-import { Link } from "react-router";
+import { NavLink , Link } from "react-router";
 
 const NavLinks = [
     {
@@ -33,9 +33,20 @@ const Navbar = memo(() => {
             {
                 NavLinks.map((link) => (
                     <li key={link.name}  className="text-[16px] font-medium font-mont">
-                        <Link to={link.url}>
+                        <NavLink 
+                            to={link.url}
+                            className={
+                                ({ isActive  }) => (
+                                    isActive ? 
+                                        `relative after:content-[''] after:w-full after:bg-green-800 after:h-1 after:absolute after:top-full
+                                        after:text-green-800 after:left-0 after:rounded after:transition-all after:duration-300 after:ease-in
+                                        `
+                                    :""
+                                )
+                            }
+                        >
                             {link.name}
-                        </Link>
+                        </NavLink>
                     </li>
                 ))
             }
