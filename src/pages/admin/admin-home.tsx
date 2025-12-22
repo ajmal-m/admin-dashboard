@@ -4,6 +4,7 @@ import { useGetDeliveredOrderCount } from "@/api/analytics/get-delivered-count";
 import { useGetLastSevenDaysSales } from "@/api/analytics/get-last-seven-days-sales";
 import { useGetLastWeekSales } from "@/api/analytics/get-last-week-sales";
 import { useGetOrderStatusData } from "@/api/analytics/get-order-status-data";
+import { useGetTopCategories } from "@/api/analytics/get-top-categories";
 import { useGetTopProducts } from "@/api/analytics/get-top-products";
 import BarsDataset from "@/components/admin/analytics/bar-chart";
 import PieActiveArc from "@/components/admin/analytics/pie-chart";
@@ -162,6 +163,29 @@ const LastWeekSales = memo(() => {
             />
         </div>
     )
+});
+
+const TopCategoriesByQuantitySold = memo(() => {
+    const getTopCategoryMutation = useGetTopCategories();
+
+    const data = getTopCategoryMutation?.data?.data?.data;
+    return(
+          <div className="bg-green-800 rounded p-4 min-h-20">
+            <h1 className="text-[16px] text-white font-mont font-medium">
+                Top Categories By Sold
+            </h1>
+            <BarsDataset 
+                data={
+                    data
+                }
+                xKey="name"
+                yKey="quantity"
+                label="Quantities"
+                loading={getTopCategoryMutation.isLoading}
+                valueFormatter={(x) => `${x} Kg`}
+            />
+        </div>
+    )
 })
 
 
@@ -182,6 +206,7 @@ const AdminHomePage = memo(() => {
             </div>
             <div className="grid  grid-cols-[repeat(auto-fit,minmax(410px,1fr))] gap-4 mt-4">
                 <LastWeekSales/>
+                 <TopCategoriesByQuantitySold/>
             </div>
         </section>
     )
