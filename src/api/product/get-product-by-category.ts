@@ -1,26 +1,29 @@
 import axiosInstance from "../api";
 import { useQuery , queryOptions } from "@tanstack/react-query";
 
-export const getProductsByCategoryId = async({ cId }: { cId : string})=> {
-    return axiosInstance.get(`product/product-by-category/${cId}`);
+
+export const getProductsByCategoryId = async({ cId  , sort , searchQuery }: { cId : string ; sort : null | string; searchQuery : string })=> {
+    return axiosInstance.get(`product/product-by-category/${cId}?sort=${sort}&q=${searchQuery}`);
 }
 
 
 
-export const getProductByCategoryIdQueryOptions = ({  cId }: {  cId : string }) => {
+export const getProductByCategoryIdQueryOptions = ({  cId , sort , searchQuery }: {  cId : string ; sort: null | string ; searchQuery : string }) => {
     return queryOptions({
-        queryKey:['get-product-by-category', cId],
-        queryFn: () => getProductsByCategoryId({ cId})
+        queryKey:['get-product-by-category', cId , sort, searchQuery ],
+        queryFn: () => getProductsByCategoryId({ cId , sort , searchQuery})
     })
 }
 
 
 export const useGetProductByCategoryId = ( {
     cId,
-    queryConfig 
-} : { queryConfig ?: any;  cId: string; } ) => {
+    queryConfig ,
+    sort,
+    searchQuery
+} : { queryConfig ?: any;  cId: string; sort: null | string ; searchQuery : string } ) => {
     return useQuery({
-       ...getProductByCategoryIdQueryOptions({ cId}),
+       ...getProductByCategoryIdQueryOptions({ cId , sort , searchQuery}),
        ...queryConfig
     })
 }

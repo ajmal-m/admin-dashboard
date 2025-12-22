@@ -59,7 +59,7 @@ const router = createBrowserRouter([
                         Component:ProductDetailPage
                     },
                     {
-                        path:"/cd/:cn/:cId",
+                        path:"/cd/:cne/:cId",
                         Component: ProductByCategoryPage,
                     },
                     {

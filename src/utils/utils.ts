@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { memo, useEffect, useState } from "react";
 
 export const isValidEmail = (email : string) => {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -60,4 +61,18 @@ export function formatIndianNumber(value : string | number, decimals = 2) {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals
   });
+}
+
+
+export const useDebouncer =  ( str : string , delay = 500 ) => {
+  const [ debounceStr, setDebounceStr] = useState<string>(str);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounceStr(str);
+    },delay);
+
+    return () => clearTimeout(timer);
+  },[str , delay]);
+
+  return debounceStr;
 }
