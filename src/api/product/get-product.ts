@@ -1,25 +1,30 @@
 import axiosInstance from "../api";
 import { useQuery , queryOptions } from "@tanstack/react-query";
 
-export const getProducts = async()=> {
-    return axiosInstance.get("/product/all");
+export const getProducts = async({ search }: { search ?: string })=> {
+    try {
+        return axiosInstance.get(`/product/all?q=${search}`);
+    } catch (error) {
+        throw error
+    }
 }
 
 
 
-export const getProductsQueryOption = () => {
+export const getProductsQueryOption = ({ search }: { search ?: string } ) => {
     return queryOptions({
-        queryKey:['get-products'],
-        queryFn: () => getProducts()
+        queryKey:['get-products', search],
+        queryFn: () => getProducts({ search })
     })
 }
 
 
 export const useGetProducts = ( {
-    queryConfig 
-} : { queryConfig ?: any} ) => {
+    queryConfig ,
+    search
+} : { queryConfig ?: any ; search ?: string } ) => {
     return useQuery({
-       ...getProductsQueryOption(),
+       ...getProductsQueryOption({ search }),
        ...queryConfig
     })
 }

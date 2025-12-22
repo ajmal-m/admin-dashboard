@@ -9,6 +9,8 @@ import AddEditProduct from "./add-edit-product-modal";
 import { DeleteProductModal } from "./delete-product";
 import { timeAgo } from "@/utils/utils";
 import { Badge } from "@/components/ui/badge";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
 const rows = [
     "Product Name",
     "Category",
@@ -113,7 +115,10 @@ const ProductTable: React.FC = memo( () => {
   const [isOpenEditProduct, setIsOpenEditProduct] = useState<boolean>(false);
   const [isOpenDeleteProduct, setIsOpenDeleteProduct] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const getProductMutation = useGetProducts({});
+
+  const search = useSelector((store : RootState) => store.productTableFilters.search)
+
+  const getProductMutation = useGetProducts({search});
 
   const openProductEditModal = useCallback((product : Product) => {
     setIsOpenEditProduct(true);
