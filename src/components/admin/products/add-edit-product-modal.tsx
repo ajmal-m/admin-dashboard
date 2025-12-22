@@ -254,7 +254,9 @@ const AddEditProduct = memo((
                             />
                            </div>
                             
-                        ) : "Add"
+                        ) :(
+                            product ? "Update" :"Add"
+                        )
                     }
                 </button>
     
