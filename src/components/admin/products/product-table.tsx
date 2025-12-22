@@ -116,9 +116,11 @@ const ProductTable: React.FC = memo( () => {
   const [isOpenDeleteProduct, setIsOpenDeleteProduct] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const search = useSelector((store : RootState) => store.productTableFilters.search)
+  const search = useSelector((store : RootState) => store.productTableFilters.search);
+  const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
 
-  const getProductMutation = useGetProducts({search});
+
+  const getProductMutation = useGetProducts({search , categoryIds});
 
   const openProductEditModal = useCallback((product : Product) => {
     setIsOpenEditProduct(true);
@@ -150,7 +152,7 @@ const ProductTable: React.FC = memo( () => {
   if(!products.length){
     return(
       <div>
-        <h1>No Products Found</h1>
+        <h1 className="font-mont text-[16px] text-black text-center font-medium">No Products Found</h1>
       </div>
     )
   }

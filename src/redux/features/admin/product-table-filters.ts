@@ -1,11 +1,13 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 type StateType = {
-    search: string
+    search: string;
+    categoryIds: string[]
 }
 
 const initialState : StateType = {
-    search:""
+    search:"",
+    categoryIds:[]
 }
 
 const productTableFiltersSlice = createSlice({
@@ -15,8 +17,11 @@ const productTableFiltersSlice = createSlice({
     updateSearch: (state , action : PayloadAction<{ search : string}> ) => {
       return { ...state, search : action.payload.search };
     },
+    updateCategoryIds:(state, action : PayloadAction<{ categoryIds : string[] }>)=>{
+      return {...state, categoryIds: action.payload.categoryIds}
+    }
   },
 });
 
-export const { updateSearch } = productTableFiltersSlice.actions;
+export const { updateSearch , updateCategoryIds } = productTableFiltersSlice.actions;
 export default productTableFiltersSlice.reducer;

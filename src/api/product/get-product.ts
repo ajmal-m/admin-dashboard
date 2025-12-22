@@ -1,9 +1,15 @@
 import axiosInstance from "../api";
 import { useQuery , queryOptions } from "@tanstack/react-query";
 
-export const getProducts = async({ search }: { search ?: string })=> {
+export const getProducts = async({ search , categoryIds }: { search ?: string ; categoryIds ?: string[] })=> {
     try {
-        return axiosInstance.get(`/product/all?q=${search}`);
+        let query = `/product/all?q=${search}`;
+        if(categoryIds?.length){
+            for(let cId of categoryIds){
+                query += `&cat=${cId}`;
+            }
+        }
+        return axiosInstance.get(query);
     } catch (error) {
         throw error
     }
@@ -11,20 +17,21 @@ export const getProducts = async({ search }: { search ?: string })=> {
 
 
 
-export const getProductsQueryOption = ({ search }: { search ?: string } ) => {
+export const getProductsQueryOption = ({ search , categoryIds }: { search ?: string ; categoryIds ?: string[] } ) => {
     return queryOptions({
-        queryKey:['get-products', search],
-        queryFn: () => getProducts({ search })
+        queryKey:['get-products', search , categoryIds],
+        queryFn: () => getProducts({ search , categoryIds })
     })
 }
 
 
 export const useGetProducts = ( {
     queryConfig ,
-    search
-} : { queryConfig ?: any ; search ?: string } ) => {
+    search,
+    categoryIds
+} : { queryConfig ?: any ; search ?: string; categoryIds ?: string[] } ) => {
     return useQuery({
-       ...getProductsQueryOption({ search }),
+       ...getProductsQueryOption({ search , categoryIds }),
        ...queryConfig
     })
 }
