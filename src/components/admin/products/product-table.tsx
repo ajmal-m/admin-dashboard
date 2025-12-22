@@ -8,6 +8,7 @@ import PopUp from "@/components/pop-up-drawer";
 import AddEditProduct from "./add-edit-product-modal";
 import { DeleteProductModal } from "./delete-product";
 import { timeAgo } from "@/utils/utils";
+import { Badge } from "@/components/ui/badge";
 const rows = [
     "Product Name",
     "Category",
@@ -71,9 +72,11 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
           loading="lazy" />
       </td>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        {
-          product.active ? "Active" :"Inactive"
-        }
+        <Badge className={
+          cn(
+            product.active ? index %2==0 ? "bg-green-800" : "bg-white text-black" : "bg-red-800"
+          )
+        } >{product.active ? "Active" : "Inactive"}</Badge>
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
         {timeAgo(product.createdAt)}
