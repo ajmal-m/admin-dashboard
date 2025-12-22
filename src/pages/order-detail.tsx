@@ -109,12 +109,13 @@ const OrderDetailSection = memo(() => {
     if(getOrderByIdMutation.error){
         return(
             <div className="flex justify-center min-h-screen pt-5">
-                <h1>Error Message</h1>
+                <h1  className="text-[16px] font-mont text-black 
+                    font-medium text-center">No Order Found</h1>
             </div>
         )
     }
 
-    const order : OrderWithProduct = getOrderByIdMutation.data?.data?.data ?? [];
+    const order : OrderWithProduct = getOrderByIdMutation.data?.data?.data ?? {};
     return(
         <section className="min-h-screen px-10 max-[992px]:px-4 mt-4">
             <div className="grid  grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">

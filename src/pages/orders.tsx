@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router";
 import { Oval } from "react-loader-spinner";
-import { ORDER_STATUS, ORDER_STATUS_COLOR, PAYMENT_STATUS, paymentStatusClass, timeAgo } from "@/utils/utils";
+import {  ORDER_STATUS_COLOR, paymentStatusClass, timeAgo } from "@/utils/utils";
 import { Badge } from "@/components/ui/badge";
 
 
@@ -69,7 +69,21 @@ const OrderSection = memo(() => {
     };
 
 
-    const orders : Order[] = getOrdersMutation.data?.data.data ?? [];
+    const orders : Order[] = getOrdersMutation.data?.data?.data ?? [];
+
+    if(orders.length===0){
+        return(
+           <div className="min-h-screen px-10 max-[992px]:px-4 mt-4">
+                <h1 
+                    className="text-[16px] font-mont text-black 
+                    font-medium text-center"
+                >
+                    No Orders yet
+                </h1>
+           </div>
+        )
+    }
+
     return(
         <section  className="min-h-screen px-10 max-[992px]:px-4 mt-4">
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
