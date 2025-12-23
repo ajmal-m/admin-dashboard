@@ -25,6 +25,8 @@ export const useUpdateProduct = ({
     const queryClient = useQueryClient();
     const search = useSelector((store : RootState) => store.productTableFilters.search);
     const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
+    const sort = useSelector((store : RootState) => store.productTableFilters.sort);
+
 
     return useMutation({
         mutationFn: ({ data  , id }: { data : productData, id : string}) => {
@@ -36,7 +38,8 @@ export const useUpdateProduct = ({
         async onSuccess() {
             queryClient.invalidateQueries({ queryKey : getProductsQueryOption({
                 search,
-                categoryIds
+                categoryIds,
+                sort
             }).queryKey })
             close?.();
         },

@@ -49,7 +49,7 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
   return(
     <tr
       key={product._id}
-      className={`border-b border-default font-mont ${
+      className={`border-b border-default font-mont capitalize ${
         index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
       }`}
 
@@ -152,7 +152,7 @@ const ProductTable: React.FC = memo( () => {
 
   if(!products.length){
     return(
-      <div>
+      <div className="mt-4">
         <h1 className="font-mont text-[16px] text-black text-center font-medium">No Products Found</h1>
       </div>
     )

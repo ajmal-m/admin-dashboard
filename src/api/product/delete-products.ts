@@ -23,6 +23,8 @@ export const useDeleteProduct = ({
     const queryClient = useQueryClient();
      const search = useSelector((store : RootState) => store.productTableFilters.search);
     const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
+    const sort = useSelector((store : RootState) => store.productTableFilters.sort);
+
     return useMutation({
         mutationFn: ( id : string  ) => {
             return deleteProduct(id);
@@ -33,7 +35,8 @@ export const useDeleteProduct = ({
         async onSuccess() {
             queryClient.invalidateQueries({ queryKey : getProductsQueryOption({
                 search,
-                categoryIds
+                categoryIds,
+                sort
             }).queryKey })
             close?.();
         },
