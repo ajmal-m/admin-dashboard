@@ -68,7 +68,7 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
       </th>
       <td className="px-6 py-4">
         <img 
-          className="w-10 h-10" 
+          className="w-10 h-10 object-contain" 
           src={product.image.secure_url}
           alt={product.name}
           loading="lazy" />
