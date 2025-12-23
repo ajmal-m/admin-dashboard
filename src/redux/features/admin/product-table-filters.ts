@@ -14,7 +14,7 @@ const initialState : StateType = {
     categoryIds:[],
     sort:"",
     active:'',
-    limit:5,
+    limit:7,
     page:1
 }
 

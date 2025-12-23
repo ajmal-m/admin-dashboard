@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
 import Pagination from "../pagination";
-import { updatePage } from "@/redux/features/admin/product-table-filters";
+import { nextPage, prevPage, updatePage } from "@/redux/features/admin/product-table-filters";
 const rows = [
     "Product Name",
     "Category",
@@ -123,6 +123,8 @@ const TablePagination = memo((
         totalPages={totalPages}
         currentPage={page}
         onUpdatePage={(page) => dispatch(updatePage({page}))}
+        nextPage={() => dispatch(nextPage())}
+        prevPage={() => dispatch(prevPage())}
     />
   )
 });
