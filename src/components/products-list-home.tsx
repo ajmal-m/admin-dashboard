@@ -6,7 +6,9 @@ import { Bars } from "react-loader-spinner";
 
 
 const Products = memo(() => {
-    const getProductsMutation = useGetProducts({});
+    const getProductsMutation = useGetProducts({
+        active:"ACTIVE"
+    });
 
     if(getProductsMutation.isLoading){
         return <div className="flex items-center justify-center">
