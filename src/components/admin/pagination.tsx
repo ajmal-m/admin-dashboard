@@ -1,10 +1,16 @@
 import { cn } from "@/lib/utils";
 import { getPagination } from "@/utils/utils";
-import { memo, useState } from "react";
+import { memo } from "react";
 
-const Pagination = memo(() => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const pages = getPagination({ current: currentPage , total: 10});
+const Pagination = memo((
+    { totalPages , currentPage , onUpdatePage }:
+    {
+        totalPages: number;
+        currentPage:number;
+        onUpdatePage: (page: number) => void;
+    }
+) => {
+    const pages = getPagination({ current: currentPage , total: totalPages });
     return(
         <div className="h-12 w-full bg-green-900 mt-2 flex items-center justify-end px-4">
             <div className="flex items-center">
@@ -21,7 +27,7 @@ const Pagination = memo(() => {
                             key={page}
                             onClick={() => {
                                 if(!isNaN(Number(page)) ){
-                                    setCurrentPage(page as number)
+                                    onUpdatePage(Number(page))
                                 }
                             }}
                         >

@@ -20,7 +20,7 @@ const SearchInput = memo(() => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            dispatch(updateSearch({ search }))
+            dispatch(updateSearch({ search, page:1 }))
         },500)
         return () => clearTimeout(timer);
     },[search])
@@ -65,7 +65,7 @@ const CategorySelector = memo(() => {
 
     const filterProduct = useCallback(() => {
         setShow(false);
-        dispatch(updateCategoryIds({ categoryIds : checkedValues }));
+        dispatch(updateCategoryIds({ categoryIds : checkedValues, page:1 }));
     },[checkedValues ]);
 
     return(
@@ -142,7 +142,7 @@ const SortSelector = memo(() => {
     const sort = useSelector((store : RootState) => store.productTableFilters.sort);
     const dispatch = useDispatch<AppDispatch>();
     const changeSort = useCallback(( e : React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch(updateSort({ sort : e.target.value }));
+        dispatch(updateSort({ sort : e.target.value , page:1 }));
     },[])
     return(
         <select 
@@ -168,7 +168,7 @@ const ActiveSelector = memo(() => {
     const dispatch = useDispatch<AppDispatch>();
     const active = useSelector((store : RootState) => store.productTableFilters.active);
     const changeActive = useCallback((e : React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch(updateActiveState({ active : e.target.value }));
+        dispatch(updateActiveState({ active : e.target.value , page:1 }));
     },[])
     return(
         <select 

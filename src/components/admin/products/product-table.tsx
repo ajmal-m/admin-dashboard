@@ -9,9 +9,10 @@ import AddEditProduct from "./add-edit-product-modal";
 import { DeleteProductModal } from "./delete-product";
 import { timeAgo } from "@/utils/utils";
 import { Badge } from "@/components/ui/badge";
-import { useSelector } from "react-redux";
-import type { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
 import Pagination from "../pagination";
+import { updatePage } from "@/redux/features/admin/product-table-filters";
 const rows = [
     "Product Name",
     "Category",
@@ -106,7 +107,25 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
       </td>
     </tr>
   )
-})
+});
+
+
+const TablePagination = memo((
+  {  totalPages , page }:
+  {  
+    totalPages:number;
+    page:number;
+  }
+) => {
+  const dispatch = useDispatch<AppDispatch>();
+  return(
+    <Pagination
+        totalPages={totalPages}
+        currentPage={page}
+        onUpdatePage={(page) => dispatch(updatePage({page}))}
+    />
+  )
+});
 
 
 
@@ -121,9 +140,11 @@ const ProductTable: React.FC = memo( () => {
   const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
   const sort =  useSelector((store : RootState) => store.productTableFilters.sort);
   const active =  useSelector((store : RootState) => store.productTableFilters.active);
+  const page =  useSelector((store : RootState) => store.productTableFilters.page);
+  const limit =  useSelector((store : RootState) => store.productTableFilters.limit);
 
 
-  const getProductMutation = useGetProducts({search , categoryIds , sort , active});
+  const getProductMutation = useGetProducts({search , categoryIds , sort , active , limit , page});
 
   const openProductEditModal = useCallback((product : Product) => {
     setIsOpenEditProduct(true);
@@ -150,6 +171,7 @@ const ProductTable: React.FC = memo( () => {
   }
 
   const products : Product[] = getProductMutation.data?.data?.data ?? [];
+  const totalPages : number = getProductMutation.data?.data?.pageCount ?? 0;
 
 
   if(!products.length){
@@ -171,6 +193,7 @@ const ProductTable: React.FC = memo( () => {
           ))}
         </tbody>
       </table>
+      <TablePagination page={page} totalPages={totalPages}/>
       <PopUp 
         model={(close) => <AddEditProduct close={close} product={selectedProduct as Product}/>}
         isOpen={isOpenEditProduct}

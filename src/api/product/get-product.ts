@@ -1,9 +1,9 @@
 import axiosInstance from "../api";
 import { useQuery , queryOptions } from "@tanstack/react-query";
 
-export const getProducts = async({ search , categoryIds , sort , active }: { search ?: string ; categoryIds ?: string[] ; sort?: string; active ?: string;  })=> {
+export const getProducts = async({ search , categoryIds , sort , active , page , limit}: { search ?: string ; categoryIds ?: string[] ; sort?: string; active ?: string;limit ?: number ; page?:number;  })=> {
     try {
-        let query = `/product/all?q=${search ?? ''}&sort=${sort ?? ''}&active=${active ?? ''}`;
+        let query = `/product/all?q=${search ?? ''}&sort=${sort ?? ''}&active=${active ?? ''}&page=${page ?? 1 }&limit=${limit ?? 10}`;
         if(categoryIds?.length){
             for(let cId of categoryIds){
                 query += `&cat=${cId}`;
@@ -17,10 +17,10 @@ export const getProducts = async({ search , categoryIds , sort , active }: { sea
 
 
 
-export const getProductsQueryOption = ({ search , categoryIds , sort , active }: { search ?: string ; categoryIds ?: string[];sort?:  string ;active?: string;  } ) => {
+export const getProductsQueryOption = ({ search , categoryIds , sort , active , page , limit }: { search ?: string ; categoryIds ?: string[];sort?:  string ;active?: string;limit ?: number ; page?:number;  } ) => {
     return queryOptions({
-        queryKey:['get-products', search , categoryIds , sort  , active],
-        queryFn: () => getProducts({ search , categoryIds , sort , active})
+        queryKey:['get-products', search , categoryIds , sort  , active , page , limit ],
+        queryFn: () => getProducts({ search , categoryIds , sort , active , page , limit})
     })
 }
 
@@ -30,10 +30,12 @@ export const useGetProducts = ( {
     search,
     categoryIds,
     sort,
-    active
-} : { queryConfig ?: any ; search ?: string; categoryIds ?: string[] ; sort ?:  string ; active ?: string; } ) => {
+    active,
+    page,
+    limit
+} : { queryConfig ?: any ; search ?: string; categoryIds ?: string[] ; sort ?:  string ; active ?: string; limit ?: number ; page?:number; } ) => {
     return useQuery({
-       ...getProductsQueryOption({ search , categoryIds , sort , active }),
+       ...getProductsQueryOption({ search , categoryIds , sort , active , page, limit}),
        ...queryConfig
     })
 }
