@@ -4,11 +4,11 @@ import AddEditProduct from "./add-edit-product-modal";
 import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { updateCategoryIds, updateSearch, updateSort } from "@/redux/features/admin/product-table-filters";
+import { updateActiveState, updateCategoryIds, updateSearch, updateSort } from "@/redux/features/admin/product-table-filters";
 import { Button } from "@/components/ui/button";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/type";
-import { ADMIN_PRODUCT_SORT_OPTION } from "@/const/product-sort-options";
+import { ACTIVE_SELECTOR_OPTIONS, ADMIN_PRODUCT_SORT_OPTION } from "@/const/product-sort-options";
 
 
 const SearchInput = memo(() => {
@@ -164,6 +164,31 @@ const SortSelector = memo(() => {
     )
 });
 
+const ActiveSelector = memo(() => {
+    const dispatch = useDispatch<AppDispatch>();
+    const active = useSelector((store : RootState) => store.productTableFilters.active);
+    const changeActive = useCallback((e : React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(updateActiveState({ active : e.target.value }));
+    },[])
+    return(
+        <select 
+            name="active-selector" id="active-sort"
+            className={cn(
+                "rounded border border-green-900 font-mont",
+                "bg-green-800 text-white cursor-pointer px-4 py-2 text-[12px]"
+            )}
+            value={active}
+            onChange={changeActive}
+        >
+            {
+                ACTIVE_SELECTOR_OPTIONS.map((option) => (
+                    <option value={option.value} key={option.name}>{option.name}</option>
+                ))
+            }
+        </select>
+    )
+});
+
 
 const AddProduct = memo(() => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -173,6 +198,7 @@ const AddProduct = memo(() => {
                 <SearchInput/>
                 <CategorySelector/>
                 <SortSelector/>
+                <ActiveSelector/>
             </div>
             <button 
                 onClick={() => setIsOpen(true)}

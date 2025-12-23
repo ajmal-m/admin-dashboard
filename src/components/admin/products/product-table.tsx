@@ -119,9 +119,10 @@ const ProductTable: React.FC = memo( () => {
   const search = useSelector((store : RootState) => store.productTableFilters.search);
   const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
   const sort =  useSelector((store : RootState) => store.productTableFilters.sort);
+  const active =  useSelector((store : RootState) => store.productTableFilters.active);
 
 
-  const getProductMutation = useGetProducts({search , categoryIds , sort});
+  const getProductMutation = useGetProducts({search , categoryIds , sort , active});
 
   const openProductEditModal = useCallback((product : Product) => {
     setIsOpenEditProduct(true);
@@ -134,7 +135,7 @@ const ProductTable: React.FC = memo( () => {
   },[])
 
   if(getProductMutation.isLoading){
-    return <div className="flex items-center justify-center">
+    return <div className="flex items-center justify-center mt-6">
       <Bars
           height="80"
           width="80"

@@ -26,6 +26,8 @@ export const useUpdateProduct = ({
     const search = useSelector((store : RootState) => store.productTableFilters.search);
     const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
     const sort = useSelector((store : RootState) => store.productTableFilters.sort);
+    const active = useSelector((store : RootState) => store.productTableFilters.active);
+    
 
 
     return useMutation({
@@ -39,7 +41,8 @@ export const useUpdateProduct = ({
             queryClient.invalidateQueries({ queryKey : getProductsQueryOption({
                 search,
                 categoryIds,
-                sort
+                sort,
+                active
             }).queryKey })
             close?.();
         },

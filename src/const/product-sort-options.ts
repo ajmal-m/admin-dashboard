@@ -9,4 +9,10 @@ export const ADMIN_PRODUCT_SORT_OPTION = [
     ...PRODUCT_SORT_OPTIONS,
     { name:"Stock ( Low - High )" , value:"STOCK_LOW_HIGH" },
     { name:"Stock ( High - Low )" , value:"STOCK_HIGH_LOW"},
-]
+];
+
+export const ACTIVE_SELECTOR_OPTIONS = [
+    { name:"Both Active & Inactive", value:""},
+    { name:"Active Only" , value:'ACTIVE' },
+    { name:"Inactive Only" , value:'INACTIVE' },
+];
