@@ -25,6 +25,9 @@ export const useDeleteProduct = ({
     const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
     const sort = useSelector((store : RootState) => store.productTableFilters.sort);
     const active = useSelector((store : RootState) => store.productTableFilters.active);
+    const page = useSelector((store : RootState) => store.productTableFilters.page);
+    const limit = useSelector((store : RootState) => store.productTableFilters.limit);
+
 
 
     return useMutation({
@@ -39,7 +42,9 @@ export const useDeleteProduct = ({
                 search,
                 categoryIds,
                 sort,
-                active
+                active,
+                page,
+                limit
             }).queryKey })
             close?.();
         },

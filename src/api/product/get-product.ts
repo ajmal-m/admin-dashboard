@@ -3,7 +3,7 @@ import { useQuery , queryOptions } from "@tanstack/react-query";
 
 export const getProducts = async({ search , categoryIds , sort , active , page , limit}: { search ?: string ; categoryIds ?: string[] ; sort?: string; active ?: string;limit ?: number ; page?:number;  })=> {
     try {
-        let query = `/product/all?q=${search ?? ''}&sort=${sort ?? ''}&active=${active ?? ''}&page=${page ?? 1 }&limit=${limit ?? 10}`;
+        let query = `/product/all?q=${search ?? ''}&sort=${sort ?? ''}&active=${active ?? ''}&page=${page ?? 1 }&limit=${limit ?? ''}`;
         if(categoryIds?.length){
             for(let cId of categoryIds){
                 query += `&cat=${cId}`;
