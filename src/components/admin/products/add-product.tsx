@@ -154,7 +154,7 @@ const SortSelector = memo(() => {
             onChange={changeSort}
             value={sort || ""}
         >
-            <option value="">SELECT SORT</option>
+            <option value="">Latest Updates</option>
             {
                 ADMIN_PRODUCT_SORT_OPTION.map((option) => (
                     <option value={option.value} key={option.name}>{option.name}</option>
