@@ -88,3 +88,33 @@ export const useDebouncer =  ( str : string , delay = 500 ) => {
 
   return debounceStr;
 }
+
+export const getPagination = ({ current, total, delta = 1}:{ current:number; total:number; delta?:number}) => {
+  const pages = [];
+  const range = [];
+
+  for (let i = 1; i <= total; i++) {
+    if (
+      i === 1 ||                      
+      i === total ||                  
+      (i >= current - delta && i <= current + delta)
+    ) {
+      range.push(i);
+    }
+  }
+
+  let prev;
+  for (let page of range) {
+    if (prev) {
+      if (page - prev === 2) {
+        pages.push(prev + 1);
+      } else if (page - prev > 2) {
+        pages.push("...");
+      }
+    }
+    pages.push(page);
+    prev = page;
+  }
+
+  return pages;
+}

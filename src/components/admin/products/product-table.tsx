@@ -11,6 +11,7 @@ import { timeAgo } from "@/utils/utils";
 import { Badge } from "@/components/ui/badge";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import Pagination from "../pagination";
 const rows = [
     "Product Name",
     "Category",
