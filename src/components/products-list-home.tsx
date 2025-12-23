@@ -1,16 +1,15 @@
 import { memo } from "react";
 import ProductCard from "./product-card";
-import { useGetProducts } from "@/api/product/get-product";
 import type { Product } from "@/type/type";
 import { Bars } from "react-loader-spinner";
+import { useGetProductHome } from "@/api/product/get-products-on-home";
+import { Button } from "./ui/button";
 
 
 const Products = memo(() => {
-    const getProductsMutation = useGetProducts({
-        active:"ACTIVE"
-    });
+    const getProductMutation = useGetProductHome();
 
-    if(getProductsMutation.isLoading){
+    if(getProductMutation.isLoading){
         return <div className="flex items-center justify-center">
         <Bars
             height="80"
@@ -24,7 +23,7 @@ const Products = memo(() => {
         </div>
     }
 
-    const products : Product[] = getProductsMutation.data?.data?.data ?? [];
+    const products : Product[] = getProductMutation.data?.pages?.flatMap((arr) => arr.data ) ?? [];
 
     if(!products.length){
         return(
@@ -43,6 +42,15 @@ const Products = memo(() => {
                     ))
                 }
             </div>
+            {
+                getProductMutation.hasNextPage && (
+                    <Button onClick={() => getProductMutation.fetchNextPage()} className="w-50">
+                        {
+                            getProductMutation.isFetchingNextPage ? "Loading...." : "Load More"
+                        }
+                    </Button>
+                )
+            }
         </section>
     )
 });
