@@ -12,6 +12,8 @@ import { closeOrderStatusUpdatePopUp, openOrderStatusUpdatePopUp } from "@/redux
 import { ORDER_STATUS_COLOR, paymentStatusClass, timeAgo } from "@/utils/utils";
 import { DeleteOrderModal } from "./delete-order-modal";
 import { Badge } from "@/components/ui/badge";
+import FullCoverPoup from "@/components/full-covered-popup";
+import OrderDetailPopup from "./order-detail-popup";
 
 const rows = [
     "Name",
@@ -47,7 +49,9 @@ const TableHead = memo((
 });
 
 
-const TableRow = memo(({ order , index , selectOrder , openDeleteModal}: { order : Order ; index: number ; selectOrder : () => void;openDeleteModal:( ) => void } ) => {
+const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMoreInfoModal}: 
+  { order : Order ; index: number ; selectOrder : () => void;openDeleteModal:( ) => void ; openMoreInfoModal : () => void} 
+) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const updateOrder = useCallback(() => {
@@ -58,7 +62,13 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal}: { order
   const deleteOrder = useCallback(() => {
     selectOrder();
     openDeleteModal();
-  },[selectOrder, openDeleteModal])
+  },[selectOrder, openDeleteModal]);
+
+
+  const moreInfoOrder = useCallback(() => {
+    selectOrder();
+    openMoreInfoModal();
+  },[selectOrder, openMoreInfoModal])
 
   
   return(
@@ -90,23 +100,44 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal}: { order
         <Badge className={cn(paymentStatusClass[order.payment.status as string])}>{order.payment.status}</Badge>
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        {timeAgo(order.createdAt)}
+        {timeAgo(order?.createdAt ?? "")}
       </th>
       <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        {timeAgo(order.updatedAt)}
+        {timeAgo(order?.updatedAt ?? "")}
       </th>
       <td className="px-6 py-4">
         <div className="flex items-center gap-2">
           {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
+           <Button 
+            className={
+              cn("cursor-pointer bg-transparent hover:bg-transparent", 
+                index%2===1 ? "text-white" :"text-black" ,
+                "border border-transparent",
+                index%2==0 ? "hover:border-green-800" : "hover:border-white"
+              )}
+            onClick={moreInfoOrder}
+          >
+            More
+          </Button>
           <Button 
-            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            className={cn(
+              "cursor-pointer bg-transparent hover:bg-transparent", 
+              index%2===1 ? "text-white" :"text-black" ,
+                "border border-transparent",
+                index%2==0 ? "hover:border-green-800" : "hover:border-white"
+            )}
             onClick={updateOrder}
     
           >
             Update
           </Button>
           <Button 
-            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            className={cn(
+              "cursor-pointer bg-transparent hover:bg-transparent", 
+              index%2===1 ? "text-white" :"text-black" ,
+                "border border-transparent",
+                index%2==0 ? "hover:border-green-800" : "hover:border-white"
+            )}
             onClick={deleteOrder}
           >
             Delete
@@ -126,11 +157,16 @@ const OrdersTable: React.FC = memo( () => {
   const getAllOrdersMutation = useGetAllOrders();
   const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [ isOpenOrderMoreInfo , setIsOpenOrderMoreInfo  ]= useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
 
   const openDeleteModal = useCallback(() => {
     setIsOpenDeleteModal(true);
-  },[])
+  },[]);
+
+  const openMoreInfoModal = useCallback(() => {
+    setIsOpenOrderMoreInfo(true);
+  },[]);
 
 
   if(getAllOrdersMutation.isLoading){
@@ -165,7 +201,12 @@ const OrdersTable: React.FC = memo( () => {
         <TableHead/>
         <tbody>
           { orders.map((order, index) => (
-            <TableRow order={order} index={index}  selectOrder={() => setSelectedOrder(order) } openDeleteModal={openDeleteModal}/>
+            <TableRow 
+              order={order} index={index}  
+              selectOrder={() => setSelectedOrder(order) } 
+              openDeleteModal={openDeleteModal}
+              openMoreInfoModal={openMoreInfoModal}
+            />
           ))}
         </tbody>
       </table>
@@ -180,6 +221,13 @@ const OrdersTable: React.FC = memo( () => {
         model={(close) => <DeleteOrderModal close={close} id={selectedOrder?._id as string } />}
         isOpen={isOpenDeleteModal}
         handleClose={() => setIsOpenDeleteModal(false)  }
+      />
+      <FullCoverPoup
+          modal={(close) => (
+           <OrderDetailPopup close={close} order={selectedOrder} />
+          )}
+          isOpen={isOpenOrderMoreInfo}
+          handleClose={() => setIsOpenOrderMoreInfo(false)}
       />
     </div>
   );

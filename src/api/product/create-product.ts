@@ -4,6 +4,7 @@ import { getProductsQueryOption } from "./get-product";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 type productData = FormData;
 
@@ -13,7 +14,7 @@ export const createProduct = async(data : productData) => {
     try {
         return await axiosInstance.post('/product/add',data);
     } catch (error) {
-       return error
+       throw error
     }
 }
 
@@ -34,7 +35,7 @@ export const useCreateProduct = ({
         mutationFn: (data : productData ) => {
             return createProduct(data);
         },
-        onError(error) {
+        onError(error : AxiosError<{ message: string }>) {
             const message = error?.response?.data?.message ?? 'Error on server'
             toast.error(message)
         },
