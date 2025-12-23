@@ -1,9 +1,33 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import ProductCard from "./product-card";
 import type { Product } from "@/type/type";
-import { Bars } from "react-loader-spinner";
+import { Bars, Oval } from "react-loader-spinner";
 import { useGetProductHome } from "@/api/product/get-products-on-home";
 import { Button } from "./ui/button";
+
+
+const ObserverElement = memo((
+    { hasNext , gotToPage }:
+    {
+        hasNext: boolean;
+        gotToPage:() => void
+    }
+) => {
+    const ref = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if(!ref.current) return;
+        const observer = new IntersectionObserver(([entry]) => {
+           if(entry.isIntersecting && hasNext){
+            gotToPage?.();
+           }
+        });
+        observer.observe(ref.current);
+        return () => observer.disconnect();
+    },[ref.current])
+    return(
+        <div ref={ref}></div>
+    )
+});
 
 
 const Products = memo(() => {
@@ -43,14 +67,20 @@ const Products = memo(() => {
                 }
             </div>
             {
-                getProductMutation.hasNextPage && (
-                    <Button onClick={() => getProductMutation.fetchNextPage()} className="w-50">
-                        {
-                            getProductMutation.isFetchingNextPage ? "Loading...." : "Load More"
-                        }
-                    </Button>
-                )
+                 getProductMutation.isFetchingNextPage && (
+                    <div className="flex justify-center items-center">
+                        <span className="tetx-[16px] font-mont font-medium">Loading...</span>
+                        <Oval
+                            visible={true}
+                            height="20"
+                            width="20"
+                            color="#4fa94d"
+                            strokeWidth='2'
+                        />
+                    </div>
+                 )
             }
+            <ObserverElement hasNext={getProductMutation.hasNextPage} gotToPage={ () => getProductMutation.fetchNextPage() }  />
         </section>
     )
 });
