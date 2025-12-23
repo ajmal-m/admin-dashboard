@@ -2,12 +2,13 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import PopUp from "@/components/pop-up-drawer";
 import AddEditProduct from "./add-edit-product-modal";
 import { cn } from "@/lib/utils";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "@/redux/store";
-import { updateCategoryIds, updateSearch } from "@/redux/features/admin/product-table-filters";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { updateCategoryIds, updateSearch, updateSort } from "@/redux/features/admin/product-table-filters";
 import { Button } from "@/components/ui/button";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/type";
+import { ADMIN_PRODUCT_SORT_OPTION } from "@/const/product-sort-options";
 
 
 const SearchInput = memo(() => {
@@ -134,7 +135,34 @@ const CategorySelector = memo(() => {
             }
         </div>
     )
-})
+});
+
+
+const SortSelector = memo(() => {
+    const sort = useSelector((store : RootState) => store.productTableFilters.sort);
+    const dispatch = useDispatch<AppDispatch>();
+    const changeSort = useCallback(( e : React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(updateSort({ sort : e.target.value }));
+    },[])
+    return(
+        <select 
+            name="sort" id="sort"
+            className={cn(
+                "rounded border border-green-900 font-mont",
+                "bg-green-800 text-white cursor-pointer px-4 py-2 text-[12px]"
+            )}
+            onChange={changeSort}
+            value={sort || ""}
+        >
+            <option value="">SELECT SORT</option>
+            {
+                ADMIN_PRODUCT_SORT_OPTION.map((option) => (
+                    <option value={option.value} key={option.name}>{option.name}</option>
+                ))
+            }
+        </select>
+    )
+});
 
 
 const AddProduct = memo(() => {
@@ -144,6 +172,7 @@ const AddProduct = memo(() => {
             <div className="flex items-center gap-4">
                 <SearchInput/>
                 <CategorySelector/>
+                <SortSelector/>
             </div>
             <button 
                 onClick={() => setIsOpen(true)}

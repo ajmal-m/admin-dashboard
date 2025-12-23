@@ -53,8 +53,9 @@ const SortSelector = memo((
                 "bg-green-800 text-white cursor-pointer px-4 py-2 text-[12px]"
             )}
             onChange={handleSort}
-            value={sort as string}
+            value={sort}
         >
+            <option value="">SELECT SORT</option>
             {
                 PRODUCT_SORT_OPTIONS.map((option) => (
                     <option value={option.value} key={option.name}>{option.name}</option>
@@ -88,7 +89,7 @@ const SearchInput = memo((
 
 const ProductByCategoryPage = memo(() => {
     const { cne , cId } = useParams();
-    const [sort, setSort] = useState<string>('A_Z');
+    const [sort, setSort] = useState<string>('');
     const [search, setSearch] = useState<string>("");
     const debouncedSearch = useDebouncer(search);
     

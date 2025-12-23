@@ -118,9 +118,10 @@ const ProductTable: React.FC = memo( () => {
 
   const search = useSelector((store : RootState) => store.productTableFilters.search);
   const categoryIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
+  const sort =  useSelector((store : RootState) => store.productTableFilters.sort);
 
 
-  const getProductMutation = useGetProducts({search , categoryIds});
+  const getProductMutation = useGetProducts({search , categoryIds , sort});
 
   const openProductEditModal = useCallback((product : Product) => {
     setIsOpenEditProduct(true);
