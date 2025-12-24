@@ -4,10 +4,14 @@
 @import "tw-animate-css";
 
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 
 @theme{
     --font-mont: "Montserrat", sans-serif;
+    --color-bluedark:#030712;
+    --color-light:#ffffff;
+    --color-grayblue:#383f46
 }
 
 

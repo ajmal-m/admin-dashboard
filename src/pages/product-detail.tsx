@@ -160,9 +160,9 @@ const ProductDetail = memo(() => {
                         max-[800px]:pt-0 max-[800px]:w-full max-[800px]:gap-1
                     "
                 >
-                    <h2 className="text-[24px] text-black font-mont font-medium capitalize">{product.name}</h2>
+                    <h2 className="text-[24px] font-mont font-medium capitalize">{product.name}</h2>
                     <div className="flex items-center justify-between gap-10">
-                        <p className="text-[24px] text-[black] font-mont font-bold">₹ {product.price}</p>
+                        <p className="text-[24px] font-mont font-bold">₹ {product.price}</p>
                         <div className="flex items-center gap-2">
                             <span className="text-[#2B2B2B] font-mont font-medium">MRP <span className="line-through">{ Math.floor(product.price*1.1)}</span></span>
                             <Badge className={cn("bg-blue-500 text-white px-2 py-1 rounded font-month font-medium")}>10% off</Badge>

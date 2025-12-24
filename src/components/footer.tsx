@@ -10,7 +10,7 @@ const Sections = [
 
 const Footer = memo(() => {
     return(
-       <footer className="min-h-[100px] bg-[#C6EAD7] dark:bg-[#C6EAD7] mt-[30px] py-[30px] px-10 max-[600px]:py-2 max-[992px]:px-4">
+       <footer className="min-h-[100px] bg-[#C6EAD7] dark:bg-bluedark dark:border-t dark:border-gray-900 mt-[30px] py-[30px] px-10 max-[600px]:py-2 max-[992px]:px-4">
         <div className="grid grid-cols-4 max-[859px]:grid-cols-3 max-[663px]:grid-cols-2 max-[410px]:grid-cols-1 gap-4">
             {
                 Sections.map((section) => (

@@ -37,7 +37,7 @@ const ProductList = memo(({ product }: { product: Product}) => {
 const SimilarProducts = memo(({ product }: { product: Product}) => {
     return(
         <section className="mt-6">
-             <h2  className="text-[24px] font-semibold text-[#000000] font-mont max-[400px]:text-[24px] capitalize">People also bought</h2>
+             <h2  className="text-[24px] font-semibold font-mont max-[400px]:text-[24px] capitalize">People also bought</h2>
              <ProductList product={product}/>
         </section>
     )

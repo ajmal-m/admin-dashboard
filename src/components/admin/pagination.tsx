@@ -20,8 +20,8 @@ const Pagination = memo((
                     className={
                         cn(
                             `
-                            w-10 h-10 bg-white p-2 font-mont font-medium
-                            text-black border border-green-900 cursor-pointer
+                            w-10 h-10 bg-light dark:bg-bluedark p-2 font-mont font-medium
+                            border border-green-900 cursor-pointer
                             `
                         )
                     }
@@ -36,9 +36,9 @@ const Pagination = memo((
                         <button 
                             className={
                                 cn(
-                                    ` w-10 h-10 bg-white p-2 font-mont font-medium
-                                    text-black border border-green-900 cursor-pointer`,
-                                    page == currentPage && "bg-green-400"
+                                    ` w-10 h-10 p-2 font-mont font-medium
+                                    border bg-light dark:bg-bluedark border-green-900 cursor-pointer`,
+                                    page == currentPage && "bg-green-400 dark:bg-white dark:text-black"
                                 )
                             }
                             key={page}
@@ -56,8 +56,8 @@ const Pagination = memo((
                     className={
                         cn(
                             `
-                            w-10 h-10 bg-white p-2 font-mont font-medium
-                            text-black border border-green-900 cursor-pointer
+                            w-10 h-10 bg-light dark:bg-bluedark p-2 font-mont font-medium
+                            border border-green-900 cursor-pointer
                             `
                         )
                     }

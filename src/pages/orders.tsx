@@ -18,26 +18,26 @@ const OrderCard = memo((
     return(
         <div className="min-w-10 min-h-50 border border-green-500 hover:border-green-700 rounded p-4 grid grid-cols-1 gap-y-2">
             <div className="grid grid-cols-2 gap-4">
-                <p className="text-[14px] font-mont text-black">Items placed</p>
-                <span className="text-[14px] font-mont text-black">{order.items.length}</span>
+                <p className="text-[14px] font-mont ">Items placed</p>
+                <span className="text-[14px] font-mont ">{order.items.length}</span>
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <p className="text-[14px] font-mont text-black">Total payment</p>
-                <span className="text-[14px] font-mont text-black font-medium">₹ {order.grandTotal}</span>
+                <p className="text-[14px] font-mont ">Total payment</p>
+                <span className="text-[14px] font-mont font-medium">₹ {order.grandTotal}</span>
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <p className="text-[14px] font-mont text-black">Payment status</p>
+                <p className="text-[14px] font-mont ">Payment status</p>
                 <Badge className={cn('text-[12px] font-mont text-white lowercase' , 
                    order.payment.status && paymentStatusClass[order.payment.status] )}>{order.payment.status}</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <p className="text-[14px] font-mont text-black">Order status</p>
+                <p className="text-[14px] font-mont ">Order status</p>
                 <Badge className={cn('text-[12px] font-mont text-white lowercase' , 
                    order.orderStatus && ORDER_STATUS_COLOR[order.orderStatus] )}>{order.orderStatus}</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <p className="text-[14px] font-mont text-black">Order placed</p>
-                <span className="text-[14px] font-mont text-black">{ timeAgo(order.createdAt as string)}</span>
+                <p className="text-[14px] font-mont ">Order placed</p>
+                <span className="text-[14px] font-mont ">{ timeAgo(order.createdAt as string)}</span>
             </div>
             <Link to={`/order/${order._id}`} className={cn("w-full")}>
                 <Button className={cn("rounded bg-green-800 font-mont cursor-pointer text-[16px] w-full")}>
@@ -75,7 +75,7 @@ const OrderSection = memo(() => {
         return(
            <div className="min-h-screen px-10 max-[992px]:px-4 mt-4">
                 <h1 
-                    className="text-[16px] font-mont text-black 
+                    className="text-[16px] font-mont
                     font-medium text-center"
                 >
                     No Orders yet

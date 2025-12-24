@@ -44,7 +44,7 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
         <div className="
             min-w-[120px] max-h-[418px] border border-[#0B6434] 
             rounded flex flex-col items-start justify-center gap-1
-            py-3 text-[12px] px-2 shadow
+            py-3 text-[12px] px-2 shadow dark:bg-green-900
         "
         >
             <div className="w-full">
@@ -52,10 +52,10 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
                     <div className="h-[153px] w-full flex items-center justify-center">
                         <img src={product.image.secure_url} alt="product-image" loading="lazy" className="max-h-[153px]"/>
                     </div>
-                    <h3 className="text-[16px] font-mont text-[rgb(0,0,0)] max-[400px]:text-[16px] font-medium capitalize">{product.name}</h3>
+                    <h3 className="text-[16px] font-mont max-[400px]:text-[16px] font-medium capitalize">{product.name}</h3>
                     <div className="w-full flex items-center justify-between">
-                        <p className="font-mont text-[#000000] text-[16px] font-bold">₹{product.price}</p>
-                        <p className="font-mont text-[#000000] text-[16px] items-left font-medium">1 Kg</p>
+                        <p className="font-mont text-[16px] font-bold">₹{product.price}</p>
+                        <p className="font-mont text-[16px] items-left font-medium">1 Kg</p>
                     </div>
                 </Link>
             </div>
@@ -63,22 +63,22 @@ const ProductCard = memo(({ product }:{ product: Product}) => {
                 {
                     selectedQuantity > 0 ? (
                         <button
-                            className="w-full h-8 flex items-center justify-center bg-[#0B6434] text-white rounded-[5px] font-mont text-[16px] font-semibold"
+                            className="w-full h-8 flex items-center justify-center bg-[#0B6434] rounded-[5px] font-mont text-[16px] font-semibold"
                             type="button"
                         >
                             <div className="w-full grid grid-cols-3 gap-1">
                                 <div className="flex justify-end">
-                                    <span className="cursor-pointer text-end" onClick={() => updateQuantity("-")}>-</span>
+                                    <span className="cursor-pointer text-end text-white" onClick={() => updateQuantity("-")}>-</span>
                                 </div>
-                                <span className="font-mont">{selectedQuantity}</span>
+                                <span className="font-mont text-white">{selectedQuantity}</span>
                                 <div className="flex justify-start">
-                                    <span className="cursor-pointer text-justify" onClick={() => updateQuantity("+")}>+</span>
+                                    <span className="cursor-pointer text-justify text-white" onClick={() => updateQuantity("+")}>+</span>
                                 </div>
                             </div>
                         </button>
                     ) : (
                         <button
-                            className="w-full h-8 flex items-center justify-center bg-[white] text-[#0B6434] border border-[#0B6434] 
+                            className="w-full h-8 flex items-center justify-center border border-[#0B6434] 
                             rounded-[5px] cursor-pointer font-mont text-[16px] font-semibold"
                             type="button"
                             onClick={() => updateQuantity("+")}

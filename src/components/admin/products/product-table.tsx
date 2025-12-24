@@ -51,7 +51,7 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
   return(
     <tr
       className={`border-b border-default font-mont capitalize ${
-        index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
+        index % 2 === 0 ? 'bg-light dark:bg-bluedark' : 'bg-[#0B6434] text-white'
       }`}
 
     >
@@ -91,13 +91,13 @@ const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { pro
         <div className="flex items-center gap-2">
           {/* <EditProduct product={product} evenRow={index % 2 === 0}/> */}
           <Button 
-            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black dark:text-white" )}
             onClick={() => setProduct(product)}
           >
             Edit
           </Button>
           <Button 
-            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black" )}
+            className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2===1 ? "text-white" :"text-black dark:text-white" )}
             onClick={() => setDeleteProduct(product)}
           >
             Delete

@@ -77,7 +77,7 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMor
     <tr
       key={order._id}
       className={`border-b border-default font-mont ${
-        index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
+        index % 2 === 0 ? 'bg-light dark:bg-bluedark' : 'bg-[#0B6434] text-white'
       }`}
 
     >
@@ -113,7 +113,7 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMor
            <Button 
             className={
               cn("cursor-pointer bg-transparent hover:bg-transparent", 
-                index%2===1 ? "text-white" :"text-black" ,
+                index%2===1 ? "text-white" :"text-black dark:text-white"  ,
                 "border border-transparent",
                 index%2==0 ? "hover:border-green-800" : "hover:border-white"
               )}
@@ -124,7 +124,7 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMor
           <Button 
             className={cn(
               "cursor-pointer bg-transparent hover:bg-transparent", 
-              index%2===1 ? "text-white" :"text-black" ,
+              index%2===1 ? "text-white" :"text-black dark:text-white" ,
                 "border border-transparent",
                 index%2==0 ? "hover:border-green-800" : "hover:border-white"
             )}
@@ -136,7 +136,7 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMor
           <Button 
             className={cn(
               "cursor-pointer bg-transparent hover:bg-transparent", 
-              index%2===1 ? "text-white" :"text-black" ,
+              index%2===1 ? "text-white" :"text-black dark:text-white" ,
                 "border border-transparent",
                 index%2==0 ? "hover:border-green-800" : "hover:border-white"
             )}

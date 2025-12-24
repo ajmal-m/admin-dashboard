@@ -22,7 +22,7 @@ const Navbar = memo(() => {
     return(
        <nav
             className="
-                h-20 bg-[#FFFFFF] dark:bg-[#FFFFFF] flex items-center 
+                h-20 bg-light dark:bg-bluedark flex items-center 
                 justify-between px-10 border-b border-green-700 max-[992px]:px-4 sticky top-0 z-50
             "
        >

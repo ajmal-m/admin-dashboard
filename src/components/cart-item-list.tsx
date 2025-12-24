@@ -53,7 +53,7 @@ const CartItem = memo((
   },[selectedQuantity]);
 
   return(
-    <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center justify-between" key={productKey}>
+    <div className="w-full min-h-15 bg-light dark:bg-bluedark rounded py-2 px-3 flex items-center justify-between" key={productKey}>
         <div className="flex items-center gap-4">
             <div>
             <img 
@@ -62,8 +62,8 @@ const CartItem = memo((
             />
             </div>
             <div className="flex flex-col">
-                <p className="text-black text-[16px] font-mont capitalize">{cartProducts[productKey].name}</p>
-                <p className="text-black text-[16px] font-mont capitalize font-bold">₹{cartProducts[productKey].price}</p>
+                <p className="text-[16px] font-mont capitalize">{cartProducts[productKey].name}</p>
+                <p className=" text-[16px] font-mont capitalize font-bold">₹{cartProducts[productKey].price}</p>
             </div>
         </div>
         <div >
@@ -99,17 +99,17 @@ const BillingDetails = memo(( ) => {
 
   console.log("Item TOtal ", itemTotal)
   return(
-    <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex flex-col gap-2 mt-3">
-      <h2 className="text-black text-[16px] font-mont font-medium">Billing Details</h2>
-      <div className="grid grid-cols-2 font-mont text-[16px] text-[#2B2B2B]">
+    <div className="w-full min-h-15 bg-light dark:bg-bluedark rounded py-2 px-3 flex flex-col gap-2 mt-3">
+      <h2 className=" text-[16px] font-mont font-medium">Billing Details</h2>
+      <div className="grid grid-cols-2 font-mont text-[16px] text-[#2B2B2B] dark:text-light">
         <p>Items total</p>
-        <p className="text-black font-medium">₹{itemTotal}</p>
+        <p className=" font-medium">₹{itemTotal}</p>
         <p>Delivery charge</p>
         <h1 className="text-[#256FEF] font-medium"><span className="line-through text-[#787878] mr-2">₹25</span>FREE</h1>
         <p>Handling charge</p>
-        <p className="text-black font-medium">₹{hadleCharge}</p>
+        <p className="font-medium">₹{hadleCharge}</p>
         <p className="font-semibold mt-3">Grand total</p>
-        <p className="text-black font-semibold mt-3">₹{itemTotal+hadleCharge}</p>
+        <p className=" font-semibold mt-3">₹{itemTotal+hadleCharge}</p>
       </div>
     </div>
   )
@@ -131,7 +131,7 @@ const ProceedOrderButton = memo(({ close }: { close : () => void}) => {
 
   return(
     <button className="
-      w-full min-h-10 bg-white mt-3 rounded 
+      w-full min-h-10 bg-light dark:bg-bluedark mt-3 rounded 
     hover:bg-green-600
       cursor-pointer hover:text-white font-mont font-medium
     "

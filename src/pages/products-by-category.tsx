@@ -105,7 +105,7 @@ const ProductByCategoryPage = memo(() => {
     return(
        <section className="min-h-screen px-10 max-[992px]:px-4 mt-4">
         <div className="flex justify-between items-center">
-            <h1  className="text-[24px] font-semibold text-[#000000] font-mont max-[400px]:text-[24px] capitalize">{cne}</h1>
+            <h1  className="text-[24px] font-semibold font-mont max-[400px]:text-[24px] capitalize">{cne}</h1>
             <div className="flex items-center gap-2">
                 <SearchInput search={search} changeSearch={changeSearch}/>
                 <SortSelector sort={sort} handleSort={handleSort}/>

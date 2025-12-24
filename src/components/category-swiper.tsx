@@ -37,7 +37,7 @@ const CategorySwiper = memo(() => {
             <SwiperSlide key={'loading'}>
                   <div className="flex flex-col items-center justify-between">
                       <img src={CategoryImage} alt="item" loading="lazy"  className="w-[154px] h-[114px]"/>
-                      <p className="text-[16px] font-mont font-medium text-[#2B2B2B] dark:text-[#2B2B2B] uppercase">Loading....</p>
+                      <p className="text-[16px] font-mont font-medium uppercase">Loading....</p>
                   </div>
             </SwiperSlide>
           ) : (
@@ -46,7 +46,7 @@ const CategorySwiper = memo(() => {
                   <Link to={`cd/${category.name.toLowerCase()}/${category._id}`}>
                     <div className="flex flex-col items-center justify-between">
                         <img src={category.image?.secure_url} alt="item" loading="lazy"  className="w-[154px] h-[114px]"/>
-                        <p className="text-[16px] font-mont font-medium text-[#2B2B2B] dark:text-[#2B2B2B] uppercase">{category.name}</p>
+                        <p className="text-[16px] font-mont font-medium uppercase">{category.name}</p>
                     </div>
                   </Link>
                 </SwiperSlide>

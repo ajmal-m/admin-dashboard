@@ -40,7 +40,7 @@ const TableRow = memo(( { category , index , setCategory , setDelCategory }:
     <tr
       key={index}
       className={`border-b border-default font-mont ${
-        index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
+        index % 2 === 0 ? 'bg-[#FFFFFF] dark:bg-bluedark' : 'bg-[#0B6434] text-white'
       }`}
 
     >
@@ -52,13 +52,13 @@ const TableRow = memo(( { category , index , setCategory , setDelCategory }:
       </td>
       <td className="px-6 py-4">
         <Button 
-          className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2!=0 ? "text-white" :"text-black" )} 
+          className={cn("cursor-pointer bg-transparent hover:bg-transparent", index%2!=0 ? "text-white" :"text-black dark:text-white" )} 
           onClick={() => setCategory(category)}
         >
           Edit
         </Button>
         <Button 
-          className={cn("cursor-pointer bg-transparent hover:bg-transparent" , index%2!==0 ? "text-white" : "text-black")} 
+          className={cn("cursor-pointer bg-transparent hover:bg-transparent" , index%2!==0 ? "text-white" : "text-black dark:text-white")} 
           onClick={() => setDelCategory(category) }
         >
           Delete

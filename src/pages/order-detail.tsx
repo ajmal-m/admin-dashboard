@@ -31,8 +31,8 @@ const ShippingAddress = memo((
            <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
             {
                 Object.values(address).map((val , index ) => (
-                    <div className="bg-white rounded p-4" key={index}>
-                        <p className="text-[14px] text-black font-mont font-medium capitalize" >{val as ReactNode}</p>
+                    <div className="bg-light dark:bg-bluedark rounded p-4" key={index}>
+                        <p className="text-[14px] font-mont font-medium capitalize" >{val as ReactNode}</p>
                     </div>
                 ))
             }
@@ -46,24 +46,24 @@ const OrderedProductCard = memo((
     { orderItem }: { orderItem : OrderItemWithProduct }
 ) => {
     return(
-        <div className="min-w-[250px] min-h-50 bg-white rounded flex-1 flex flex-col p-4">
+        <div className="min-w-[250px] min-h-50 bg-light dark:bg-bluedark rounded flex-1 flex flex-col p-4">
             <img 
                 className="w-50 h-50 self-center object-contain"
                 src={orderItem.product.image.secure_url} loading="lazy" 
                 alt="prouct-image" 
             />
-            <h1 className="text-[16px] text-black font-mont font-medium capitalize">{orderItem.name}</h1>
+            <h1 className="text-[16px]  font-mont font-medium capitalize">{orderItem.name}</h1>
             <div className="grid grid-cols-2">
-                <p className="text-[14px] text-black font-mont">Quantity</p>
-                <span className="text-[14px] text-black font-mont font-medium" >{orderItem.quantity as ReactNode} Kg</span>
+                <p className="text-[14px]  font-mont">Quantity</p>
+                <span className="text-[14px]  font-mont font-medium" >{orderItem.quantity as ReactNode} Kg</span>
             </div>
                 <div className="grid grid-cols-2">
-                <p className="text-[14px] text-black font-mont">Price</p>
-                <span className="text-[14px] text-black font-mont font-medium" >₹ {orderItem.price as ReactNode}</span>
+                <p className="text-[14px]  font-mont">Price</p>
+                <span className="text-[14px]  font-mont font-medium" >₹ {orderItem.price as ReactNode}</span>
             </div>
                 <div className="grid grid-cols-2">
-                <p className="text-[14px] text-black font-mont">SubTotal</p>
-                <span className="text-[14px] text-black font-mont font-medium" >₹ {orderItem.subTotal as ReactNode}</span>
+                <p className="text-[14px] font-mont">SubTotal</p>
+                <span className="text-[14px] font-mont font-medium" >₹ {orderItem.subTotal as ReactNode}</span>
             </div>
         </div>
     )
