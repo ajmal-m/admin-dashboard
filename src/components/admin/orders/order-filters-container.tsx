@@ -3,16 +3,18 @@ import MultiCheckBoxSelector from "../multi-checkbox-selector";
 import { ADMIN_ORDER_SORT_OPTIONS, ORDER_STATUS_OPTIONS, PAYMENT_STATUS_OPTIONS } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { updateOrderStatus, updatePaymentStatus, updateSort } from "@/redux/features/admin/order-table-filters";
+import { clearFilters, updateOrderStatus, updatePaymentStatus, updateSort } from "@/redux/features/admin/order-table-filters";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 
 const OrderStatusSelector = memo(() => {
     const dispatch = useDispatch<AppDispatch>();
     const orderStatuses = useSelector((store : RootState) => store.orderTableFilters.orderStatus);
+    console.log("Current Data : ", orderStatuses);
     const updateState = useCallback(( orderStatuses : string[]) => {
         dispatch(updateOrderStatus({ orderStatus :  orderStatuses , page:1  }));
-    },[])
+    },[dispatch]);
     return(
         <>
             <MultiCheckBoxSelector
@@ -71,12 +73,31 @@ const SortSelector = memo(() => {
     )
 });
 
+const ClearAllFilters = memo(() => {
+    const dispatch = useDispatch<AppDispatch>();
+    return(
+        <Button
+            className={
+                cn(
+                    "bg-green-900 text-white rounded",
+                    "font-mont text-[12px] font-normal",
+                    "cursor-pointer"
+                )
+            }
+            onClick={() => dispatch(clearFilters())}
+        >
+            Clear All Filters
+        </Button>
+    )
+});
+
 const OrderFiltersContainer = memo(() => {
     return(
         <div className="flex justify-end items-center gap-2">
             <SortSelector/>
             <PaymentStatusSelector/>
             <OrderStatusSelector/>
+            <ClearAllFilters/>
         </div>
     )
 });

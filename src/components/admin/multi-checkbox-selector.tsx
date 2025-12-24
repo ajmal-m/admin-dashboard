@@ -16,7 +16,11 @@ const MultiCheckBoxSelector = memo((
 ) => {
 
     const [show, setShow] = useState<boolean>(false);
-    const [checkedValues , setCheckedValues] = useState<string[]>( currentData ?? []);
+    const [checkedValues , setCheckedValues] = useState<string[]>(  currentData ?? []);
+
+    useEffect(() => {
+        setCheckedValues(currentData ?? []);
+    },[currentData])
 
     const updateCategory = useCallback(( e : React.ChangeEvent<HTMLInputElement> , id : string) => {
         const checked = e.target.checked;
@@ -48,7 +52,7 @@ const MultiCheckBoxSelector = memo((
                 className={
                     cn(
                         "bg-green-900 rounded font-mont font-normal",
-                        "relative z-49", "cursor-pointer", "min-w-50"
+                        "relative z-49", "cursor-pointer", "min-w-50 text-[12px]"
                     )
                 }
                 onClick={() => setShow((s) => !s)}

@@ -38,8 +38,11 @@ const orderTableFiltersSlice = createSlice({
     updatePaymentStatus: (state, action: PayloadAction<{paymentStatus :string[]; page?:number }>)=>{
         return { ...state, paymentStatus : action.payload.paymentStatus ?? [] , page: action.payload?.page ?? state.page };
     },
+    clearFilters:(state) => {
+      return { ...state , sort:"", orderStatus:[], paymentStatus : [] , page:1 }
+    }
   },
 });
 
-export const {  updateSort , updatePage, nextPage , prevPage , updateOrderStatus , updatePaymentStatus } = orderTableFiltersSlice.actions;
+export const {  updateSort , updatePage, nextPage , prevPage , updateOrderStatus , updatePaymentStatus , clearFilters } = orderTableFiltersSlice.actions;
 export default orderTableFiltersSlice.reducer;
