@@ -235,7 +235,7 @@ const AddEditProduct = memo((
                 </div>
                 <button
                     type="submit"
-                    className="mt-4 text-black font-medium border bg-[white] border-transparent 
+                    className="mt-4 text-black dark:text-white font-medium border bg-light dark:bg-bluedark border-transparent 
                     hover:bg-brand-strong shadow-xs leading-5 rounded text-sm px-4 py-2.5 w-full cursor-pointer
                     font-mont h-10 flex items-center justify-center
                 "

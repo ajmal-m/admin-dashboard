@@ -29,7 +29,7 @@ const OrderDetailPopup = memo((
                 <div className="grid grid-cols-2 gap-3 mt-2">
                     {
                         order.items.map((item) => (
-                            <div className="bg-white rounded p-2 text-black text-[12px] font-medium">
+                            <div className="bg-light dark:bg-bluedark rounded p-2 text-[12px] text-black dark:text-white font-medium">
                                 <h1 className="capitalize">{item.name}</h1>
                                 <p>Quantity : {String(item.quantity)}</p>
                             </div>
