@@ -49,7 +49,7 @@ const SortSelector = memo(() => {
     const dispatch = useDispatch<AppDispatch>();
     const sort = useSelector((store: RootState) => store.orderTableFilters.sort);
     const changeSort = useCallback(( e : React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch(updateSort({sort : e.target.value }));
+        dispatch(updateSort({sort : e.target.value , page:1 }));
     },[]);
     return(
          <select 
