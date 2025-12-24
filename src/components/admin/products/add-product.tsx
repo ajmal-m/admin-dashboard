@@ -4,7 +4,7 @@ import AddEditProduct from "./add-edit-product-modal";
 import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { updateActiveState, updateCategoryIds, updateSearch, updateSort } from "@/redux/features/admin/product-table-filters";
+import { clearFilter, updateActiveState, updateCategoryIds, updateSearch, updateSort } from "@/redux/features/admin/product-table-filters";
 import { Button } from "@/components/ui/button";
 import { useGetCategories } from "@/api/category/get-category";
 import type { Category } from "@/type/type";
@@ -13,7 +13,10 @@ import { ACTIVE_SELECTOR_OPTIONS, ADMIN_PRODUCT_SORT_OPTION } from "@/const/prod
 
 const SearchInput = memo(() => {
     const currentSearch = useSelector((store: RootState) => store.productTableFilters.search);
-    const [search, setSearch] = useState<string>(currentSearch);
+    const [search, setSearch] = useState<string>('');
+    useEffect(() => {
+        setSearch(currentSearch);
+    },[currentSearch])
     const dispatch = useDispatch<AppDispatch>();
     const changeSearch = useCallback(( e : React.ChangeEvent<HTMLInputElement> ) => {
         setSearch(e.target.value);
@@ -49,9 +52,13 @@ const CategorySelector = memo(() => {
 
     const [show, setShow] = useState<boolean>(false);
     const cateIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
-    const [checkedValues , setCheckedValues] = useState<string[]>(cateIds ?? []);
+    const [checkedValues , setCheckedValues] = useState<string[]>([]);
     const getCategoryMutation = useGetCategories({});
     const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        setCheckedValues(cateIds);
+    },[cateIds]);
 
     const categories : Category[] = getCategoryMutation?.data?.data?.data ?? [];
 
@@ -200,6 +207,24 @@ const ActiveSelector = memo(() => {
     )
 });
 
+const ClearAllFilters = memo(() => {
+    const dispatch = useDispatch<AppDispatch>();
+    return(
+        <Button
+            className={
+                cn(
+                    "bg-green-900 text-white rounded",
+                    "font-mont text-[12px] font-normal",
+                    "cursor-pointer"
+                )
+            }
+            onClick={() => dispatch(clearFilter())}
+        >
+            Clear All Filters
+        </Button>
+    )
+});
+
 
 const AddProduct = memo(() => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -210,6 +235,7 @@ const AddProduct = memo(() => {
                 <CategorySelector/>
                 <SortSelector/>
                 <ActiveSelector/>
+                <ClearAllFilters/>
             </div>
             <button 
                 onClick={() => setIsOpen(true)}

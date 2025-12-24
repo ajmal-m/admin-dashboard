@@ -42,9 +42,12 @@ const productTableFiltersSlice = createSlice({
     },
     prevPage : (state) => {
       return {...state , page : Math.max(1, state.page-1)};
+    },
+    clearFilter: (state) => {
+      return { ...state, search:"",categoryIds:[],sort:'', active:'', page:1 };
     }
   },
 });
 
-export const { updateSearch , updateCategoryIds , updateSort , updateActiveState , updatePage, nextPage , prevPage } = productTableFiltersSlice.actions;
+export const { updateSearch , updateCategoryIds , updateSort , updateActiveState , updatePage, nextPage , prevPage , clearFilter } = productTableFiltersSlice.actions;
 export default productTableFiltersSlice.reducer;
