@@ -178,7 +178,7 @@ const ProductTable: React.FC = memo( () => {
   if(!products.length){
     return(
       <div className="mt-4">
-        <h1 className="font-mont text-[16px] text-black text-center font-medium">No Products Found</h1>
+        <h1 className="font-mont text-[16px] text-black dark:text-white text-center font-medium">No Products Found</h1>
       </div>
     )
   }
