@@ -1,9 +1,10 @@
 import { memo, useCallback } from "react";
 import MultiCheckBoxSelector from "../multi-checkbox-selector";
-import { ORDER_STATUS_OPTIONS, PAYMENT_STATUS_OPTIONS } from "@/utils/utils";
+import { ADMIN_ORDER_SORT_OPTIONS, ORDER_STATUS_OPTIONS, PAYMENT_STATUS_OPTIONS } from "@/utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/redux/store";
-import { updateOrderStatus, updatePaymentStatus } from "@/redux/features/admin/order-table-filters";
+import { updateOrderStatus, updatePaymentStatus, updateSort } from "@/redux/features/admin/order-table-filters";
+import { cn } from "@/lib/utils";
 
 
 const OrderStatusSelector = memo(() => {
@@ -44,9 +45,36 @@ const PaymentStatusSelector = memo(() => {
     )
 });
 
+const SortSelector = memo(() => {
+    const dispatch = useDispatch<AppDispatch>();
+    const sort = useSelector((store: RootState) => store.orderTableFilters.sort);
+    const changeSort = useCallback(( e : React.ChangeEvent<HTMLSelectElement>) => {
+        dispatch(updateSort({sort : e.target.value }));
+    },[]);
+    return(
+         <select 
+            name="sort-order" id="sort-order"
+            className={cn(
+                "rounded border border-green-900 font-mont",
+                "bg-green-800 text-white cursor-pointer px-4 py-2 text-[12px]"
+            )}
+            onChange={changeSort}
+            value={sort || ""}
+        >
+            <option value="">Select Sort</option>
+            {
+                ADMIN_ORDER_SORT_OPTIONS.map((option) => (
+                    <option value={option.value} key={option.name}>{option.name}</option>
+                ))
+            }
+        </select>
+    )
+});
+
 const OrderFiltersContainer = memo(() => {
     return(
         <div className="flex justify-end items-center gap-2">
+            <SortSelector/>
             <PaymentStatusSelector/>
             <OrderStatusSelector/>
         </div>

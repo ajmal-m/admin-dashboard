@@ -6,11 +6,12 @@ type PropType = {
     paymentStatuses?: string[];
     limit ?: number;
     page ?: number;
+    sort ?: string;
 };
 
-export const getAllOrders = async({ orderStatuses , paymentStatuses , page , limit} : PropType )=> {
+export const getAllOrders = async({ orderStatuses , paymentStatuses , page , limit, sort } : PropType )=> {
     try {
-        let query = `/order?sort=${''}&page=${page}&limit=${limit}`;
+        let query = `/order?sort=${sort}&page=${page}&limit=${limit}`;
         if(orderStatuses?.length){
             orderStatuses.forEach((orderStatus) => {
                 query += `&ods=${orderStatus}`;
@@ -29,16 +30,16 @@ export const getAllOrders = async({ orderStatuses , paymentStatuses , page , lim
 
 
 
-export const getAllOrdersQueryOptions = ({ orderStatuses , paymentStatuses , page , limit } : PropType) => {
+export const getAllOrdersQueryOptions = ({ orderStatuses , paymentStatuses , page , limit , sort } : PropType) => {
     return queryOptions({
-        queryKey:['get-all-orders', orderStatuses , paymentStatuses , page , limit],
-        queryFn: () => getAllOrders({ orderStatuses , paymentStatuses , page , limit})
+        queryKey:['get-all-orders', orderStatuses , paymentStatuses , page , limit , sort ],
+        queryFn: () => getAllOrders({ orderStatuses , paymentStatuses , page , limit , sort})
     })
 }
 
 
-export const useGetAllOrders = ({ orderStatuses , paymentStatuses , page , limit} : PropType) => {
+export const useGetAllOrders = ({ orderStatuses , paymentStatuses , page , limit , sort } : PropType) => {
     return useQuery({
-       ...getAllOrdersQueryOptions({ orderStatuses , paymentStatuses , page, limit }),
+       ...getAllOrdersQueryOptions({ orderStatuses , paymentStatuses , page, limit  , sort }),
     })
 }

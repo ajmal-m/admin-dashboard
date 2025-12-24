@@ -27,6 +27,8 @@ export const useOrderStatusUpdate = ({ onSuccess }: { onSuccess : () => void }) 
     const paymentStatuses = useSelector((store : RootState) => store.orderTableFilters.paymentStatus);
     const page = useSelector((store : RootState) => store.orderTableFilters.page);
     const limit = useSelector((store : RootState) => store.orderTableFilters.limit);
+    const sort = useSelector((store : RootState) => store.orderTableFilters.sort);
+
 
 
     return useMutation({
@@ -37,7 +39,7 @@ export const useOrderStatusUpdate = ({ onSuccess }: { onSuccess : () => void }) 
             console.log(error)
         },
         async onSuccess() {
-            queryClient.invalidateQueries({ queryKey : getAllOrdersQueryOptions({ orderStatuses ,paymentStatuses , page , limit }).queryKey });
+            queryClient.invalidateQueries({ queryKey : getAllOrdersQueryOptions({ orderStatuses ,paymentStatuses , page , limit , sort }).queryKey });
             onSuccess();
         },
     })

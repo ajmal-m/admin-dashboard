@@ -185,11 +185,13 @@ const OrdersTable: React.FC = memo( () => {
   const paymentStatuses = useSelector((store: RootState) => ( store.orderTableFilters.paymentStatus ));
   const page = useSelector((store: RootState) => ( store.orderTableFilters.page ));
   const limit = useSelector((store: RootState) => ( store.orderTableFilters.limit ));
+  const sort = useSelector((store: RootState) => ( store.orderTableFilters.sort ));
 
 
 
 
-  const getAllOrdersMutation = useGetAllOrders({ orderStatuses , paymentStatuses , page , limit });
+
+  const getAllOrdersMutation = useGetAllOrders({ orderStatuses , paymentStatuses , page , limit , sort });
 
   const openDeleteModal = useCallback(() => {
     setIsOpenDeleteModal(true);

@@ -63,6 +63,10 @@ export const PAYMENT_STATUS_OPTIONS = [
   { value: "REFUNDED", name: "Refunded" }
 ];
 
+export const ADMIN_ORDER_SORT_OPTIONS = [
+  { name:'Latest updated first' , value:'LAST_UPDATES_FRIST' }
+]
+
 
 
 
