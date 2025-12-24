@@ -56,10 +56,19 @@ export const ORDER_STATUS_OPTIONS =
 ];
 
 
+export const PAYMENT_STATUS_OPTIONS = [
+  { value: "PENDING", name: "Pending" },
+  { value: "PAID", name: "Paid" },
+  { value: "FAILED", name: "Failed" },
+  { value: "REFUNDED", name: "Refunded" }
+];
+
+
+
 
 export const PAYMENT_STATUS =  ["PENDING", "PAID", "FAILED", "REFUNDED"];
 export const DELIVERY_CHARGE=2;
-export const CURRENCY = "INR"
+export const CURRENCY = "INR";
 
 
 export const USER_ROLES  : Record<string, string> = {

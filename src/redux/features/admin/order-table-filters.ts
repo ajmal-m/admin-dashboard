@@ -5,13 +5,15 @@ type StateType = {
     limit:number;
     page:number;
     orderStatus:string[];
+    paymentStatus:string[];
 }
 
 const initialState : StateType = {
     sort:"",
     limit:7,
     page:1,
-    orderStatus:[]
+    orderStatus:[],
+    paymentStatus:[]
 }
 
 const orderTableFiltersSlice = createSlice({
@@ -32,9 +34,12 @@ const orderTableFiltersSlice = createSlice({
     },
     updateOrderStatus: (state, action: PayloadAction<{orderStatus:string[]}>)=>{
         return { ...state, orderStatus : action.payload.orderStatus ?? [] };
-    }
+    },
+    updatePaymentStatus: (state, action: PayloadAction<{paymentStatus :string[]}>)=>{
+        return { ...state, paymentStatus : action.payload.paymentStatus ?? [] };
+    },
   },
 });
 
-export const {  updateSort , updatePage, nextPage , prevPage , updateOrderStatus } = orderTableFiltersSlice.actions;
+export const {  updateSort , updatePage, nextPage , prevPage , updateOrderStatus , updatePaymentStatus } = orderTableFiltersSlice.actions;
 export default orderTableFiltersSlice.reducer;

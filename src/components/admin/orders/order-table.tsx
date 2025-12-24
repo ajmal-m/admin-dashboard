@@ -160,9 +160,11 @@ const OrdersTable: React.FC = memo( () => {
 
   const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
   const orderStatuses = useSelector((store: RootState) => ( store.orderTableFilters.orderStatus ));
+  const paymentStatuses = useSelector((store: RootState) => ( store.orderTableFilters.paymentStatus ));
 
 
-  const getAllOrdersMutation = useGetAllOrders({ orderStatuses });
+
+  const getAllOrdersMutation = useGetAllOrders({ orderStatuses , paymentStatuses });
 
   const openDeleteModal = useCallback(() => {
     setIsOpenDeleteModal(true);
@@ -192,8 +194,8 @@ const OrdersTable: React.FC = memo( () => {
 
   if(!orders.length){
     return(
-      <div>
-        <h1>No Orders Found</h1>
+      <div className="flex justify-center items-center mt-4">
+        <h1 className="text-[16px] font-mont font-medium">No Orders Found</h1>
       </div>
     )
   }

@@ -1,15 +1,16 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
 const MultiCheckBoxSelector = memo((
     {
-        options,label, updateState
+        options,label, updateState, id
     }:
     {
         options: { name: string; value: string}[];
         label:string;
-        updateState: (val: string[]) => void
+        updateState: (val: string[]) => void;
+        id:string;
     }
 ) => {
 
@@ -31,8 +32,17 @@ const MultiCheckBoxSelector = memo((
         updateState(checkedValues);
     },[checkedValues ]);
 
+    useEffect(() => {
+        const closeFunction = (e : MouseEvent ) : void => {
+            const parent = e.target?.closest(`#parent-${id}`);
+            if(!parent) setShow(false);
+        };
+        document.addEventListener("click",closeFunction);
+        return () => document.removeEventListener("click", closeFunction);
+    },[])
+
     return(
-        <div className="relative">
+        <div className="relative" id={`parent-${id}`}>
             <Button 
                 className={
                     cn(
@@ -55,6 +65,7 @@ const MultiCheckBoxSelector = memo((
                                 "transition-all duration-300 ease-in-out px-4 py-2 pr-0",
                             )
                         }
+                        id={id}
                     >
                         <ul 
                             className={
