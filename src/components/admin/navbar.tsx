@@ -1,6 +1,7 @@
 import { memo } from "react";
 import Logo from '../../assets/Grocery_Logo 1.svg';
 import { NavLink , Link } from "react-router";
+import { ThemeToggler } from "../navbar";
 
 const NavLinks = [
     {
@@ -50,6 +51,9 @@ const Navbar = memo(() => {
                     </li>
                 ))
             }
+            <li>
+                <ThemeToggler/>
+            </li>
            </ul>
        </nav>
     )

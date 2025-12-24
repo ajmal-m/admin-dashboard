@@ -103,7 +103,7 @@ const SunIcon = memo(() => {
 });
 
 
-const ThemeToggler = memo(() => {
+export const ThemeToggler = memo(() => {
     const {theme  } = useTheme();
     return(
         <button
