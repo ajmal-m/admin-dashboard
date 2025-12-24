@@ -176,7 +176,7 @@ const OrdersTable: React.FC = memo( () => {
 
 
   if(getAllOrdersMutation.isLoading){
-    return <div className="flex items-center justify-center">
+    return <div className="flex items-center justify-center mt-4">
       <Bars
           height="80"
           width="80"
