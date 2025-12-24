@@ -10,11 +10,14 @@ import { openLogInPopUp } from "@/redux/features/popup";
 import { DropdownMenu, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 import { updateState } from "@/redux/features/auth";
+import { CHECK_ADMIN_ACCESS } from "@/utils/utils";
 
 
 const LoginButton = () => {
     const isAuthenticated = useSelector((store: RootState) => store.auth.isAuthenticated);
     const email = useSelector((store: RootState) => store.auth.email);
+    const role = useSelector((store: RootState) => store.auth.role);
+    const isAdminAccess = CHECK_ADMIN_ACCESS({ role });
 
     const dispatch = useDispatch<AppDispatch>();
     const handleLogOut = useCallback(() => {
@@ -43,6 +46,18 @@ const LoginButton = () => {
                                 Orders
                             </Button>
                         </Link>
+                        {
+                            isAdminAccess && (
+                                <Link target="_blank" to={'/admin'}>
+                                    <Button
+                                        className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
+                                        self-end px-3 cursor-pointer capitalize w-full`)}
+                                    >
+                                        Admin
+                                    </Button>
+                                </Link>
+                            )
+                        }
                         <Button
                             className={cn(`bg-[#0d542b] text-white rounded py-2 font-mont font-medium 
                             self-end px-3 cursor-pointer capitalize w-full`)}
