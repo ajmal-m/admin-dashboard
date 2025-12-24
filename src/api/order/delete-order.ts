@@ -27,6 +27,9 @@ export const useDeleteOrder = ( {
     const queryClient = useQueryClient();
     const orderStatuses = useSelector((store : RootState) => store.orderTableFilters.orderStatus);
     const paymentStatuses = useSelector((store : RootState) => store.orderTableFilters.paymentStatus);
+    const page = useSelector((store : RootState) => store.orderTableFilters.page);
+    const limit = useSelector((store : RootState) => store.orderTableFilters.limit);
+
 
     return useMutation({
         mutationFn: (data : OrderDeleteData) => {
@@ -36,7 +39,7 @@ export const useDeleteOrder = ( {
             console.log(error)
         },
         async onSuccess() {
-            queryClient.invalidateQueries({ queryKey : getAllOrdersQueryOptions({ orderStatuses , paymentStatuses }).queryKey });
+            queryClient.invalidateQueries({ queryKey : getAllOrdersQueryOptions({ orderStatuses , paymentStatuses , page, limit }).queryKey });
             onSuccess?.();
         },
     })
