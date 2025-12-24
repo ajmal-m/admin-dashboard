@@ -12,34 +12,35 @@ import { ACTIVE_SELECTOR_OPTIONS, ADMIN_PRODUCT_SORT_OPTION } from "@/const/prod
 
 
 const SearchInput = memo(() => {
-    const [search, setSearch] = useState<string>("");
+    const currentSearch = useSelector((store: RootState) => store.productTableFilters.search);
+    const [search, setSearch] = useState<string>(currentSearch);
     const dispatch = useDispatch<AppDispatch>();
     const changeSearch = useCallback(( e : React.ChangeEvent<HTMLInputElement> ) => {
         setSearch(e.target.value);
     },[]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            dispatch(updateSearch({ search, page:1 }))
-        },500)
-        return () => clearTimeout(timer);
-    },[search])
+    const handleSearch = useCallback((e : React.FormEvent) => {
+        e.preventDefault();
+         dispatch(updateSearch({ search, page:1 }));
+    },[search]);
     return(
-        <input 
-            type="search" 
-            name="search" 
-            id="search" 
-            className={
-                cn(
-                    "px-4 py-2 border border-green-900",
-                    "rounded font-mont font-medium text-[12px]",
-                    "bg-green-800 text-white"
-                )
-            }
-            placeholder="Search Products.."
-            value={search}
-            onChange={changeSearch}
-        />
+        <form onSubmit={handleSearch}>
+            <input 
+                type="search" 
+                name="search" 
+                id="search" 
+                className={
+                    cn(
+                        "px-4 py-2 border border-green-900",
+                        "rounded font-mont font-medium text-[12px]",
+                        "bg-green-800 text-white"
+                    )
+                }
+                placeholder="Search Products.."
+                value={search}
+                onChange={changeSearch}
+            />
+        </form>
     )
 });
 
@@ -47,7 +48,8 @@ const SearchInput = memo(() => {
 const CategorySelector = memo(() => {
 
     const [show, setShow] = useState<boolean>(false);
-    const [checkedValues , setCheckedValues] = useState<string[]>([]);
+    const cateIds = useSelector((store : RootState) => store.productTableFilters.categoryIds);
+    const [checkedValues , setCheckedValues] = useState<string[]>(cateIds ?? []);
     const getCategoryMutation = useGetCategories({});
     const dispatch = useDispatch<AppDispatch>();
 
@@ -68,8 +70,17 @@ const CategorySelector = memo(() => {
         dispatch(updateCategoryIds({ categoryIds : checkedValues, page:1 }));
     },[checkedValues ]);
 
+    useEffect(() => {
+        const clickFunction = (e : MouseEvent) => {
+            const target = e.target?.closest("#category-select-check-box");
+            if(!target) setShow(false);
+        }
+        document.addEventListener("click", clickFunction);
+        return () => document.removeEventListener("click", clickFunction);
+    },[])
+
     return(
-        <div className="relative">
+        <div className="relative" id="category-select-check-box">
             <Button 
                 className={
                     cn(

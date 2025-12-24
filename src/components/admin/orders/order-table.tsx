@@ -14,6 +14,8 @@ import { DeleteOrderModal } from "./delete-order-modal";
 import { Badge } from "@/components/ui/badge";
 import FullCoverPoup from "@/components/full-covered-popup";
 import OrderDetailPopup from "./order-detail-popup";
+import Pagination from "../pagination";
+import { nextPage, prevPage, updatePage } from "@/redux/features/admin/order-table-filters";
 
 const rows = [
     "Name",
@@ -146,7 +148,27 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMor
       </td>
     </tr>
   )
-})
+});
+
+
+const OrderPagination = memo((
+  { totalPages , currentPage }:
+  { 
+    totalPages:number;
+    currentPage:number;
+  }
+) => {
+  const dispatch = useDispatch<AppDispatch>();
+  return(
+    <Pagination
+      totalPages={totalPages}
+      currentPage={currentPage}
+      onUpdatePage={(page) => dispatch(updatePage({ page })) }
+      nextPage={() => dispatch(nextPage())}
+      prevPage={() => dispatch(prevPage())}
+    />
+  )
+});
 
 
 
@@ -161,10 +183,13 @@ const OrdersTable: React.FC = memo( () => {
   const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
   const orderStatuses = useSelector((store: RootState) => ( store.orderTableFilters.orderStatus ));
   const paymentStatuses = useSelector((store: RootState) => ( store.orderTableFilters.paymentStatus ));
+  const page = useSelector((store: RootState) => ( store.orderTableFilters.page ));
+  const limit = useSelector((store: RootState) => ( store.orderTableFilters.limit ));
 
 
 
-  const getAllOrdersMutation = useGetAllOrders({ orderStatuses , paymentStatuses });
+
+  const getAllOrdersMutation = useGetAllOrders({ orderStatuses , paymentStatuses , page , limit });
 
   const openDeleteModal = useCallback(() => {
     setIsOpenDeleteModal(true);
@@ -190,6 +215,8 @@ const OrdersTable: React.FC = memo( () => {
   }
 
   const orders : Order[] = getAllOrdersMutation.data?.data?.data ?? [];
+  const totalPages = getAllOrdersMutation.data?.data?.totalPages ?? 1;
+  const currentPage = getAllOrdersMutation.data?.data?.currentPage ?? 1;
 
 
   if(!orders.length){
@@ -217,6 +244,7 @@ const OrdersTable: React.FC = memo( () => {
           ))}
         </tbody>
       </table>
+      <OrderPagination totalPages={totalPages}  currentPage={currentPage}/>
       <PopUp
         keyProp={'update-order'}
         model={(close) => <OrderUpdateStatusModal close={close} order={selectedOrder as Order} />}
@@ -231,7 +259,7 @@ const OrdersTable: React.FC = memo( () => {
       />
       <FullCoverPoup
           modal={(close) => (
-           <OrderDetailPopup close={close} order={selectedOrder} />
+           <OrderDetailPopup close={close} order={selectedOrder as Order} />
           )}
           isOpen={isOpenOrderMoreInfo}
           handleClose={() => setIsOpenOrderMoreInfo(false)}

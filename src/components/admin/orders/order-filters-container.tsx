@@ -10,7 +10,7 @@ const OrderStatusSelector = memo(() => {
     const dispatch = useDispatch<AppDispatch>();
     const orderStatuses = useSelector((store : RootState) => store.orderTableFilters.orderStatus);
     const updateState = useCallback(( orderStatuses : string[]) => {
-        dispatch(updateOrderStatus({ orderStatus :  orderStatuses  }));
+        dispatch(updateOrderStatus({ orderStatus :  orderStatuses , page:1  }));
     },[])
     return(
         <>
@@ -29,7 +29,7 @@ const PaymentStatusSelector = memo(() => {
     const dispatch = useDispatch<AppDispatch>();
     const paymentStatuses = useSelector((store : RootState) => store.orderTableFilters.paymentStatus);
     const updateState = useCallback(( paymentStatus : string[]) => {
-        dispatch(updatePaymentStatus({ paymentStatus :  paymentStatus  }));
+        dispatch(updatePaymentStatus({ paymentStatus :  paymentStatus , page : 1 }));
     },[])
     return(
         <>

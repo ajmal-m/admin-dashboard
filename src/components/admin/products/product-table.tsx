@@ -50,7 +50,6 @@ const TableHead = memo((
 const TableRow = memo(({ product , index , setProduct , setDeleteProduct}: { product : Product ; index: number ; setProduct : (v : Product) => void ; setDeleteProduct : (v: Product) => void } ) => {
   return(
     <tr
-      key={product._id}
       className={`border-b border-default font-mont capitalize ${
         index % 2 === 0 ? 'bg-[#FFFFFF]' : 'bg-[#0B6434] text-white'
       }`}
@@ -191,7 +190,7 @@ const ProductTable: React.FC = memo( () => {
         <TableHead/>
         <tbody>
           { products.map((product, index) => (
-            <TableRow product={product} index={index} setProduct={openProductEditModal}  setDeleteProduct={openDeleteProductModal}/>
+            <TableRow product={product} index={index} key={product._id} setProduct={openProductEditModal}  setDeleteProduct={openDeleteProductModal}/>
           ))}
         </tbody>
       </table>
