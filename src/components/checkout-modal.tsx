@@ -45,9 +45,9 @@ const ShippingAddressForm = memo(() => {
                         type="text" 
                         name="name" id="name"   
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
+                           text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont 
-                            rounded bg-white text-black
+                            rounded bg-light dark:bg-bluedark text-black dark:text-white
                         " 
                         placeholder="Enter name"
                         onChange={handleChange}
@@ -61,8 +61,9 @@ const ShippingAddressForm = memo(() => {
                         maxLength={10} 
                         name="mobile" id="mobile"   
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
-                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
+                           text-heading text-sm outline-none rounded-base block 
+                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-light dark:bg-bluedark text-black
+                            dark:text-white
                         " 
                         placeholder="Enter mobile number"
                         onChange={handleChange}
@@ -75,8 +76,9 @@ const ShippingAddressForm = memo(() => {
                         type="number" 
                         name="pincode" id="pincode"   
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
-                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
+                            text-heading text-sm outline-none rounded-base block 
+                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-light dark:bg-bluedark text-black
+                            dark:text-white
                         " 
                         placeholder="Enter pin  code"
                         onChange={handleChange}
@@ -89,8 +91,9 @@ const ShippingAddressForm = memo(() => {
                         type="text" 
                         name="locality" id="locality"   
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
-                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
+                            text-heading text-sm outline-none rounded-base block 
+                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-light dark:bg-bluedark text-black
+                            dark:text-white
                         " 
                         placeholder="Enter locality"
                         onChange={handleChange}
@@ -103,8 +106,9 @@ const ShippingAddressForm = memo(() => {
                         type="text" 
                         name="city" id="city"   
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
-                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
+                           text-heading text-sm outline-none rounded-base block 
+                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-light dark:bg-bluedark text-black
+                            dark:text-white
                         " 
                         placeholder="Enter city / District / Town"
                         onChange={handleChange}
@@ -116,8 +120,9 @@ const ShippingAddressForm = memo(() => {
                     <select
                         name="state" id="state"
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
-                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-white text-black
+                            text-heading text-sm outline-none rounded-base block 
+                            w-full px-3 py-2 shadow-xs placeholder:text-body font-mont rounded bg-light dark:bg-bluedark text-black
+                            dark:text-white
                         " 
                         value={address.state}
                         onChange={handleSelect}
@@ -138,9 +143,9 @@ const ShippingAddressForm = memo(() => {
                         placeholder="Write about steet or area"
                         name="address" id="address"  
                         className="
-                            border border-white text-heading text-sm outline-none rounded-base block 
+                            text-heading text-sm outline-none rounded-base block 
                             w-full px-3 py-2 shadow-xs placeholder:text-body font-mont 
-                            rounded bg-white text-black
+                            rounded bg-light dark:bg-bluedark text-black dark:text-white
                             "
                         onChange={handleChange}
                         value={address.address}
@@ -212,16 +217,15 @@ const ProductSummary = memo(() => {
         <div className="grid grid-cols-2 gap-4 pr-2">
             {
                 Object.keys(productQuantity).map((productId) => (
-                    <div className="w-full min-h-15 bg-white rounded py-2 px-3 flex items-center gap-4" key={productId}>
+                    <div className="w-full min-h-15 bg-light dark:bg-bluedark rounded py-2 px-3 flex items-center gap-4" key={productId}>
                         <img src={cartProducts[productId].image.secure_url} alt={cartProducts[productId].name} className="w-20 h-20"/>
-                        <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                            <p className="text-black text-[14px] font-mont font-medium capitalize">{cartProducts[productId].name}</p>
-                            <p className="text-black text-[14px] font-mont font-medium">₹{cartProducts[productId].price} <span className="text-[11px] font-mont text-blue-800">per kg</span></p>
-                            <p className="text-black text-[14px] font-mont font-medium capitalize">Quantity : {productQuantity[productId]}</p>
-                            <p className="text-black text-[14px] font-mont font-medium capitalize">
+                        <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-black dark:text-white">
+                            <p className="text-[14px] font-mont font-medium capitalize">{cartProducts[productId].name}</p>
+                            <p className="text-[14px] font-mont font-medium">₹{cartProducts[productId].price} <span className="text-[11px] font-mont text-blue-800">per kg</span></p>
+                            <p className="text-[14px] font-mont font-medium capitalize">Quantity : {productQuantity[productId]}</p>
+                            <p className="text-[14px] font-mont font-medium capitalize">
                                 SubTotal : <span className="text-[16px] font-mont font-bold">₹{ Math.round( productQuantity[productId] *  cartProducts[productId].price ) }</span>
                             </p>
-
                         </div>
                     </div>
                 ))
@@ -236,16 +240,16 @@ const PaymentDetails = memo(() => {
         return Object.keys(productQuantity).reduce((acc, pId) =>  acc + cartProducts[pId].price * productQuantity[pId] , 0)
     },[]);
     return(
-        <div className="w-full min-h-15 bg-white rounded py-4 px-3 grid grid-cols-1 gap-y-1">
-            <div className="grid grid-cols-2 gap-4 text-black text-[14px] font-mont font-medium capitalize">
+        <div className="w-full min-h-15 bg-light dark:bg-bluedark text-black dark:text-white rounded py-4 px-3 grid grid-cols-1 gap-y-1">
+            <div className="grid grid-cols-2 gap-4 text-[14px] font-mont font-medium capitalize">
                 <p >Total</p>
                 <span className="font-bold">₹{Math.round(totalPrice)}</span>
             </div>
-            <div className="grid grid-cols-2 gap-4 text-black text-[14px] font-mont font-medium capitalize">
+            <div className="grid grid-cols-2 gap-4  text-[14px] font-mont font-medium capitalize">
                 <p >Delivery Charge</p>
                 <span className="font-bold" >₹{DELIVERY_CHARGE}</span>
             </div>
-            <div className="grid grid-cols-2 gap-4 text-black text-[14px] font-mont font-medium capitalize">
+            <div className="grid grid-cols-2 gap-4 text-[14px] font-mont font-medium capitalize">
                 <p >Total Payment</p>
                 <span className="font-bold" >₹{ totalPrice + DELIVERY_CHARGE}</span>
             </div>
@@ -321,8 +325,8 @@ const PlaceOrderButton = memo(() => {
         <Button 
             onClick={placeOrder}
             className={cn(
-                'rounded bg-white border text-black font-mont hover:bg-white' ,
-                'cursor-pointer'
+                'rounded bg-light dark:bg-bluedark border text-black dark:text-white font-mont' ,
+                'cursor-pointer border-0', 'hover:text-white'
             )}
         >
             {
@@ -361,8 +365,8 @@ const ButtonGroup = memo((
                 <Button 
                     onClick={prevStep} disabled={firstStep}  
                     className={cn(
-                        'rounded bg-white border text-black font-mont hover:bg-white' ,
-                        'cursor-pointer'
+                        'rounded bg-light dark:bg-bluedark border text-black dark:text-white font-mont' ,
+                        'cursor-pointer','border-0', 'hover:text-white'
                     )}
                 >
                     Previous
@@ -374,8 +378,8 @@ const ButtonGroup = memo((
                         <Button 
                             onClick={nextStep}
                             className={cn(
-                                'rounded bg-white border text-black font-mont hover:bg-white' ,
-                                'cursor-pointer'
+                                'rounded bg-light dark:bg-bluedark border text-black dark:text-white font-mont' ,
+                                'cursor-pointer border-0', 'hover:text-white'
                             )}
                         >
                             Next
@@ -435,7 +439,7 @@ const CheckOutModal = memo((
                 </svg>
             </button>
             <h1 className="text-center text-[14px] font-mont">{step+1} / {steps.length}</h1>
-            <div className="w-full bg-white h-3 rounded-full overflow-hidden mt-6">
+            <div className="w-full bg-light dark:bg-bluedark h-3 rounded-full overflow-hidden mt-6">
                 <div 
                     className={cn("transition-all duration-450 ease", "bg-green-500 h-full rounded-full")} 
                     style={ {width:`${100*(step+1)/steps.length}%`} }
