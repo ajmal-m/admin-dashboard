@@ -1,6 +1,8 @@
 import axiosInstance from "../api";
 import { useMutation, useQueryClient  } from "@tanstack/react-query";
 import { getAllOrdersQueryOptions } from "./get-all-orders";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
 
 type OrderUpdateData = {
     id: string;
@@ -21,6 +23,7 @@ export const updateOrderStatus = async(data : OrderUpdateData) => {
 
 export const useOrderStatusUpdate = ({ onSuccess }: { onSuccess : () => void }) => {
     const queryClient = useQueryClient();
+    const orderStatuses = useSelector((store : RootState) => store.orderTableFilters.orderStatus);
     return useMutation({
         mutationFn: (data : OrderUpdateData) => {
             return updateOrderStatus(data);
@@ -29,7 +32,7 @@ export const useOrderStatusUpdate = ({ onSuccess }: { onSuccess : () => void }) 
             console.log(error)
         },
         async onSuccess() {
-            queryClient.invalidateQueries({ queryKey : getAllOrdersQueryOptions().queryKey });
+            queryClient.invalidateQueries({ queryKey : getAllOrdersQueryOptions({ orderStatuses }).queryKey });
             onSuccess();
         },
     })

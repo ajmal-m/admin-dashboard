@@ -41,6 +41,21 @@ export const ORDER_STATUS_COLOR: Record<string, string> = {
 };
 
 
+export const ORDER_STATUS_OPTIONS =
+[
+  { value: "PLACED", name: "Placed" },
+  { value: "CONFIRMED", name: "Confirmed" },
+  { value: "PROCESSING", name: "Processing" },
+  { value: "SHIPPED", name: "Shipped" },
+  { value: "OUT_FOR_DELIVERY", name: "Out For Delivery" },
+  { value: "DELIVERED", name: "Delivered" },
+  { value: "CANCELLED", name: "Cancelled" },
+  { value: "RETURN_REQUESTED", name: "Return Requested" },
+  { value: "RETURNED", name: "Returned" },
+  { value: "REFUNDED", name: "Refunded" }
+];
+
+
 
 export const PAYMENT_STATUS =  ["PENDING", "PAID", "FAILED", "REFUNDED"];
 export const DELIVERY_CHARGE=2;

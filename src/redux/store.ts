@@ -5,6 +5,7 @@ import popupReducer from './features/popup';
 import addressReducer from './features/address';
 import paymentReducer from './features/payment';
 import productTableFiltersReducer from './features/admin/product-table-filters';
+import orderTableFilters from './features/admin/order-table-filters';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     popup: popupReducer,
     address: addressReducer,
     payment:paymentReducer,
-    productTableFilters : productTableFiltersReducer
+    productTableFilters : productTableFiltersReducer,
+    orderTableFilters: orderTableFilters
   },
 });
 

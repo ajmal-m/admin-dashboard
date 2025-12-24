@@ -154,11 +154,15 @@ const TableRow = memo(({ order , index , selectOrder , openDeleteModal , openMor
 const OrdersTable: React.FC = memo( () => {
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const getAllOrdersMutation = useGetAllOrders();
-  const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [ isOpenOrderMoreInfo , setIsOpenOrderMoreInfo  ]= useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
+
+  const isOpen = useSelector((store: RootState) => ( store.popup.orderStatusUpdatePopUp ));
+  const orderStatuses = useSelector((store: RootState) => ( store.orderTableFilters.orderStatus ));
+
+
+  const getAllOrdersMutation = useGetAllOrders({ orderStatuses });
 
   const openDeleteModal = useCallback(() => {
     setIsOpenDeleteModal(true);
@@ -206,6 +210,7 @@ const OrdersTable: React.FC = memo( () => {
               selectOrder={() => setSelectedOrder(order) } 
               openDeleteModal={openDeleteModal}
               openMoreInfoModal={openMoreInfoModal}
+              key={index}
             />
           ))}
         </tbody>
