@@ -4,18 +4,19 @@ import { cn } from "@/lib/utils";
 
 const MultiCheckBoxSelector = memo((
     {
-        options,label, updateState, id
+        options,label, updateState, id , currentData
     }:
     {
         options: { name: string; value: string}[];
         label:string;
         updateState: (val: string[]) => void;
         id:string;
+        currentData ?: string[];
     }
 ) => {
 
     const [show, setShow] = useState<boolean>(false);
-    const [checkedValues , setCheckedValues] = useState<string[]>([]);
+    const [checkedValues , setCheckedValues] = useState<string[]>( currentData ?? []);
 
     const updateCategory = useCallback(( e : React.ChangeEvent<HTMLInputElement> , id : string) => {
         const checked = e.target.checked;
