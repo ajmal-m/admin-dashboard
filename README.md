@@ -18,6 +18,18 @@ Product Detail Page
 
 <img width="1355" height="625" alt="Screenshot 2025-12-24 163643" src="https://github.com/user-attachments/assets/7320d4c4-21f0-40be-8c0a-cc3442a9b2dc" />
 
+
+Orders History
+
+<img width="1349" height="634" alt="orders-list" src="https://github.com/user-attachments/assets/164897b8-0ac6-4060-a5fe-3299593d5e1f" />
+
+
+Order Detail
+
+
+<img width="1348" height="626" alt="order-details" src="https://github.com/user-attachments/assets/db6fd477-ab1e-413a-8d78-2a6d3cb64987" />
+
+
 Admin Dashboard
 <img width="1354" height="626" alt="Screenshot 2025-12-24 163721" src="https://github.com/user-attachments/assets/44ba82ae-bc4f-4ef7-91aa-9b893b20b9f1" />
 <img width="1348" height="627" alt="Screenshot 2025-12-24 163737" src="https://github.com/user-attachments/assets/170b9bd2-83f6-43d6-934b-478925c41ee4" />
